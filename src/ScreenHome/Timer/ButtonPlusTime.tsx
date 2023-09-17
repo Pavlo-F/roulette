@@ -2,24 +2,24 @@ import { memo, useCallback, useContext } from "react";
 import { TimerAtomsCtx } from "./AtomsCtx";
 import { ButtonSvg } from "../../components/ButtonSvg";
 import styled from "styled-components";
-import SvgReset from "./ic_reset.svg";
+import SvgAddTime from "./ic_clock-plus.svg";
 
 const Icon = styled.div`
   width: 2rem;
   height: 2rem;
 `;
 
-export const ButtonReset = memo(() => {
-  const { reset } = useContext(TimerAtomsCtx);
+export const ButtonPlusTime = memo(() => {
+  const { addTime } = useContext(TimerAtomsCtx);
 
   const onClick = useCallback(() => {
-    reset();
-  }, [reset]);
+    addTime(1);
+  }, [addTime]);
 
   return (
-    <ButtonSvg title="Сбросить" onClick={onClick}>
+    <ButtonSvg title="Добавить" onClick={onClick}>
       <Icon>
-        <SvgReset />
+        <SvgAddTime />
       </Icon>
     </ButtonSvg>
   );

@@ -22,11 +22,11 @@ export const ButtonPlayPause = memo(() => {
   return (
     <ButtonSvg onClick={onClick}>
       {isStarted ? (
-        <Icon>
+        <Icon title="Приостановить">
           <SvgPause />
         </Icon>
       ) : (
-        <Icon>
+        <Icon title="Запустить">
           <SvgPlay />
         </Icon>
       )}

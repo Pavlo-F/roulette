@@ -6,6 +6,8 @@ import { ButtonPlayPause } from "./ButtonPlayPause";
 import { TimerAtomsCtx } from "./AtomsCtx";
 import { useAtomValue } from "jotai";
 import { ButtonReset } from "./ButtonReset";
+import { ButtonPlusTime } from "./ButtonPlusTime";
+import { ButtonMinusTime } from "./ButtonMinusTime";
 dayjs.extend(duration);
 
 const Root = styled.div`
@@ -17,13 +19,14 @@ const Root = styled.div`
 `;
 
 const Time = styled.div`
-  font-size: 3rem;
+  font-size: 5.2rem;
 `;
 
 const Actions = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: space-between;
+  padding: 0 0.5rem;
 `;
 
 export const Form = memo(() => {
@@ -42,6 +45,8 @@ export const Form = memo(() => {
 
       <Actions>
         <ButtonPlayPause />
+        <ButtonPlusTime />
+        <ButtonMinusTime />
         <ButtonReset />
       </Actions>
     </Root>
