@@ -1,0 +1,51 @@
+:root {
+  --primaryColor800: #232f34;
+  --primaryColor700: #344955;
+
+  --secondaryColor500: #f9aa33;
+
+
+
+  --primaryTextColor: #fff;
+
+  --borderColor: #5f6d75;
+
+  --invalid: rgb(191, 0, 0);
+
+  --placeholderColor: #ffffff36;
+}
+
+
+html, body {
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  font-family: Helvetica, sans-serif;
+  margin: 0px;
+  height: 100%;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+  justify-content: stretch;
+  overflow: hidden;
+  color: var(--primaryTextColor);
+  background-color: var(--primaryColor800);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+  justify-content: stretch;
+  overflow: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
