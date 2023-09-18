@@ -33,7 +33,7 @@ const SidebarArea = styled.div`
 
 const BodyArea = styled.div`
   grid-area: body;
-  margin: 0.5rem;
+  margin: 0.5rem 0.5rem 0.5rem 1rem;
   display: flex;
   flex-direction: column;
 `;
