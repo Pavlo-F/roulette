@@ -1,4 +1,4 @@
-import { memo } from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { ButtonDeleteLot } from "./ButtonDeleteLot";
 
@@ -16,7 +16,7 @@ type Props = {
 export const ColumnActions = memo(({ id }: Props) => {
   return (
     <Root>
-      <ButtonDeleteLot id={id}/>
+      <ButtonDeleteLot id={id} />
     </Root>
   );
 });

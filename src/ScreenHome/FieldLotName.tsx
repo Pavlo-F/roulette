@@ -1,8 +1,8 @@
-import { ChangeEvent, memo, useCallback, useContext } from "react";
-import { Input } from "../components/Input";
-import { HomeAtomsCtx } from "./AtomsCtx";
+import React, { ChangeEvent, memo, useCallback, useContext } from "react";
 import { useAtom } from "jotai";
 import styled from "styled-components";
+import { Input } from "../components/Input";
+import { HomeAtomsCtx } from "./AtomsCtx";
 
 const InputSt = styled(Input)`
   width: 30rem;
@@ -16,7 +16,7 @@ export const FieldLotName = memo(() => {
     (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
 
-      setLot((draft) => {
+      setLot(draft => {
         draft.name = newValue;
         return draft;
       });

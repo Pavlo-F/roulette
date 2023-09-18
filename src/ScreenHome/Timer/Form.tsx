@@ -1,13 +1,14 @@
-import { memo, useContext, useMemo } from "react";
+import React, { memo, useContext, useMemo } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import { useAtomValue } from "jotai";
 import { ButtonPlayPause } from "./ButtonPlayPause";
 import { TimerAtomsCtx } from "./AtomsCtx";
-import { useAtomValue } from "jotai";
 import { ButtonReset } from "./ButtonReset";
 import { ButtonPlusTime } from "./ButtonPlusTime";
 import { ButtonMinusTime } from "./ButtonMinusTime";
+
 dayjs.extend(duration);
 
 const Root = styled.div`
@@ -31,10 +32,10 @@ const Actions = styled.div`
 
 export const Form = memo(() => {
   const { totalMillisecondsAtom, elepsatedAtom } = useContext(TimerAtomsCtx);
-  
+
   const totalMilliseconds = useAtomValue(totalMillisecondsAtom);
   const elepsated = useAtomValue(elepsatedAtom);
-  
+
   const time = useMemo(() => {
     return dayjs.duration(totalMilliseconds - elepsated).format("HH:mm:ss");
   }, [elepsated, totalMilliseconds]);

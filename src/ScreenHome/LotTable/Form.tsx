@@ -8,14 +8,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import styled from "styled-components";
+import { useAtom } from "jotai";
 import { ColumnName } from "./ColumnName";
 import { ColumnSum } from "./ColumnSum";
 import { ColumnActions } from "./ColumnActions";
 import { TableData, HomeAtomsCtx } from "../AtomsCtx";
-import { useAtom } from "jotai";
 
 declare module "@tanstack/react-table" {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface TableMeta<TData extends RowData> {
     updateData: (columnId: string, value: unknown, rowId: string) => void;
   }
@@ -157,7 +156,7 @@ export const Form = memo(() => {
         <tbody>
           {table.getRowModel().rows.map((row) => {
             return (
-              <Tr $height={"50px"} key={`Tr_${row.id}`}>
+              <Tr $height="50px" key={`Tr_${row.id}`}>
                 {row.getVisibleCells().map((cell) => {
                   let size = "auto";
                   if (cell.column.id === "sum") {

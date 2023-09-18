@@ -1,7 +1,5 @@
-import { memo } from "react";
+import React, { memo } from "react";
 
 export const Form = memo(() => {
-    return <>
-    Header
-    </>
+  return <>Header</>;
 });

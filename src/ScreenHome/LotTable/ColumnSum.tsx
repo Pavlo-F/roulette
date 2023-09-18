@@ -1,4 +1,4 @@
-import {
+import React, {
   ChangeEvent,
   KeyboardEvent,
   memo,
@@ -7,11 +7,11 @@ import {
   useState,
 } from "react";
 import { Column, Getter, Row, Table } from "@tanstack/react-table";
-import { Input } from "../../components/Input";
-import { TableData } from "../AtomsCtx";
 import styled from "styled-components";
 import SvgAdd from "./ic_add.svg";
 import { ButtonSvg } from "../../components/ButtonSvg";
+import { Input } from "../../components/Input";
+import { TableData } from "../AtomsCtx";
 
 const Root = styled.div`
   display: flex;
@@ -60,7 +60,7 @@ export const ColumnSum = memo(({ row, column, table, getValue }: Props) => {
 
   const onKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
     if (
-      isNaN(Number.parseInt(e.key, 10)) &&
+      Number.isNaN(Number.parseInt(e.key, 10)) &&
       e.key !== "Backspace" &&
       e.key !== "Delete" &&
       e.key !== "ArrowLeft" &&
@@ -69,8 +69,6 @@ export const ColumnSum = memo(({ row, column, table, getValue }: Props) => {
       e.preventDefault();
     }
   }, []);
-
-
 
   const onChangeAddValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -84,29 +82,32 @@ export const ColumnSum = memo(({ row, column, table, getValue }: Props) => {
     setAddValue(parced);
   }, []);
 
-  const onBlurAddValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    let val = Number.parseFloat(e.target.value);
+  const onBlurAddValue = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      let val = Number.parseFloat(e.target.value);
 
-    if (isNaN(val)) {
-      val = 0;
-    }
-
-    setValue((draft: string) => {
-      let parced = Number.parseFloat(draft);
-      if (isNaN(parced)) {
-        parced = 0;
+      if (Number.isNaN(val)) {
+        val = 0;
       }
 
-      const result = parced + val;
+      setValue((draft: string) => {
+        let parced = Number.parseFloat(draft);
+        if (Number.isNaN(parced)) {
+          parced = 0;
+        }
 
-      table.options.meta?.updateData(column.id, result, row.original.id);
+        const result = parced + val;
 
-      return result.toString();
-    });
+        table.options.meta?.updateData(column.id, result, row.original.id);
 
-    setAddValue("");
-    setIsEnterMode(false);
-  }, [column.id, row.original.id, table.options.meta]);
+        return result.toString();
+      });
+
+      setAddValue("");
+      setIsEnterMode(false);
+    },
+    [column.id, row.original.id, table.options.meta]
+  );
 
   const onKeyDownAddValue = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -115,7 +116,7 @@ export const ColumnSum = memo(({ row, column, table, getValue }: Props) => {
 
         setValue((draft: string) => {
           let parced = Number.parseFloat(draft);
-          if (isNaN(parced)) {
+          if (Number.isNaN(parced)) {
             parced = 0;
           }
 
@@ -129,7 +130,7 @@ export const ColumnSum = memo(({ row, column, table, getValue }: Props) => {
       }
 
       if (
-        isNaN(Number.parseInt(e.key, 10)) &&
+        Number.isNaN(Number.parseInt(e.key, 10)) &&
         e.key !== "Backspace" &&
         e.key !== "Delete" &&
         e.key !== "ArrowLeft" &&

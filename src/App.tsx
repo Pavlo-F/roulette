@@ -1,8 +1,15 @@
-//import { Header } from "./Header";
+import React, { memo, useContext, useMemo } from "react";
+import { useAtomValue } from "jotai";
 import styled from "styled-components";
-import { Sidebar } from "./Sidebar";
 import { AppRouts } from "./AppRouts";
 import { TimerAtomsProvider } from "./ScreenHome/Timer/AtomsCtx";
+import {
+  SettingsAtomsCtx,
+  withProvider as withSettingsProvider,
+} from "./ScreenSettings/AtomsCtx";
+import { Sidebar } from "./Sidebar";
+
+// import { Header } from "./Header";
 
 const Root = styled.div`
   display: grid;
@@ -31,6 +38,31 @@ const BodyArea = styled.div`
   flex-direction: column;
 `;
 
+const Providers = withSettingsProvider(
+  memo(() => {
+    const { settingsAtom } = useContext(SettingsAtomsCtx);
+    const settings = useAtomValue(settingsAtom);
+
+    const totalMilliseconds = useMemo(() => {
+      return settings.timer.defaultMinutes * 60 * 1000;
+    }, [settings.timer.defaultMinutes]);
+
+    const addMilliseconds = useMemo(() => {
+      return settings.timer.addSeconds * 1000;
+    }, [settings.timer.addSeconds]);
+
+    return (
+      <TimerAtomsProvider
+        addMilliseconds={addMilliseconds}
+        totalMilliseconds={totalMilliseconds}>
+        <BodyArea>
+          <AppRouts />
+        </BodyArea>
+      </TimerAtomsProvider>
+    );
+  })
+);
+
 function App() {
   return (
     <Root>
@@ -42,11 +74,7 @@ function App() {
         <Sidebar />
       </SidebarArea>
 
-      <TimerAtomsProvider>
-        <BodyArea>
-          <AppRouts />
-        </BodyArea>
-      </TimerAtomsProvider>
+      <Providers />
     </Root>
   );
 }

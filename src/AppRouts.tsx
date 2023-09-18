@@ -1,4 +1,4 @@
-import { memo } from "react";
+import React, { memo } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Screen as ScreenHome } from "./ScreenHome/Screen";
 import { Screen as ScreenRoulette } from "./ScreenRoulette/Screen";

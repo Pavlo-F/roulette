@@ -1,8 +1,8 @@
-import { memo, useCallback, useContext, useEffect, useState } from "react";
-import ButtonPrimary from "../components/ButtonPrimary";
-import { HomeAtomsCtx } from "./AtomsCtx";
+import React, { memo, useCallback, useContext, useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import styled from "styled-components";
+import ButtonPrimary from "../components/ButtonPrimary";
+import { HomeAtomsCtx } from "./AtomsCtx";
 
 const Root = styled.div`
   margin-right: 1rem;

@@ -1,8 +1,8 @@
-import { memo, useCallback, useContext } from "react";
-import { TimerAtomsCtx } from "./AtomsCtx";
+import React, { memo, useCallback, useContext } from "react";
 import { useAtom } from "jotai";
-import { ButtonSvg } from "../../components/ButtonSvg";
 import styled from "styled-components";
+import { TimerAtomsCtx } from "./AtomsCtx";
+import { ButtonSvg } from "../../components/ButtonSvg";
 import SvgPlay from "./ic_play.svg";
 import SvgPause from "./ic_pause.svg";
 
@@ -16,7 +16,7 @@ export const ButtonPlayPause = memo(() => {
   const [isStarted, setIsStarted] = useAtom(isStartedAtom);
 
   const onClick = useCallback(() => {
-    setIsStarted((old) => !old);
+    setIsStarted(old => !old);
   }, [setIsStarted]);
 
   return (

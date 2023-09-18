@@ -1,7 +1,7 @@
-import { memo, useCallback, useContext, useEffect, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useState } from "react";
+import { useAtom } from "jotai";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { HomeAtomsCtx, TableData } from "./AtomsCtx";
-import { useAtom } from "jotai";
 
 export const ButtonAddLot = memo(() => {
   const { lotsAtom, lotAtom } = useContext(HomeAtomsCtx);
@@ -14,7 +14,7 @@ export const ButtonAddLot = memo(() => {
       return;
     }
 
-    const result = Math.max(...lots.map((x) => x.order));
+    const result = Math.max(...lots.map(x => x.order));
     setOrder(result + 1);
   }, [lots]);
 
@@ -23,16 +23,16 @@ export const ButtonAddLot = memo(() => {
       id: new Date().getTime().toString(),
       name: lot.name,
       sum: lot.sum,
-      order: order,
+      order,
     };
 
-    setLots((draft) => {
+    setLots(draft => {
       draft.push(newItem);
 
       return [...draft];
     });
 
-    setOrder((draft) => draft + 1);
+    setOrder(draft => draft + 1);
 
     setLot({ name: "", sum: undefined });
   }, [lot.name, lot.sum, order, setLot, setLots]);

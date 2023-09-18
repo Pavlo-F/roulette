@@ -1,8 +1,14 @@
-import { ChangeEvent, memo, useCallback, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Column, Getter, Row, Table } from "@tanstack/react-table";
+import styled from "styled-components";
 import { Input } from "../../components/Input";
 import { TableData } from "../AtomsCtx";
-import styled from "styled-components";
 
 const Root = styled.div`
   display: flex;
