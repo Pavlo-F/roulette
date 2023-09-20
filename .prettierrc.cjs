@@ -5,6 +5,7 @@ module.exports = {
   jsxSingleQuote: false,
   trailingComma: 'es5',
   arrowParens: 'avoid',
+  printWidth: 120,
   
   importOrder: [
     "^react(.*)$",

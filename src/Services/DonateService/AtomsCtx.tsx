@@ -1,24 +1,20 @@
 import React, { createContext, memo, useMemo, useState } from "react";
 import { PrimitiveAtom, atom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
 import { atomWithImmer } from "jotai-immer";
+import { DonatePaySocketTokens, DonateServiceStatus } from "./models";
 
-export type TableData = {
+export type Donate = {
   id: string;
-  order: number;
   name: string;
-  sum?: number;
-};
-
-type Lot = {
-  name: string;
-  sum?: number;
+  comment: string;
+  sum: number;
+  currency: string;
 };
 
 type IAtoms = {
-  lotAtom: PrimitiveAtom<Lot>;
-  lotsAtom: PrimitiveAtom<TableData[]>;
-  newLotsAtom: PrimitiveAtom<TableData[]>;
+  donateAtom: PrimitiveAtom<Donate>;
+  donatePayStatusAtom: PrimitiveAtom<DonateServiceStatus>;
+
 };
 
 type IContext = IAtoms;
@@ -29,9 +25,8 @@ type Props = {
 
 const create = () => {
   const r: IAtoms = {
-    lotAtom: atomWithImmer<Lot>({ name: "" }),
-    lotsAtom: atomWithStorage<TableData[]>("localSavedLots", []),
-    newLotsAtom: atom<TableData[]>([]),
+    donateAtom: atom<Donate>({} as Donate),
+    donatePayStatusAtom: atom<DonateServiceStatus>(DonateServiceStatus.Disconnected),
   };
 
   return r;
@@ -52,4 +47,4 @@ const Provider = memo(({ children }: Props) => {
   return <Context.Provider value={ctx}>{children}</Context.Provider>;
 });
 
-export { Context as HomeAtomsCtx, Provider as HomeAtomsProvider };
+export { Context as DonateAtomsCtx, Provider as DonateAtomsProvider };

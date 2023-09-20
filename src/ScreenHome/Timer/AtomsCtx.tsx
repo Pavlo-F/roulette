@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { PrimitiveAtom, atom, useAtomValue, useSetAtom } from "jotai";
+import { PrimitiveAtom, atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 
 let mainInterval = 0;
 const intervalStep = 1000;
@@ -52,8 +52,8 @@ const Provider = memo(
   ({ children, totalMilliseconds, addMilliseconds }: Props) => {
     const [atoms] = useState(() => create(totalMilliseconds));
 
-    const isStarted = useAtomValue(atoms.isStartedAtom);
-    const setElepsated = useSetAtom(atoms.elepsatedAtom);
+    const [isStarted, setIsStarted] = useAtom(atoms.isStartedAtom);
+    const [elepsated, setElepsated] = useAtom(atoms.elepsatedAtom);
     const setTotalMillisecond = useSetAtom(atoms.totalMillisecondsAtom);
 
     const reset = useCallback(() => {
@@ -84,13 +84,21 @@ const Provider = memo(
       if (isStarted) {
         clearInterval(mainInterval);
 
-        mainInterval = setInterval(() => {
-          setElepsated(old => old + intervalStep);
+        mainInterval = window.setInterval(() => {
+          const result = elepsated + intervalStep;
+
+          if (result >= totalMilliseconds) {
+            clearInterval(mainInterval);
+            setElepsated(totalMilliseconds);
+            setIsStarted(false);
+          } else {
+            setElepsated(result);
+          }
         }, intervalStep);
       } else {
         clearInterval(mainInterval);
       }
-    }, [isStarted, setElepsated]);
+    }, [elepsated, isStarted, setElepsated, setIsStarted, totalMilliseconds]);
 
     return <Context.Provider value={ctx}>{children}</Context.Provider>;
   }

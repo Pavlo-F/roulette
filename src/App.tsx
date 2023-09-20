@@ -2,12 +2,13 @@ import React, { memo, useContext, useMemo } from "react";
 import { useAtomValue } from "jotai";
 import styled from "styled-components";
 import { AppRouts } from "./AppRouts";
-import { TimerAtomsProvider } from "./ScreenHome/Timer/AtomsCtx";
 import {
   SettingsAtomsCtx,
   withProvider as withSettingsProvider,
 } from "./ScreenSettings/AtomsCtx";
+import { DonateAtomsProvider, DonateService } from "./Services/DonateService";
 import { Sidebar } from "./Sidebar";
+import { DonateProcess, HomeAtomsProvider, TimerAtomsProvider } from "./ScreenHome";
 
 // import { Header } from "./Header";
 
@@ -52,18 +53,28 @@ const Providers = withSettingsProvider(
     }, [settings.timer.addSeconds]);
 
     return (
-      <TimerAtomsProvider
-        addMilliseconds={addMilliseconds}
-        totalMilliseconds={totalMilliseconds}>
-        <BodyArea>
-          <AppRouts />
-        </BodyArea>
-      </TimerAtomsProvider>
+      <>
+        <DonateAtomsProvider>
+          <DonateService />
+
+          <TimerAtomsProvider
+            addMilliseconds={addMilliseconds}
+            totalMilliseconds={totalMilliseconds}>
+            <HomeAtomsProvider>
+              <DonateProcess />
+
+              <BodyArea>
+                <AppRouts />
+              </BodyArea>
+            </HomeAtomsProvider>
+          </TimerAtomsProvider>
+        </DonateAtomsProvider>
+      </>
     );
   })
 );
 
-function App() {
+export const App = memo(() => {
   return (
     <Root>
       {/* <HeaderArea>
@@ -77,6 +88,4 @@ function App() {
       <Providers />
     </Root>
   );
-}
-
-export default App;
+});

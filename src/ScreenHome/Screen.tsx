@@ -9,6 +9,7 @@ import { FieldLotName } from "./FieldLotName";
 import { FieldLotSum } from "./FieldLotSum";
 import { LotTable } from "./LotTable";
 import { Timer } from "./Timer";
+import { NewLots } from "./NewLots";
 
 const Root = styled.div`
   display: grid;
@@ -45,7 +46,6 @@ const Main = styled.div`
 
 export const Screen = memo(() => {
   return (
-    <HomeAtomsProvider>
       <Root>
         <Header>
           <FieldLotName />
@@ -57,6 +57,7 @@ export const Screen = memo(() => {
 
         <Sidebar>
           <Timer />
+          <NewLots />
         </Sidebar>
         <Main>
           <PerfectScrollbar>
@@ -64,6 +65,5 @@ export const Screen = memo(() => {
           </PerfectScrollbar>
         </Main>
       </Root>
-    </HomeAtomsProvider>
   );
 });

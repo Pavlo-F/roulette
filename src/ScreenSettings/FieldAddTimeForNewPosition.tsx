@@ -22,28 +22,26 @@ const InputSt = styled(Input)`
 `;
 
 export const FieldAddTimeForNewPosition = memo(() => {
-  const { settingsAtom } = useContext(SettingsAtomsCtx);
-  const [settings, setSettings] = useAtom(settingsAtom);
+  const { settingsTempAtom } = useContext(SettingsAtomsCtx);
+  const [settings, setSettings] = useAtom(settingsTempAtom);
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
 
       if (!newValue) {
-        setSettings(
-          produce(draft => {
-            draft.timer.timeForNewPosition = 0;
-          })
-        );
+        setSettings(draft => {
+          draft.timer.timeForNewPosition = 0;
+          return draft;
+        });
 
         return;
       }
 
-      setSettings(
-        produce(draft => {
-          draft.timer.timeForNewPosition = Number.parseInt(newValue, 10);
-        })
-      );
+      setSettings(draft => {
+        draft.timer.timeForNewPosition = Number.parseInt(newValue, 10);
+        return draft;
+      });
     },
     [setSettings]
   );

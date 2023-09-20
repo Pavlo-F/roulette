@@ -35,7 +35,7 @@ export const Input = styled.input`
   &:invalid:not(:disabled):focus,
   &.invalid:not(:disabled):focus {
     border-color: var(--invalid);
-    outline: 1px solid var(--secondaryColor500);
+    outline: 1px solid #fff;
     outline-offset: 2px;
   }
 

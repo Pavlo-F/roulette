@@ -26,7 +26,7 @@ export const ButtonClearLots = memo(() => {
     if (confirm) {
       clearTimeout(timer);
 
-      timer = setTimeout(() => {
+      timer = window.setTimeout(() => {
         setConfirm(false);
       }, 5000);
     }
