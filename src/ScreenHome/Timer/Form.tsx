@@ -20,7 +20,7 @@ const Root = styled.div`
 `;
 
 const Time = styled.div`
-  font-size: 5.2rem;
+  font-size: 5.1rem;
 `;
 
 const Actions = styled.div`

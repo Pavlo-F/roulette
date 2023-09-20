@@ -36,12 +36,7 @@ export const DonateProcess = memo(() => {
       });
     } else {
       setNewLots(draft => {
-        draft.push({
-          id: donate.id,
-          name: donate.comment,
-          sum: donate.sum,
-          order: 0,
-        });
+        draft.push(donate);
         return [...draft];
       });
     }

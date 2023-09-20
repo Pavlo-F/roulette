@@ -2,11 +2,13 @@ import React, { createContext, memo, useMemo, useState } from "react";
 import { PrimitiveAtom, atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { atomWithImmer } from "jotai-immer";
+import { Donate } from "../Services/DonateService/AtomsCtx";
 
 export type TableData = {
   id: string;
   order: number;
   name: string;
+  userName?: string;
   sum?: number;
 };
 
@@ -18,7 +20,7 @@ type Lot = {
 type IAtoms = {
   lotAtom: PrimitiveAtom<Lot>;
   lotsAtom: PrimitiveAtom<TableData[]>;
-  newLotsAtom: PrimitiveAtom<TableData[]>;
+  newLotsAtom: PrimitiveAtom<Donate[]>;
 };
 
 type IContext = IAtoms;
@@ -31,7 +33,7 @@ const create = () => {
   const r: IAtoms = {
     lotAtom: atomWithImmer<Lot>({ name: "" }),
     lotsAtom: atomWithStorage<TableData[]>("localSavedLots", []),
-    newLotsAtom: atom<TableData[]>([]),
+    newLotsAtom: atom<Donate[]>([]),
   };
 
   return r;

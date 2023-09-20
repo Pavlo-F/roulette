@@ -2,14 +2,13 @@ import React, { memo } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import styled from "styled-components";
-import { HomeAtomsProvider } from "./AtomsCtx";
 import { ButtonAddLot } from "./ButtonAddLot";
 import { ButtonClearLots } from "./ButtonClearLots";
 import { FieldLotName } from "./FieldLotName";
 import { FieldLotSum } from "./FieldLotSum";
 import { LotTable } from "./LotTable";
 import { Timer } from "./Timer";
-import { NewLots } from "./NewLots";
+import { NewLotList } from "./NewLotList";
 
 const Root = styled.div`
   display: grid;
@@ -57,7 +56,7 @@ export const Screen = memo(() => {
 
         <Sidebar>
           <Timer />
-          <NewLots />
+          <NewLotList />
         </Sidebar>
         <Main>
           <PerfectScrollbar>
