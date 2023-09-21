@@ -14,6 +14,7 @@ export type Donate = {
 type IAtoms = {
   donateAtom: PrimitiveAtom<Donate>;
   donatePayStatusAtom: PrimitiveAtom<DonateServiceStatus>;
+  donationAlertsStatusAtom: PrimitiveAtom<DonateServiceStatus>;
 
 };
 
@@ -27,6 +28,7 @@ const create = () => {
   const r: IAtoms = {
     donateAtom: atom<Donate>({} as Donate),
     donatePayStatusAtom: atom<DonateServiceStatus>(DonateServiceStatus.Disconnected),
+    donationAlertsStatusAtom: atom<DonateServiceStatus>(DonateServiceStatus.Disconnected),
   };
 
   return r;

@@ -18,7 +18,7 @@ import { ValidationContext } from "../forms/Validation";
 import { Hint } from "./styles.styled";
 
 const InputSt = styled(Input)`
-  width: 30rem;
+  width: 10rem;
 `;
 
 export const FieldDonatePayApiKey = memo(() => {
@@ -70,7 +70,7 @@ export const FieldDonatePayApiKey = memo(() => {
     <div>
       <InputSt
         value={apiKey}
-        placeholder="Вставьте ссылку на виджет api ключ"
+        placeholder="Вставьте api ключ"
         onChange={onChange}
         className={error ? "invalid" : ""}
       />

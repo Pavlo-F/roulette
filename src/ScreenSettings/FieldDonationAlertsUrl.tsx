@@ -17,7 +17,7 @@ import { ValidationContext } from "../forms/Validation";
 import { Hint } from "./styles.styled";
 
 const InputSt = styled(Input)`
-  width: 30rem;
+  width: 10rem;
 `;
 
 export const FieldDonationAlertsUrl = memo(() => {

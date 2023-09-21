@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { SettingsAtomsCtx } from "./AtomsCtx";
 import { ButtonApply } from "./ButtonApply";
 import { DonatePayStatus } from "./DonatePayStatus";
+import { DonationAlertsStatus } from "./DonationAlertsStatus";
 import { FieldAddTime } from "./FieldAddTime";
 import { FieldAddTimeForNewPosition } from "./FieldAddTimeForNewPosition";
 import { FieldDefaultTime } from "./FieldDefaultTime";
@@ -37,6 +38,13 @@ const Grid = styled.div`
 
 const DonationTitle = styled.div`
   width: 7rem;
+`;
+
+const Footer = styled.div`
+  position: sticky;
+  bottom: 0;
+  padding: 0.5rem 0;
+  background-color: var(--primaryColor800);
 `;
 
 export const Screen = withValidationProvider(
@@ -76,15 +84,19 @@ export const Screen = withValidationProvider(
               <DonationTitle>DonatePay</DonationTitle>
               <DonatePayStatus />
             </FlexCnt>
-
             <FieldDonatePayApiKey />
 
-            <DonationTitle>DonationAlerts</DonationTitle>
+            <FlexCnt>
+              <DonationTitle>DonationAlerts</DonationTitle>
+              <DonationAlertsStatus />
+            </FlexCnt>
             <FieldDonationAlertsUrl />
           </Grid>
         </Row>
 
-        <ButtonApply />
+        <Footer>
+          <ButtonApply />
+        </Footer>
       </Root>
     );
   })

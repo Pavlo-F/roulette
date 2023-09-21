@@ -7,11 +7,10 @@ import { TimerAtomsCtx } from "../Timer/AtomsCtx";
 
 const ButtonPrimarySt = styled(ButtonPrimary)`
   margin-left: auto;
-  margin-right: auto;
   margin-top: 1rem;
   height: 32px;
   background-color: transparent;
-  width: 10rem;
+  width: 7rem;
 `;
 
 type Props = {

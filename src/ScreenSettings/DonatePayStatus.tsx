@@ -2,21 +2,13 @@ import React, { memo, useContext, useEffect, useMemo, useRef, useState } from "r
 import axios, { AxiosResponse } from "axios";
 import { produce } from "immer";
 import { useAtom } from "jotai";
-import { SettingsAtomsCtx } from "./AtomsCtx";
+import { SettingsAtomsCtx, statusMap } from "./AtomsCtx";
 import { DonateAtomsCtx } from "../Services/DonateService";
 import { DonateServiceStatus } from "../Services/DonateService/models";
 
 const donactionAxios = axios.create({
   baseURL: "https://donaction.club",
 });
-
-const statusMap: Record<DonateServiceStatus, string> = {
-  [DonateServiceStatus.Connecting]: "Подключение",
-  [DonateServiceStatus.Connected]: "Подключен",
-  [DonateServiceStatus.Reconnecting]: "Переподключение...",
-  [DonateServiceStatus.Disconnected]: "Отключен",
-  [DonateServiceStatus.Error]: "Ошибка подключения",
-};
 
 export const DonatePayStatus = memo(() => {
   const { donatePayStatusAtom } = useContext(DonateAtomsCtx);

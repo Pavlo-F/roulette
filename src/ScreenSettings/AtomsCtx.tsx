@@ -2,6 +2,15 @@ import React, { FC, createContext, memo, useEffect, useMemo, useState } from "re
 import { PrimitiveAtom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { atomWithImmer } from "jotai-immer";
+import { DonateServiceStatus } from "../Services/DonateService/models";
+
+export const statusMap: Record<DonateServiceStatus, string> = {
+  [DonateServiceStatus.Connecting]: "Подключение",
+  [DonateServiceStatus.Connected]: "Подключен",
+  [DonateServiceStatus.Reconnecting]: "Переподключение...",
+  [DonateServiceStatus.Disconnected]: "Отключен",
+  [DonateServiceStatus.Error]: "Ошибка подключения",
+};
 
 export type Settings = {
   timer: {

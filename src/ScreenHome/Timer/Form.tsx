@@ -21,6 +21,8 @@ const Root = styled.div`
 
 const Time = styled.div`
   font-size: 5.1rem;
+  line-height: 0.8;
+  margin-bottom: 2rem;
 `;
 
 const Actions = styled.div`
