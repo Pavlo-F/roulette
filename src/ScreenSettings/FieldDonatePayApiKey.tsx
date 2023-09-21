@@ -10,19 +10,34 @@ import React, {
 import { produce } from "immer";
 import { useAtom } from "jotai";
 import styled from "styled-components";
-import axios from "axios";
+import ButtonPrimary from "../components/ButtonPrimary";
 import { Error } from "../components/Error";
 import { Input } from "../components/Input";
 import { SettingsAtomsCtx } from "./AtomsCtx";
-import { ValidationContext } from "../forms/Validation";
 import { Hint } from "./styles.styled";
+import { ValidationContext } from "../forms/Validation";
 
 const InputSt = styled(Input)`
-  width: 10rem;
+  width: 25rem;
+`;
+
+const ButtonPrimarySt = styled(ButtonPrimary)`
+  width: 27rem;
+  height: 44px;
+`;
+
+const Warning = styled.div`
+  font-size: 0.8em;
+  color: var(--secondaryColor500);
+`;
+
+const ShowButtonCnt = styled.div`
+  line-height: normal;
 `;
 
 export const FieldDonatePayApiKey = memo(() => {
   const [error, setError] = useState("");
+  const [isHidden, setIsHidden] = useState<boolean>(true);
 
   const { setValidateResults } = useContext(ValidationContext);
   const { settingsTempAtom } = useContext(SettingsAtomsCtx);
@@ -43,15 +58,19 @@ export const FieldDonatePayApiKey = memo(() => {
 
     setError(msg);
 
-    setValidateResults(produce(draft => {
-      draft.DonatePayUrl = !!msg;
-    }));
+    setValidateResults(
+      produce(draft => {
+        draft.DonatePayUrl = !!msg;
+      })
+    );
 
-    return (() => {
-      setValidateResults(produce(draft => {
-        delete draft.DonatePayUrl;
-      }));
-    });
+    return () => {
+      setValidateResults(
+        produce(draft => {
+          delete draft.DonatePayUrl;
+        })
+      );
+    };
   }, [apiKey, setValidateResults]);
 
   const onChange = useCallback(
@@ -66,21 +85,32 @@ export const FieldDonatePayApiKey = memo(() => {
     [setSettings]
   );
 
+  const onShowFieldClick = useCallback(() => {
+    setIsHidden(false);
+  }, []);
+
   return (
     <div>
-      <InputSt
-        value={apiKey}
-        placeholder="Вставьте api ключ"
-        onChange={onChange}
-        className={error ? "invalid" : ""}
-      />
+      {!isHidden && (
+        <InputSt
+          value={apiKey}
+          placeholder="Вставьте api ключ"
+          onChange={onChange}
+          className={error ? "invalid" : ""}
+        />
+      )}
+      {isHidden && (
+        <ButtonPrimarySt onClick={onShowFieldClick}>
+          <ShowButtonCnt>
+            <div>Показать поле</div>
+            <Warning>не открывайте на трансляции</Warning>
+          </ShowButtonCnt>
+        </ButtonPrimarySt>
+      )}
       {error && <Error>{error}</Error>}
       <Hint>
         <span>Ссылка на ключ находится по адресу: </span>
-        <a
-          href="https://donatepay.ru/page/api"
-          target="_blank"
-          rel="noreferrer">
+        <a href="https://donatepay.ru/page/api" target="_blank" rel="noreferrer">
           https://donatepay.ru/page/api
         </a>
       </Hint>
