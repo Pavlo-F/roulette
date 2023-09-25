@@ -1,5 +1,6 @@
 import React, { createContext, memo, useMemo, useState } from "react";
 import { PrimitiveAtom, atom } from "jotai";
+import { WheelData } from "./Roulette/models";
 
 export enum Mode {
   Classic,
@@ -20,6 +21,8 @@ export const slowPhrases = [
 
 type IAtoms = {
   modeAtom: PrimitiveAtom<Mode>;
+  winMessageAtom: PrimitiveAtom<WheelData | undefined>;
+  removeMessageAtom: PrimitiveAtom<WheelData | undefined>;
 };
 
 type IContext = IAtoms;
@@ -31,6 +34,8 @@ type Props = {
 const create = () => {
   const r: IAtoms = {
     modeAtom: atom<Mode>(Mode.Classic),
+    winMessageAtom: atom<WheelData | undefined>(undefined),
+    removeMessageAtom: atom<WheelData | undefined>(undefined),
   };
 
   return r;

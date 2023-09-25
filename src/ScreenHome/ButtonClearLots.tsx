@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useContext, useEffect, useState } from "react";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import styled from "styled-components";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { HomeAtomsCtx } from "./AtomsCtx";
@@ -17,8 +17,9 @@ const ButtonConfirm = styled(ButtonPrimary)`
 let timer = 0;
 
 export const ButtonClearLots = memo(() => {
-  const { lotsAtom } = useContext(HomeAtomsCtx);
+  const { lotsAtom, participantsAtom } = useContext(HomeAtomsCtx);
   const [lots, setLots] = useAtom(lotsAtom);
+  const setParticipants = useSetAtom(participantsAtom);
 
   const [confirm, setConfirm] = useState(false);
 
@@ -38,10 +39,11 @@ export const ButtonClearLots = memo(() => {
 
   const onClickConfirm = useCallback(() => {
     setLots([]);
+    setParticipants([]);
 
     setConfirm(false);
     clearTimeout(timer);
-  }, [setLots]);
+  }, [setLots, setParticipants]);
 
   if (confirm) {
     return (

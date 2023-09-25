@@ -5,11 +5,12 @@ import { DonateAtomsCtx } from "../Services/DonateService";
 
 export const DonateProcess = memo(() => {
   const { donateAtom } = useContext(DonateAtomsCtx);
-  const { lotsAtom, newLotsAtom } = useContext(HomeAtomsCtx);
+  const { lotsAtom, newLotsAtom, participantsAtom } = useContext(HomeAtomsCtx);
 
   const [lots, setLots] = useAtom(lotsAtom);
   const setNewLots = useSetAtom(newLotsAtom);
   const donate = useAtomValue(donateAtom);
+  const setParticipants = useSetAtom(participantsAtom);
 
   const lotExists = useMemo(() => {
     return lots.find(
@@ -40,6 +41,17 @@ export const DonateProcess = memo(() => {
         return [...draft];
       });
     }
+
+    setParticipants(old => {
+      if (old.includes(donate.name)) {
+        return old;
+      }
+
+      const result = [...old];
+      result.push(donate.name);
+      
+      return result;
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [donate.id, donate.name, donate.sum, setLots, setNewLots]);
 

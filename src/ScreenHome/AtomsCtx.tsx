@@ -21,6 +21,7 @@ type IAtoms = {
   lotAtom: PrimitiveAtom<Lot>;
   lotsAtom: PrimitiveAtom<TableData[]>;
   newLotsAtom: PrimitiveAtom<Donate[]>;
+  participantsAtom: PrimitiveAtom<string[]>;
 };
 
 type IContext = IAtoms;
@@ -34,6 +35,7 @@ const create = () => {
     lotAtom: atomWithImmer<Lot>({ name: "" }),
     lotsAtom: atomWithStorage<TableData[]>("localSavedLots", []),
     newLotsAtom: atom<Donate[]>([]),
+    participantsAtom: atom<string[]>([]),
   };
 
   return r;

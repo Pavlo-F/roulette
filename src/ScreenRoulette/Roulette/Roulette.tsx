@@ -32,11 +32,13 @@ type Props = {
   data: WheelData[];
   mode: Mode;
   onSlow: () => void;
+  onSelected: (value: WheelData) => void;
+  onWin: (value: WheelData) => void;
 };
 
 type DataWithPercent = WheelData & { percent: number };
 
-export const Roulette = memo(({ radius, data, mode, onSlow }: Props) => {
+export const Roulette = memo(({ radius, data, mode, onSlow, onSelected, onWin }: Props) => {
   const [rouletteData, setRouletteData] = useState(data);
 
   const dataWithPercent = useMemo(() => {
@@ -107,17 +109,21 @@ export const Roulette = memo(({ radius, data, mode, onSlow }: Props) => {
   const process = useCallback(
     (selected: Konva.Node | undefined) => {
       if (mode === Mode.Classic) {
-        console.log(`Your price is:`, selected?.attrs.original);
+        onWin(selected?.attrs.original);
       }
 
       if (mode === Mode.Elimination) {
-        setRouletteData(old => {
-          const result = old.filter(x => x.id !== selected?.attrs.original.id);
-          return result;
-        });
+        const result = rouletteData.filter(x => x.id !== selected?.attrs.original.id);
+        if (result.length === 1) {
+          onWin(result[0]);
+        } else {
+          onSelected(selected?.attrs.original);
+        }
+
+        setRouletteData(result);
       }
     },
-    [mode]
+    [mode, onSelected, onWin, rouletteData]
   );
 
   const addWedge = useCallback(
@@ -328,7 +334,7 @@ export const Roulette = memo(({ radius, data, mode, onSlow }: Props) => {
       inProgress = true;
     });
 
-    stage.addEventListener("mousemove touchmove", (evt: any) => {
+    stage.addEventListener("mousemove touchmove", () => {
       const mousePos = stage.getPointerPosition();
       if (controlled && mousePos && target) {
         // @ts-ignore
