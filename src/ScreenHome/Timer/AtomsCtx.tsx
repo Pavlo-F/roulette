@@ -21,7 +21,7 @@ type IAtoms = {
   elepsatedAtom: PrimitiveAtom<number>;
   isStartedAtom: PrimitiveAtom<boolean>;
   reset: () => void;
-  addTime: (order: number) => void;
+  addTime: (milliseconds: number) => void;
 };
 
 type IContext = IAtoms;
@@ -49,7 +49,7 @@ const create = (
 const Context = createContext<IContext>(create(0));
 
 const Provider = memo(
-  ({ children, totalMilliseconds, addMilliseconds }: Props) => {
+  ({ children, totalMilliseconds }: Props) => {
     const [atoms] = useState(() => create(totalMilliseconds));
 
     const [isStarted, setIsStarted] = useAtom(atoms.isStartedAtom);
@@ -61,10 +61,10 @@ const Provider = memo(
     }, [setElepsated]);
 
     const addTime = useCallback(
-      (order: number) => {
-        setElepsated(draft => -order * addMilliseconds + draft);
+      (milliseconds: number) => {
+        setElepsated(draft => -milliseconds + draft);
       },
-      [addMilliseconds, setElepsated]
+      [setElepsated]
     );
 
     useEffect(() => {

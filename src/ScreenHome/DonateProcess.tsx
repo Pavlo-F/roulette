@@ -2,15 +2,20 @@ import React, { memo, useContext, useEffect, useMemo } from "react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { HomeAtomsCtx } from "./AtomsCtx";
 import { DonateAtomsCtx } from "../Services/DonateService";
+import { TimerAtomsCtx } from "./Timer/AtomsCtx";
+import { SettingsAtomsCtx } from "../ScreenSettings/AtomsCtx";
 
 export const DonateProcess = memo(() => {
   const { donateAtom } = useContext(DonateAtomsCtx);
   const { lotsAtom, newLotsAtom, participantsAtom } = useContext(HomeAtomsCtx);
+  const { addTime } = useContext(TimerAtomsCtx);
+  const { settingsAtom } = useContext(SettingsAtomsCtx);
 
   const [lots, setLots] = useAtom(lotsAtom);
   const setNewLots = useSetAtom(newLotsAtom);
   const donate = useAtomValue(donateAtom);
   const setParticipants = useSetAtom(participantsAtom);
+  const settings = useAtomValue(settingsAtom);
 
   const lotExists = useMemo(() => {
     return lots.find(
@@ -42,6 +47,10 @@ export const DonateProcess = memo(() => {
       });
     }
 
+    if (settings.timer.timeByDonate) {
+      addTime(settings.timer.timeByDonate * 1000);
+    }
+
     setParticipants(old => {
       if (old.includes(donate.name)) {
         return old;
@@ -49,7 +58,7 @@ export const DonateProcess = memo(() => {
 
       const result = [...old];
       result.push(donate.name);
-      
+
       return result;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,9 +1,10 @@
 import React, { memo, useCallback, useContext, useEffect, useState } from "react";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import styled from "styled-components";
 import ButtonPrimary from "../../components/ButtonPrimary";
 import { HomeAtomsCtx, TableData } from "../AtomsCtx";
 import { TimerAtomsCtx } from "../Timer/AtomsCtx";
+import { SettingsAtomsCtx } from "../../ScreenSettings/AtomsCtx";
 
 const ButtonPrimarySt = styled(ButtonPrimary)`
   margin-left: auto;
@@ -22,9 +23,12 @@ type Props = {
 export const ButtonAddLot = memo(({ id, name, sum }: Props) => {
   const { addTime } = useContext(TimerAtomsCtx);
   const { lotsAtom, newLotsAtom } = useContext(HomeAtomsCtx);
+  const { settingsAtom } = useContext(SettingsAtomsCtx);
+
   const [lots, setLots] = useAtom(lotsAtom);
   const setNewLots = useSetAtom(newLotsAtom);
   const [order, setOrder] = useState(0);
+  const settings = useAtomValue(settingsAtom);
 
   useEffect(() => {
     if (!lots.length) {
@@ -53,8 +57,8 @@ export const ButtonAddLot = memo(({ id, name, sum }: Props) => {
       return result;
     });
 
-    addTime(1);
-  }, [addTime, id, name, order, setLots, setNewLots, sum]);
+    addTime(settings.timer.timeForNewPosition * 1000);
+  }, [addTime, id, name, order, setLots, setNewLots, settings.timer.timeForNewPosition, sum]);
 
   return <ButtonPrimarySt onClick={onClick}>Добавить</ButtonPrimarySt>;
 });

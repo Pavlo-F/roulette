@@ -1,7 +1,7 @@
 import React, { FC, createContext, memo, useEffect, useMemo, useState } from "react";
 import { PrimitiveAtom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
 import { atomWithImmer } from "jotai-immer";
+import { atomWithStorage } from "jotai/utils";
 import { DonateServiceStatus } from "../Services/DonateService/models";
 
 export const statusMap: Record<DonateServiceStatus, string> = {
@@ -17,13 +17,14 @@ export type Settings = {
     defaultMinutes: number;
     addSeconds: number;
     timeForNewPosition: number;
-  },
+    timeByDonate: number;
+  };
   integration: {
     donatePayApiKey: string;
     donateApiUserId: string;
 
     donationAlertsWidgetUrl: string;
-  },
+  };
 };
 
 type IAtoms = {
@@ -42,11 +43,12 @@ const defaultSettings = {
     defaultMinutes: 10,
     addSeconds: 60,
     timeForNewPosition: 60,
+    timeByDonate: 5,
   },
   integration: {
     donatePayApiKey: "",
     donateApiUserId: "",
-    
+
     donationAlertsWidgetUrl: "",
   },
 };
@@ -67,7 +69,7 @@ const Provider = memo(({ children }: Props) => {
 
   const settings = useAtomValue(atoms.settingsAtom);
   const setSettingsTemp = useSetAtom(atoms.settingsTempAtom);
-  
+
   useEffect(() => {
     const check = settings as Settings;
     setSettingsTemp(check);
