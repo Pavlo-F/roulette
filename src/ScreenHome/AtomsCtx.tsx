@@ -12,6 +12,11 @@ export type TableData = {
   sum?: number;
 };
 
+type AnimateRow = {
+  lotId: string;
+  sum: number;
+};
+
 type Lot = {
   name: string;
   sum?: number;
@@ -22,6 +27,7 @@ type IAtoms = {
   lotsAtom: PrimitiveAtom<TableData[]>;
   newLotsAtom: PrimitiveAtom<Donate[]>;
   participantsAtom: PrimitiveAtom<string[]>;
+  animateRowAtom: PrimitiveAtom<AnimateRow | undefined>;
 };
 
 type IContext = IAtoms;
@@ -36,6 +42,7 @@ const create = () => {
     lotsAtom: atomWithStorage<TableData[]>("localSavedLots", []),
     newLotsAtom: atom<Donate[]>([]),
     participantsAtom: atom<string[]>([]),
+    animateRowAtom: atom<AnimateRow | undefined>(undefined),
   };
 
   return r;

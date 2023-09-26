@@ -3,17 +3,20 @@ import React, {
   KeyboardEvent,
   memo,
   useCallback,
+  useContext,
   useEffect,
   useState,
 } from "react";
 import { Column, Getter, Row, Table } from "@tanstack/react-table";
+import { useAtom, useAtomValue } from "jotai";
 import styled from "styled-components";
 import SvgAdd from "./ic_add.svg";
 import { ButtonSvg } from "../../components/ButtonSvg";
 import { Input } from "../../components/Input";
-import { TableData } from "../AtomsCtx";
+import { HomeAtomsCtx, TableData } from "../AtomsCtx";
 
 const Root = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -21,6 +24,16 @@ const Root = styled.div`
 
 const InputSt = styled(Input)`
   width: 5rem;
+`;
+
+const Plus = styled.div`
+  opacity: 0;
+  position: absolute;
+  top: -8px;
+  right: 2px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: var(--secondaryColor500);
 `;
 
 type Props = {
@@ -34,13 +47,19 @@ export const ColumnSum = memo(({ row, column, table, getValue }: Props) => {
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
 
-  const [isEnterMode, setIsEnterMode] = useState(false);
+  const { animateRowAtom } = useContext(HomeAtomsCtx);
 
+  const [isEnterMode, setIsEnterMode] = useState(false);
   const [addValue, setAddValue] = useState<string>("");
+  const [animateRow, setAnimateRow] = useAtom(animateRowAtom);
 
   const onBlur = useCallback(() => {
     table.options.meta?.updateData(column.id, value, row.original.id);
   }, [column.id, row.original.id, table.options.meta, value]);
+
+  const animateEnd = useCallback(() => {
+    setAnimateRow(undefined);
+  }, [setAnimateRow]);
 
   const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -148,6 +167,12 @@ export const ColumnSum = memo(({ row, column, table, getValue }: Props) => {
 
   return (
     <Root>
+      <Plus
+        onAnimationEnd={animateEnd}
+        className={animateRow?.lotId === row.original.id ? "fade" : ""}>
+        + {animateRow?.sum}
+      </Plus>
+
       <InputSt
         value={value as string}
         placeholder="Сумма"

@@ -1,14 +1,14 @@
 import React, { memo, useContext, useEffect, useMemo } from "react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import levenshtein from "fast-levenshtein";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { HomeAtomsCtx } from "./AtomsCtx";
-import { DonateAtomsCtx } from "../Services/DonateService";
 import { TimerAtomsCtx } from "./Timer/AtomsCtx";
 import { SettingsAtomsCtx } from "../ScreenSettings/AtomsCtx";
+import { DonateAtomsCtx } from "../Services/DonateService";
 
 export const DonateProcess = memo(() => {
   const { donateAtom } = useContext(DonateAtomsCtx);
-  const { lotsAtom, newLotsAtom, participantsAtom } = useContext(HomeAtomsCtx);
+  const { lotsAtom, newLotsAtom, participantsAtom, animateRowAtom } = useContext(HomeAtomsCtx);
   const { addTime } = useContext(TimerAtomsCtx);
   const { settingsAtom } = useContext(SettingsAtomsCtx);
 
@@ -17,19 +17,18 @@ export const DonateProcess = memo(() => {
   const donate = useAtomValue(donateAtom);
   const setParticipants = useSetAtom(participantsAtom);
   const settings = useAtomValue(settingsAtom);
+  const setAnimateRow = useSetAtom(animateRowAtom);
 
   const lotExists = useMemo(() => {
     const b = donate.comment?.trim().toLowerCase() || "";
 
-    return lots.find(
-      x => {
-        const a = x.name?.trim().toLowerCase() || "";
-        const distance = levenshtein.get(a, b);
-        const percent = 1 - (distance / a.length);
+    return lots.find(x => {
+      const a = x.name?.trim().toLowerCase() || "";
+      const distance = levenshtein.get(a, b);
+      const percent = 1 - distance / a.length;
 
-        return percent > 0.6;
-      }
-    );
+      return percent > 0.6;
+    });
   }, [donate, lots]);
 
   useEffect(() => {
@@ -49,6 +48,8 @@ export const DonateProcess = memo(() => {
 
         return result;
       });
+
+      setAnimateRow({ lotId: lotExists.id, sum: donate.sum });
     } else {
       setNewLots(draft => {
         draft.push(donate);
@@ -70,7 +71,7 @@ export const DonateProcess = memo(() => {
 
       return result;
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [donate, setLots, setNewLots, addTime, settings.timer.timeByDonate, setParticipants]);
 
   return null;
