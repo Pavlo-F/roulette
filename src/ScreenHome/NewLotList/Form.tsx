@@ -8,12 +8,12 @@ import { HomeAtomsCtx } from "../AtomsCtx";
 const Root = styled.div`
   margin: 2rem 0 0 1rem;
   max-width: 20rem;
-  height: 100%;
+  flex: auto;
+  position: relative;
+  overflow: hidden;
 `;
 
 const ScrolCnt = styled.div`
-  position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 1rem;

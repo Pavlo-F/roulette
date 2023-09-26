@@ -16,7 +16,6 @@ const Root = styled.div`
   flex-direction: column;
   width: 20rem;
   padding-left: 0.5rem;
-  flex: auto;
 `;
 
 const Time = styled.div`

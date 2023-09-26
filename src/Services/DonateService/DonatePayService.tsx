@@ -2,7 +2,7 @@ import React, { memo, useCallback, useContext, useEffect, useMemo, useRef, useSt
 import Centrifuge from "Centrifuge";
 import axios, { AxiosResponse } from "axios";
 import { useSetAtom } from "jotai";
-import { DonateAtomsCtx } from "./AtomsCtx";
+import { DonateAtomsCtx, addDonate } from "./AtomsCtx";
 import { DonateServiceStatus } from "./models";
 
 const tokentUrl = "https://donatepay.ru/api/v2/socket/token";
@@ -41,8 +41,7 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
     })
   );
 
-  const { donateAtom, donatePayStatusAtom } = useContext(DonateAtomsCtx);
-  const setDonate = useSetAtom(donateAtom);
+  const { donatePayStatusAtom } = useContext(DonateAtomsCtx);
   const setDonatePayStatus = useSetAtom(donatePayStatusAtom);
 
   const centrifuge = useMemo(() => {
@@ -81,7 +80,7 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
         centrifuge.subscribe(`$public:${userId}`, (message: Message) => {
           if (message.data.notification.type === "donation") {
             const { id, vars } = message.data.notification;
-            setDonate({
+            addDonate({
               id,
               comment: vars.comment,
               name: vars.name,
@@ -118,7 +117,7 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
     return () => {
       centrifuge.removeAllListeners();
     };
-  }, [centrifuge, getToken, setDonate, reconnect, setReconnect, userId, setDonatePayStatus]);
+  }, [centrifuge, getToken, reconnect, setReconnect, userId, setDonatePayStatus]);
 
   return null;
 });

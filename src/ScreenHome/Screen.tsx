@@ -36,6 +36,8 @@ const Header = styled(Row)`
 
 const Sidebar = styled.div`
   grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Main = styled.div`

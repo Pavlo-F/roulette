@@ -1,9 +1,8 @@
-import React, { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import React, { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useSetAtom } from "jotai";
 // @ts-ignore
 import io from "socket.io-client";
-import { DonateAtomsCtx } from "./AtomsCtx";
+import { DonateAtomsCtx, addDonate } from "./AtomsCtx";
 import { DonateServiceStatus } from "./models";
 
 type Message = {
@@ -23,8 +22,7 @@ export const DonationAlertsService = memo(({ accessToken }: Props) => {
 
   const ioRef = useRef(io("wss://socket.donationalerts.ru"));
 
-  const { donateAtom, donationAlertsStatusAtom } = useContext(DonateAtomsCtx);
-  const setDonate = useSetAtom(donateAtom);
+  const { donationAlertsStatusAtom } = useContext(DonateAtomsCtx);
   const setDdonationAlertsStatus = useSetAtom(donationAlertsStatusAtom);
 
   const ioClient = useMemo(() => {
@@ -40,7 +38,7 @@ export const DonationAlertsService = memo(({ accessToken }: Props) => {
 
       ioClient.on("donation", (data: any) => {
         const msg = JSON.parse(data) as Message;
-        setDonate({
+        addDonate({
           id: msg.id,
           comment: msg.message,
           name: msg.username,
@@ -64,7 +62,7 @@ export const DonationAlertsService = memo(({ accessToken }: Props) => {
     return () => {
       ioClient?.disconnect();
     };
-  }, [accessToken, ioClient, setDonate, reconnect, setDdonationAlertsStatus]);
+  }, [accessToken, ioClient, reconnect, setDdonationAlertsStatus]);
 
   return null;
 });
