@@ -18,6 +18,7 @@ export type Settings = {
     addSeconds: number;
     timeForNewPosition: number;
     timeByDonate: number;
+    thresholdToAddTime: number;
   };
   integration: {
     donatePayApiKey: string;
@@ -43,7 +44,8 @@ const defaultSettings = {
     defaultMinutes: 10,
     addSeconds: 60,
     timeForNewPosition: 60,
-    timeByDonate: 5,
+    timeByDonate: 0,
+    thresholdToAddTime: 500,
   },
   integration: {
     donatePayApiKey: "",

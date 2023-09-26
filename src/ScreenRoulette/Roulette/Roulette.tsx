@@ -4,12 +4,12 @@ import { WheelData } from "./models";
 import { Mode } from "../AtomsCtx";
 
 Konva.angleDeg = false;
-let angularVelocity = 22;
+let angularVelocity = 2;
 let startAngularVelocity = 0;
 let angularVelocities: number[] = [];
 let lastRotation = 0;
 let controlled = true;
-const angularFriction = 0.5;
+const angularFriction = 0.4;
 let target: any;
 let activeWedge: any;
 let stage: Konva.Stage;
@@ -321,7 +321,7 @@ export const Roulette = memo(({ radius, data, mode, onSlow, onSelected, onWin }:
       rotationOrder = order > 0 ? 1 : -1;
 
       controlled = false;
-      angularVelocity = Math.abs(getAverageAngularVelocity() * 5);
+      angularVelocity = Math.abs(getAverageAngularVelocity() * 1.5);
 
       if (angularVelocity > 50) {
         angularVelocity = 50;

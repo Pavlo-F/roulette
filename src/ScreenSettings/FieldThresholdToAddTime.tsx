@@ -5,7 +5,6 @@ import React, {
   useCallback,
   useContext,
 } from "react";
-import { produce } from "immer";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Input } from "../components/Input";
@@ -21,7 +20,7 @@ const InputSt = styled(Input)`
   width: 2rem;
 `;
 
-export const FieldAddTimeForNewPosition = memo(() => {
+export const FieldThresholdToAddTime = memo(() => {
   const { settingsTempAtom } = useContext(SettingsAtomsCtx);
   const [settings, setSettings] = useAtom(settingsTempAtom);
 
@@ -31,7 +30,7 @@ export const FieldAddTimeForNewPosition = memo(() => {
 
       if (!newValue) {
         setSettings(draft => {
-          draft.timer.timeForNewPosition = 0;
+          draft.timer.thresholdToAddTime = 0;
           return draft;
         });
 
@@ -39,7 +38,7 @@ export const FieldAddTimeForNewPosition = memo(() => {
       }
 
       setSettings(draft => {
-        draft.timer.timeForNewPosition = Number.parseInt(newValue, 10);
+        draft.timer.thresholdToAddTime = Number.parseInt(newValue, 10);
         return draft;
       });
     },
@@ -59,15 +58,13 @@ export const FieldAddTimeForNewPosition = memo(() => {
   }, []);
 
   return (
-    <Root>
+    <Root title="Сумма доната, больше которой, добавлять время">
       <InputSt
-        maxLength={3}
-        value={settings.timer.timeForNewPosition}
+        maxLength={4}
+        value={settings.timer.thresholdToAddTime}
         onChange={onChange}
         onKeyDown={onKeyDown}
       />
-
-      <div>секунд,</div>
     </Root>
   );
 });

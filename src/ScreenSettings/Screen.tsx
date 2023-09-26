@@ -6,13 +6,14 @@ import { ButtonApply } from "./ButtonApply";
 import { DonatePayStatus } from "./DonatePayStatus";
 import { DonationAlertsStatus } from "./DonationAlertsStatus";
 import { FieldAddTime } from "./FieldAddTime";
+import { FieldAddTimeByDonate } from "./FieldAddTimeByDonate";
 import { FieldAddTimeForNewPosition } from "./FieldAddTimeForNewPosition";
 import { FieldDefaultTime } from "./FieldDefaultTime";
 import { FieldDonatePayApiKey } from "./FieldDonatePayApiKey";
 import { FieldDonationAlertsUrl } from "./FieldDonationAlertsUrl";
+import { FieldThresholdToAddTime } from "./FieldThresholdToAddTime";
 import { FlexCnt } from "./styles.styled";
 import { withValidationProvider } from "../forms/Validation";
-import { FieldAddTimeByDonate } from "./FieldAddTimeByDonate";
 
 const Root = styled.div`
   display: flex;
@@ -73,7 +74,13 @@ export const Screen = withValidationProvider(
             <FieldAddTime />
 
             <div>Время прибавления за новую позицию</div>
-            <FieldAddTimeForNewPosition />
+            <FlexCnt>
+              <FieldAddTimeForNewPosition />
+              <FlexCnt>
+                <div>порог суммы</div>
+                <FieldThresholdToAddTime />
+              </FlexCnt>
+            </FlexCnt>
 
             <div>Время прибавления при донате</div>
             <FieldAddTimeByDonate />

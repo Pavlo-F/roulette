@@ -1,10 +1,10 @@
 import React, { memo, useCallback, useContext, useEffect, useState } from "react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import styled from "styled-components";
+import { SettingsAtomsCtx } from "../../ScreenSettings/AtomsCtx";
 import ButtonPrimary from "../../components/ButtonPrimary";
 import { HomeAtomsCtx, TableData } from "../AtomsCtx";
 import { TimerAtomsCtx } from "../Timer/AtomsCtx";
-import { SettingsAtomsCtx } from "../../ScreenSettings/AtomsCtx";
 
 const ButtonPrimarySt = styled(ButtonPrimary)`
   margin-left: auto;
@@ -57,8 +57,20 @@ export const ButtonAddLot = memo(({ id, name, sum }: Props) => {
       return result;
     });
 
-    addTime(settings.timer.timeForNewPosition * 1000);
-  }, [addTime, id, name, order, setLots, setNewLots, settings.timer.timeForNewPosition, sum]);
+    if (sum >= settings.timer.thresholdToAddTime) {
+      addTime(settings.timer.timeForNewPosition * 1000);
+    }
+  }, [
+    addTime,
+    id,
+    name,
+    order,
+    setLots,
+    setNewLots,
+    settings.timer.thresholdToAddTime,
+    settings.timer.timeForNewPosition,
+    sum,
+  ]);
 
   return <ButtonPrimarySt onClick={onClick}>Добавить</ButtonPrimarySt>;
 });
