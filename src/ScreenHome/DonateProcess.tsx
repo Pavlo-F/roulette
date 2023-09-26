@@ -1,5 +1,6 @@
 import React, { memo, useContext, useEffect, useMemo } from "react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import levenshtein from "fast-levenshtein";
 import { HomeAtomsCtx } from "./AtomsCtx";
 import { DonateAtomsCtx } from "../Services/DonateService";
 import { TimerAtomsCtx } from "./Timer/AtomsCtx";
@@ -18,10 +19,18 @@ export const DonateProcess = memo(() => {
   const settings = useAtomValue(settingsAtom);
 
   const lotExists = useMemo(() => {
+    const b = donate.comment?.trim().toLowerCase() || "";
+
     return lots.find(
-      x => x.name?.toLowerCase() === donate.comment?.toLowerCase()
+      x => {
+        const a = x.name?.trim().toLowerCase() || "";
+        const distance = levenshtein.get(a, b);
+        const percent = 1 - (distance / a.length);
+
+        return percent > 0.6;
+      }
     );
-  }, [donate.comment, lots]);
+  }, [donate, lots]);
 
   useEffect(() => {
     if (!donate.sum) {
