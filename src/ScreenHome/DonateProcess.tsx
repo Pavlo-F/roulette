@@ -70,8 +70,8 @@ export const DonateProcess = memo(() => {
 
       return result;
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [donate.id, donate.name, donate.sum, setLots, setNewLots]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [donate, setLots, setNewLots, addTime, settings.timer.timeByDonate, setParticipants]);
 
   return null;
 });

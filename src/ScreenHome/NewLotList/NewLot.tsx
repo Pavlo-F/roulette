@@ -1,8 +1,9 @@
-import React, { memo } from "react";
+import React, { ChangeEvent, memo, useCallback, useState } from "react";
 import styled from "styled-components";
+import { ButtonAddLot } from "./ButtonAddLot";
 import { Header } from "./Header";
 import { Donate } from "../../Services/DonateService/AtomsCtx";
-import { ButtonAddLot } from "./ButtonAddLot";
+import { TextArea } from "../../components/TextArea";
 
 const Root = styled.div`
   display: flex;
@@ -20,14 +21,28 @@ const Body = styled.div`
   word-wrap: anywhere;
 `;
 
+const TextAreaSt = styled(TextArea)`
+  width: 100%;
+  max-height: 10rem;
+`;
+
 type Props = Donate;
 
 export const NewLot = memo(({ id, sum, name, comment, currency }: Props) => {
+  const [newComment, setNewComment] = useState(comment);
+
+  const onChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+    setNewComment(newValue);
+  }, []);
+
   return (
     <Root>
       <Header id={id} userName={name} currency={currency} sum={sum} />
-      <Body>{comment}</Body>
-      <ButtonAddLot id={id} name={comment} sum={sum} />
+      <Body>
+        <TextAreaSt value={newComment} onChange={onChange} onBlur={onChange} />
+      </Body>
+      <ButtonAddLot id={id} name={newComment} sum={sum} />
     </Root>
   );
 });

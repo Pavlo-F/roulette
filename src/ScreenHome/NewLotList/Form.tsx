@@ -1,6 +1,6 @@
 import React, { memo, useContext } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import styled from "styled-components";
 import { NewLot } from "./NewLot";
 import { HomeAtomsCtx } from "../AtomsCtx";
@@ -20,10 +20,9 @@ const ScrolCnt = styled.div`
 `;
 
 export const Form = memo(() => {
-  const { lotsAtom, newLotsAtom } = useContext(HomeAtomsCtx);
+  const { newLotsAtom } = useContext(HomeAtomsCtx);
 
-  const [lots, setLots] = useAtom(lotsAtom);
-  const [newLots, setNewLots] = useAtom(newLotsAtom);
+  const newLots = useAtomValue(newLotsAtom);
 
   return (
     <Root>
