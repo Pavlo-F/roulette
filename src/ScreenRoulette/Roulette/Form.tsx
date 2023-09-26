@@ -3,13 +3,12 @@ import { useAtomValue, useSetAtom } from "jotai";
 import styled from "styled-components";
 import { Roulette } from "./Roulette";
 import { WheelData } from "./models";
-import { HomeAtomsCtx } from "../../ScreenHome";
 import { RouletteAtomsCtx, slowPhrases } from "../AtomsCtx";
-import { WinMessage } from "../WinMessage";
 import { RemoveMessage } from "../RemoveMessage";
+import { WinMessage } from "../WinMessage";
 
 const Root = styled.div`
-position: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: auto;
@@ -47,9 +46,6 @@ export const Form = memo(() => {
   const [slowPhraseIndex, setSlowPhraseIndex] = useState(-1);
   const [slowMessage, setSlowMessage] = useState(false);
 
-  const { lotsAtom } = useContext(HomeAtomsCtx);
-  const lots = useAtomValue(lotsAtom);
-
   const { modeAtom, winMessageAtom, removeMessageAtom } = useContext(RouletteAtomsCtx);
   const mode = useAtomValue(modeAtom);
   const setWinMessage = useSetAtom(winMessageAtom);
@@ -65,18 +61,6 @@ export const Form = memo(() => {
   const slowPhrase = useMemo(() => {
     return slowPhrases[slowPhraseIndex];
   }, [slowPhraseIndex]);
-
-  const data: WheelData[] = useMemo(() => {
-    const result = lots.map(x => {
-      return {
-        id: x.id,
-        name: x.name,
-        value: x.sum || 0,
-      };
-    });
-
-    return result;
-  }, [lots]);
 
   const onSlow = useCallback(() => {
     setSlowPhraseIndex(old => {
@@ -114,7 +98,6 @@ export const Form = memo(() => {
           <Roulette
             mode={mode}
             radius={radius / 2}
-            data={data}
             onWin={onWin}
             onSlow={onSlow}
             onSelected={onSelected}

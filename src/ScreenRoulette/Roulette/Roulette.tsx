@@ -1,7 +1,8 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useAtom } from "jotai";
 import Konva from "konva";
 import { WheelData } from "./models";
-import { Mode } from "../AtomsCtx";
+import { Mode, RouletteAtomsCtx } from "../AtomsCtx";
 
 Konva.angleDeg = false;
 let angularVelocity = 2;
@@ -29,7 +30,6 @@ let rotationOrder = 1;
 
 type Props = {
   radius: number;
-  data: WheelData[];
   mode: Mode;
   onSlow: () => void;
   onSelected: (value: WheelData) => void;
@@ -38,8 +38,9 @@ type Props = {
 
 type DataWithPercent = WheelData & { percent: number };
 
-export const Roulette = memo(({ radius, data, mode, onSlow, onSelected, onWin }: Props) => {
-  const [rouletteData, setRouletteData] = useState(data);
+export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props) => {
+  const { wheelDataAtom } = useContext(RouletteAtomsCtx);
+  const [rouletteData, setRouletteData] = useAtom(wheelDataAtom);
 
   const dataWithPercent = useMemo(() => {
     const total = rouletteData.reduce((a, b) => a + b.value, 0);
@@ -123,7 +124,7 @@ export const Roulette = memo(({ radius, data, mode, onSlow, onSelected, onWin }:
         setRouletteData(result);
       }
     },
-    [mode, onSelected, onWin, rouletteData]
+    [mode, onSelected, onWin, rouletteData, setRouletteData]
   );
 
   const addWedge = useCallback(
@@ -167,7 +168,7 @@ export const Roulette = memo(({ radius, data, mode, onSlow, onSelected, onWin }:
       const text = new Konva.Text({
         text: reward,
         fontFamily: "Calibri",
-        fontSize: 15,
+        fontSize: 24,
         fill: "white",
         stroke: "#fff",
         strokeWidth: 1,

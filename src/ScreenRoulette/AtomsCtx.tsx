@@ -1,5 +1,5 @@
-import React, { createContext, memo, useMemo, useState } from "react";
-import { PrimitiveAtom, atom } from "jotai";
+import React, { createContext, memo, useEffect, useMemo, useState } from "react";
+import { PrimitiveAtom, atom, useSetAtom } from "jotai";
 import { WheelData } from "./Roulette/models";
 
 export enum Mode {
@@ -19,23 +19,29 @@ export const slowPhrases = [
   "Ай ладно, сам крутанусь, слабак. Хотя нет, страдай",
 ];
 
+type IParams = {
+  wheelData: WheelData[];
+};
+
 type IAtoms = {
   modeAtom: PrimitiveAtom<Mode>;
   winMessageAtom: PrimitiveAtom<WheelData | undefined>;
   removeMessageAtom: PrimitiveAtom<WheelData | undefined>;
+  wheelDataAtom: PrimitiveAtom<WheelData[]>;
 };
 
 type IContext = IAtoms;
 
-type Props = {
+type Props = IParams & {
   children: React.ReactNode;
-};
+}
 
 const create = () => {
   const r: IAtoms = {
     modeAtom: atom<Mode>(Mode.Classic),
     winMessageAtom: atom<WheelData | undefined>(undefined),
     removeMessageAtom: atom<WheelData | undefined>(undefined),
+    wheelDataAtom: atom<WheelData[]>([]),
   };
 
   return r;
@@ -43,8 +49,13 @@ const create = () => {
 
 const Context = createContext<IContext>(create());
 
-const Provider = memo(({ children }: Props) => {
+const Provider = memo(({ children, wheelData }: Props) => {
   const [atoms] = useState(() => create());
+  const setWheelData = useSetAtom(atoms.wheelDataAtom);
+
+  useEffect(() => {
+    setWheelData(wheelData);
+  }, [setWheelData, wheelData]);
 
   const ctx = useMemo(() => {
     const r: IContext = {
