@@ -100,9 +100,9 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
   }, []);
 
   const getRandomColor = useCallback(() => {
-    const r = 100 + Math.round(Math.random() * 55);
-    const g = 100 + Math.round(Math.random() * 55);
-    const b = 100 + Math.round(Math.random() * 55);
+    const r = 50 + Math.round(Math.random() * 55);
+    const g = 50 + Math.round(Math.random() * 55);
+    const b = 50 + Math.round(Math.random() * 55);
 
     return purifyColor([r, g, b]);
   }, [purifyColor]);
@@ -137,9 +137,9 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
       const angle = 2 * Math.PI * item.percent;
 
       const endColor = `rgb(${r},${g},${b})`;
-      r += 10;
-      g += 10;
-      b += 10;
+      r += 80;
+      g += 80;
+      b += 80;
 
       const startColor = `rgb(${r},${g},${b})`;
 
@@ -157,9 +157,9 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         fillRadialGradientEndPoint: { x: 0, y: 0 },
         fillRadialGradientEndRadius: radius - 40,
         fillRadialGradientColorStops: [0, startColor, 1, endColor],
-        fill: "#808080",
+        fill: "#5f6d75",
         fillPriority: "radial-gradient",
-        stroke: "#ccc",
+        stroke: "#5f6d75",
         strokeWidth: 1,
       });
 
@@ -176,7 +176,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         wrap: "none",
         rotation: angle / 2,
         offsetX: -radius / 4,
-        offsetY: 5,
+        offsetY: 11,
         listening: false,
         width: radius * 0.55,
 

@@ -26,7 +26,13 @@ const TextAreaSt = styled(TextArea)`
   max-height: 10rem;
 `;
 
-type Props = Donate;
+type Props = {
+  id: string;
+  sum: number;
+  name: string;
+  comment: string;
+  currency: string;
+};
 
 export const NewLot = memo(({ id, sum, name, comment, currency }: Props) => {
   const [newComment, setNewComment] = useState(comment);

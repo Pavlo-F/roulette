@@ -3,6 +3,7 @@ import { useAtom, useSetAtom } from "jotai";
 import styled from "styled-components";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { HomeAtomsCtx } from "./AtomsCtx";
+import { DonateAtomsCtx } from "../Services/DonateService";
 
 const Root = styled.div`
   margin-right: 1rem;
@@ -17,9 +18,10 @@ const ButtonConfirm = styled(ButtonPrimary)`
 let timer = 0;
 
 export const ButtonClearLots = memo(() => {
-  const { lotsAtom, participantsAtom } = useContext(HomeAtomsCtx);
+  const { lotsAtom } = useContext(HomeAtomsCtx);
+  const { donateListAtom } = useContext(DonateAtomsCtx);
   const [lots, setLots] = useAtom(lotsAtom);
-  const setParticipants = useSetAtom(participantsAtom);
+  const setDonateList = useSetAtom(donateListAtom);
 
   const [confirm, setConfirm] = useState(false);
 
@@ -39,11 +41,11 @@ export const ButtonClearLots = memo(() => {
 
   const onClickConfirm = useCallback(() => {
     setLots([]);
-    setParticipants([]);
+    setDonateList([]);
 
     setConfirm(false);
     clearTimeout(timer);
-  }, [setLots, setParticipants]);
+  }, [setLots, setDonateList]);
 
   if (confirm) {
     return (

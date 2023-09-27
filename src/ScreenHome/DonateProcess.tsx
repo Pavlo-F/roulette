@@ -8,14 +8,13 @@ import { DonateAtomsCtx } from "../Services/DonateService";
 
 export const DonateProcess = memo(() => {
   const { donateAtom } = useContext(DonateAtomsCtx);
-  const { lotsAtom, newLotsAtom, participantsAtom, animateRowAtom } = useContext(HomeAtomsCtx);
+  const { lotsAtom, newLotsAtom, animateRowAtom } = useContext(HomeAtomsCtx);
   const { addTime } = useContext(TimerAtomsCtx);
   const { settingsAtom } = useContext(SettingsAtomsCtx);
 
   const [lots, setLots] = useAtom(lotsAtom);
   const setNewLots = useSetAtom(newLotsAtom);
   const donate = useAtomValue(donateAtom);
-  const setParticipants = useSetAtom(participantsAtom);
   const settings = useAtomValue(settingsAtom);
   const setAnimateRow = useSetAtom(animateRowAtom);
 
@@ -60,19 +59,8 @@ export const DonateProcess = memo(() => {
     if (settings.timer.timeByDonate) {
       addTime(settings.timer.timeByDonate * 1000);
     }
-
-    setParticipants(old => {
-      if (old.includes(donate.name)) {
-        return old;
-      }
-
-      const result = [...old];
-      result.push(donate.name);
-
-      return result;
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [donate, setLots, setNewLots, addTime, settings.timer.timeByDonate, setParticipants]);
+  }, [donate, setLots, setNewLots, addTime, settings.timer.timeByDonate]);
 
   return null;
 });

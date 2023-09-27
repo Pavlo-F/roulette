@@ -2,16 +2,24 @@ import React, { createContext, memo, useEffect, useMemo, useState } from "react"
 import { PrimitiveAtom, atom, useSetAtom } from "jotai";
 import { DonateServiceStatus } from "./models";
 
+export enum DonateSource {
+  DonatePay,
+  DonationAlerts,
+};
+
 export type Donate = {
   id: string;
   name: string;
   comment: string;
   sum: number;
   currency: string;
+  date: string;
+  source: DonateSource;
 };
 
 type IAtoms = {
   donateAtom: PrimitiveAtom<Donate>;
+  donateListAtom: PrimitiveAtom<Donate[]>;
   donatePayStatusAtom: PrimitiveAtom<DonateServiceStatus>;
   donationAlertsStatusAtom: PrimitiveAtom<DonateServiceStatus>;
 };
@@ -25,6 +33,7 @@ type Props = {
 const create = () => {
   const r: IAtoms = {
     donateAtom: atom<Donate>({} as Donate),
+    donateListAtom: atom<Donate[]>([]),
     donatePayStatusAtom: atom<DonateServiceStatus>(DonateServiceStatus.Disconnected),
     donationAlertsStatusAtom: atom<DonateServiceStatus>(DonateServiceStatus.Disconnected),
   };
@@ -44,19 +53,23 @@ export const addDonate = (value: Donate) => {
 const Provider = memo(({ children }: Props) => {
   const [atoms] = useState(() => create());
   const setDonate = useSetAtom(atoms.donateAtom);
+  const setDonateList = useSetAtom(atoms.donateListAtom);
 
   useEffect(() => {
     donateInterval = window.setInterval(() => {
       const first = donatesQueue.shift();
       if (first) {
         setDonate(first);
+        setDonateList(old => {
+          return [first, ...old];
+        });
       }
     }, 200);
 
     return () => {
       clearInterval(donateInterval);
     };
-  }, [setDonate]);
+  }, [setDonate, setDonateList]);
 
   const ctx = useMemo(() => {
     const r: IContext = {

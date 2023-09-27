@@ -2,7 +2,7 @@ import React, { memo, useContext, useEffect, useMemo, useRef, useState } from "r
 import { useSetAtom } from "jotai";
 // @ts-ignore
 import io from "socket.io-client";
-import { DonateAtomsCtx, addDonate } from "./AtomsCtx";
+import { DonateAtomsCtx, DonateSource, addDonate } from "./AtomsCtx";
 import { DonateServiceStatus } from "./models";
 
 type Message = {
@@ -11,6 +11,7 @@ type Message = {
   amount: number;
   currency: string;
   message: string;
+  date_created: string;
 };
 
 type Props = {
@@ -44,6 +45,8 @@ export const DonationAlertsService = memo(({ accessToken }: Props) => {
           name: msg.username,
           sum: msg.amount,
           currency: msg.currency,
+          date: `${msg.date_created.replace(" ", "T")}Z`,
+          source: DonateSource.DonationAlerts,
         });
       });
 

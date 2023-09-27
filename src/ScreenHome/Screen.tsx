@@ -9,6 +9,8 @@ import { FieldLotSum } from "./FieldLotSum";
 import { LotTable } from "./LotTable";
 import { Timer } from "./Timer";
 import { NewLotList } from "./NewLotList";
+import { ButtonShowDonates } from "./ButtonShowDonates";
+import { DonateListDialog } from "./DonateListDialog";
 
 const Root = styled.div`
   display: grid;
@@ -52,6 +54,7 @@ export const Screen = memo(() => {
           <FieldLotName />
           <FieldLotSum />
           <ButtonAddLot />
+          <ButtonShowDonates />
 
           <ButtonClearLots />
         </Header>
@@ -65,6 +68,8 @@ export const Screen = memo(() => {
             <LotTable />
           </PerfectScrollbar>
         </Main>
+
+        <DonateListDialog />
       </Root>
   );
 });

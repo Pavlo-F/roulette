@@ -2,7 +2,7 @@ import React, { memo, useCallback, useContext, useEffect, useMemo, useRef, useSt
 import Centrifuge from "Centrifuge";
 import axios, { AxiosResponse } from "axios";
 import { useSetAtom } from "jotai";
-import { DonateAtomsCtx, addDonate } from "./AtomsCtx";
+import { DonateAtomsCtx, DonateSource, addDonate } from "./AtomsCtx";
 import { DonateServiceStatus } from "./models";
 
 const tokentUrl = "https://donatepay.ru/api/v2/socket/token";
@@ -12,6 +12,7 @@ type Message = {
     notification: {
       id: string;
       type: string;
+      created_at: string;
 
       vars: {
         name: string;
@@ -79,13 +80,15 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
 
         centrifuge.subscribe(`$public:${userId}`, (message: Message) => {
           if (message.data.notification.type === "donation") {
-            const { id, vars } = message.data.notification;
+            const { id, vars, created_at: created } = message.data.notification;
             addDonate({
               id,
               comment: vars.comment,
               name: vars.name,
               sum: vars.sum,
               currency: vars.currency,
+              date: created,
+              source: DonateSource.DonatePay,
             });
           }
         });

@@ -1,10 +1,10 @@
-import React, { memo, useCallback, useContext } from "react";
+import React, { memo, useCallback, useContext, useMemo } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { useAtom, useAtomValue } from "jotai";
 import styled from "styled-components";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { RouletteAtomsCtx } from "./AtomsCtx";
-import { HomeAtomsCtx } from "../ScreenHome";
+import { DonateAtomsCtx } from "../Services/DonateService";
 
 const Root = styled.div`
   position: absolute;
@@ -61,12 +61,12 @@ const ParticipantsTitle = styled.div`
 
 const Participants = styled.div`
   margin-top: 1rem;
-  max-width: 30rem;
+  max-width: 15rem;
   display: flex;
   flex: auto;
   gap: 0.5rem;
   overflow: auto;
-  flex-wrap: wrap;
+  flex-direction: column;
 `;
 
 const FlexAuto = styled.div`
@@ -80,10 +80,14 @@ const ParticipantsCnt = styled.div`
 
 export const WinMessage = memo(() => {
   const { winMessageAtom } = useContext(RouletteAtomsCtx);
-  const { participantsAtom } = useContext(HomeAtomsCtx);
-
+  const { donateListAtom } = useContext(DonateAtomsCtx);
+  const donateList = useAtomValue(donateListAtom);
   const [winMessage, setWinMessage] = useAtom(winMessageAtom);
-  const participants = useAtomValue(participantsAtom);
+
+  const participants = useMemo(() => {
+    const names = donateList.map(x => x.name);
+    return [...new Set(names)];
+  }, [donateList]);
 
   const onClose = useCallback(() => {
     setWinMessage(undefined);

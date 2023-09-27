@@ -26,8 +26,8 @@ type IAtoms = {
   lotAtom: PrimitiveAtom<Lot>;
   lotsAtom: PrimitiveAtom<TableData[]>;
   newLotsAtom: PrimitiveAtom<Donate[]>;
-  participantsAtom: PrimitiveAtom<string[]>;
   animateRowAtom: PrimitiveAtom<AnimateRow | undefined>;
+  donatesVisibleAtom: PrimitiveAtom<boolean>;
 };
 
 type IContext = IAtoms;
@@ -41,8 +41,8 @@ const create = () => {
     lotAtom: atomWithImmer<Lot>({ name: "" }),
     lotsAtom: atomWithStorage<TableData[]>("localSavedLots", []),
     newLotsAtom: atom<Donate[]>([]),
-    participantsAtom: atom<string[]>([]),
     animateRowAtom: atom<AnimateRow | undefined>(undefined),
+    donatesVisibleAtom: atom<boolean>(false),
   };
 
   return r;
