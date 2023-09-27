@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useContext } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import dayjs from "dayjs";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import styled from "styled-components";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { HomeAtomsCtx } from "./AtomsCtx";
