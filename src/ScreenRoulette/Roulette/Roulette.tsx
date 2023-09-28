@@ -1,11 +1,11 @@
-import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useMemo, useRef } from "react";
 import { useAtom } from "jotai";
 import Konva from "konva";
 import { WheelData } from "./models";
 import { Mode, RouletteAtomsCtx } from "../AtomsCtx";
 
 Konva.angleDeg = false;
-let angularVelocity = 2;
+let angularVelocity = 200;
 let startAngularVelocity = 0;
 let angularVelocities: number[] = [];
 let lastRotation = 0;
@@ -41,6 +41,7 @@ type DataWithPercent = WheelData & { percent: number };
 export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props) => {
   const { wheelDataAtom } = useContext(RouletteAtomsCtx);
   const [rouletteData, setRouletteData] = useAtom(wheelDataAtom);
+  const colorMap = useRef<Record<string, Array<number>>>({});
 
   const dataWithPercent = useMemo(() => {
     const total = rouletteData.reduce((a, b) => a + b.value, 0);
@@ -99,12 +100,20 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
     return result;
   }, []);
 
-  const getRandomColor = useCallback(() => {
+  const getColor = useCallback((id: string) => {
+    const color = colorMap.current[id];
+    if (color) {
+      return color;
+    }
+
     const r = 50 + Math.round(Math.random() * 55);
     const g = 50 + Math.round(Math.random() * 55);
     const b = 50 + Math.round(Math.random() * 55);
 
-    return purifyColor([r, g, b]);
+    const result = purifyColor([r, g, b]);
+    colorMap.current[id] = result;
+
+    return result;
   }, [purifyColor]);
 
   const process = useCallback(
@@ -129,7 +138,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
   const addWedge = useCallback(
     (item: DataWithPercent) => {
-      const s = getRandomColor();
+      const s = getColor(item.id);
       const reward = item.name;
       let r = s[0];
       let g = s[1];
@@ -192,7 +201,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
       wheel.add(wedge);
     },
-    [getRandomColor, radius]
+    [getColor, radius]
   );
 
   const animate = useCallback(

@@ -180,6 +180,7 @@ export const ColumnSum = memo(({ row, column, table, getValue }: Props) => {
         onChange={onChange}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
+        className={animateRow?.lotId === row.original.id ? "borderColor" : ""}
       />
 
       {!isEnterMode && (

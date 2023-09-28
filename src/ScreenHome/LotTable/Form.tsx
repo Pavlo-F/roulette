@@ -27,7 +27,7 @@ const Root = styled.div`
 const TableSt = styled.table`
   flex: auto;
   border-collapse: collapse;
-  margin-right: 1rem;
+  margin-right: 2rem;
 `;
 
 const Td = styled.td<{ $width: string }>`

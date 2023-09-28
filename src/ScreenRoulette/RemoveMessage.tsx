@@ -1,8 +1,6 @@
 import React, { memo, useCallback, useContext } from "react";
-import PerfectScrollbar from "react-perfect-scrollbar";
 import { useAtom } from "jotai";
 import styled from "styled-components";
-import ButtonPrimary from "../components/ButtonPrimary";
 import { RouletteAtomsCtx } from "./AtomsCtx";
 
 const Root = styled.div`
@@ -19,10 +17,12 @@ const Root = styled.div`
 const Message = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   max-width: 40rem;
   max-height: 80vh;
   min-width: 10rem;
-  padding: 1rem;
+  padding: 2rem;
   border-radius: 4px;
   background-color: var(--primaryColor700);
 `;
@@ -31,7 +31,7 @@ const Title = styled.div`
 `;
 
 const Body = styled.div`
-  margin-top: 1rem;
+  font-size: 2rem;
   word-wrap: anywhere;
 `;
 
@@ -50,7 +50,6 @@ export const RemoveMessage = memo(() => {
   return (
     <Root onClick={onClose}>
       <Message>
-        <Title>Признан недостойным:</Title>
         <Body>{removeMessage.name}</Body>
       </Message>
     </Root>
