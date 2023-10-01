@@ -7,18 +7,26 @@ import { DonateServiceStatus } from "./models";
 
 const tokentUrl = "https://donatepay.ru/api/v2/socket/token";
 
+type Vars = {
+  name: string;
+  comment: string;
+  sum: number;
+};
+
 type Message = {
   data: {
+    type: string;
     notification: {
       id: string;
       type: string;
       created_at: string;
+      vars: string;
 
-      vars: {
-        name: string;
-        comment: string;
-        sum: number;
+      transaction: {
+        what: string;
+        sum: string;
         currency: string;
+        comment: string;
       };
     };
   };
@@ -78,15 +86,16 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
 
         centrifuge.setToken(data.data.token);
 
-        centrifuge.subscribe(`$public:${userId}`, (message: Message) => {
+        centrifuge.subscribe(`notifications#${userId}`, (message: Message) => {
           if (message.data.notification.type === "donation") {
-            const { id, vars, created_at: created } = message.data.notification;
+            const { id, transaction, vars, created_at: created } = message.data.notification;
+            const parcedVars: Vars = JSON.parse(vars);
             addDonate({
               id,
-              comment: vars.comment,
-              name: vars.name,
-              sum: vars.sum,
-              currency: vars.currency,
+              comment: parcedVars.comment,
+              name: parcedVars.name,
+              sum: parcedVars.sum,
+              currency: transaction.currency,
               date: created,
               source: DonateSource.DonatePay,
             });
