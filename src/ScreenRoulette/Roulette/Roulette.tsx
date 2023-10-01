@@ -5,7 +5,7 @@ import { WheelData } from "./models";
 import { Mode, RouletteAtomsCtx } from "../AtomsCtx";
 
 Konva.angleDeg = false;
-let angularVelocity = 200;
+let angularVelocity = 2;
 let startAngularVelocity = 0;
 let angularVelocities: number[] = [];
 let lastRotation = 0;
@@ -46,15 +46,17 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
   const dataWithPercent = useMemo(() => {
     const total = rouletteData.reduce((a, b) => a + b.value, 0);
 
-    let result = rouletteData.map(x => {
-      const item: DataWithPercent = {
-        id: x.id,
-        name: x.name,
-        value: x.value,
-        percent: x.value / total,
-      };
-
-      return item;
+    let result: DataWithPercent[] = [];
+    rouletteData.forEach(x => {
+      if (x.value) {
+        const item: DataWithPercent = {
+          id: x.id,
+          name: x.name,
+          value: x.value,
+          percent: x.value / total,
+        };
+        result.push(item);
+      }
     });
 
     if (mode === Mode.Elimination) {
@@ -100,21 +102,24 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
     return result;
   }, []);
 
-  const getColor = useCallback((id: string) => {
-    const color = colorMap.current[id];
-    if (color) {
-      return color;
-    }
+  const getColor = useCallback(
+    (id: string) => {
+      const color = colorMap.current[id];
+      if (color) {
+        return color;
+      }
 
-    const r = 50 + Math.round(Math.random() * 55);
-    const g = 50 + Math.round(Math.random() * 55);
-    const b = 50 + Math.round(Math.random() * 55);
+      const r = 50 + Math.round(Math.random() * 55);
+      const g = 50 + Math.round(Math.random() * 55);
+      const b = 50 + Math.round(Math.random() * 55);
 
-    const result = purifyColor([r, g, b]);
-    colorMap.current[id] = result;
+      const result = purifyColor([r, g, b]);
+      colorMap.current[id] = result;
 
-    return result;
-  }, [purifyColor]);
+      return result;
+    },
+    [purifyColor]
+  );
 
   const process = useCallback(
     (selected: Konva.Node | undefined) => {
@@ -225,21 +230,20 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         angularVelocities.push(((wheel.rotation() - lastRotation) * 1000) / frame.timeDiff);
       } else {
         const diff = (frame.timeDiff * angularVelocity) / 1000;
-        if (diff > 0.0001) {
+        if (diff > 0.00005) {
           wheel.rotate(diff * rotationOrder);
           totalRotation += diff;
         } else if (!finished && !controlled) {
           if (shape) {
-            if (totalRotation < 5) {
-              if (Math.abs(startAngularVelocity) < 2 && startAngularVelocity !== 0) {
+            if (totalRotation < 15) {
                 onSlow?.();
-              }
             } else {
               const selected = shape.getParent()?.findOne("Text");
               process(selected as Konva.Node);
             }
           }
           finished = true;
+        } else if (finished) {
           inProgress = false;
         }
       }
@@ -370,8 +374,6 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
     });
 
     anim = new Konva.Animation(animate, layer);
-
-    // // wait one second and then spin the wheel
     anim.start();
   }, [animate, getAverageAngularVelocity, radius]);
 
