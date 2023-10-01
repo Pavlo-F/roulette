@@ -26,7 +26,7 @@ export const DonateProcess = memo(() => {
       const distance = levenshtein.get(a, b);
       const percent = 1 - distance / a.length;
 
-      return percent > 0.9;
+      return percent >= 0.8;
     });
   }, [donate, lots]);
 

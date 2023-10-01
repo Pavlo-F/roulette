@@ -53,7 +53,7 @@ export const FieldLotSum = memo(() => {
   return (
     <InputSt
       maxLength={6}
-      value={lot.sum}
+      value={lot.sum || ""}
       placeholder="Сумма"
       onChange={onChange}
       onKeyDown={onKeyDown}

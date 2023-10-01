@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useEffect, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useAtom } from "jotai";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { HomeAtomsCtx, TableData } from "./AtomsCtx";
@@ -18,6 +18,10 @@ export const ButtonAddLot = memo(() => {
     setOrder(result + 1);
   }, [lots]);
 
+  const isDisabled = useMemo(() => {
+    return !lot.name || !lot.sum;
+  }, [lot.name, lot.sum]);
+
   const onClick = useCallback(() => {
     const newItem: TableData = {
       id: new Date().getTime().toString(),
@@ -34,8 +38,12 @@ export const ButtonAddLot = memo(() => {
 
     setOrder(draft => draft + 1);
 
-    setLot({ name: "", sum: undefined });
+    setLot({ name: "" });
   }, [lot.name, lot.sum, order, setLot, setLots]);
 
-  return <ButtonPrimary onClick={onClick}>Добавить</ButtonPrimary>;
+  return (
+    <ButtonPrimary onClick={onClick} disabled={isDisabled}>
+      Добавить
+    </ButtonPrimary>
+  );
 });

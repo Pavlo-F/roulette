@@ -121,7 +121,7 @@ export const DonateListDialog = memo(() => {
           <List>
             {donateList.map(x => {
               return (
-                <Grid>
+                <Grid key={`donate_${x.id}`}>
                   <IconCnt key={x.id}>
                     {x.source === DonateSource.DonatePay && (
                       <Icon src={IMAGES.PngDonatePay} alt="DonatePay" />
