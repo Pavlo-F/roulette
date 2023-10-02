@@ -37,6 +37,7 @@ export const Form = memo(() => {
                 sum={x.sum || 0}
                 name={x.name || ""}
                 currency={x.currency}
+                source={x.source}
               />
             );
           })}

@@ -235,7 +235,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
           totalRotation += diff;
         } else if (!finished && !controlled) {
           if (shape) {
-            if (totalRotation < 15) {
+            if (totalRotation < 10) {
                 onSlow?.();
             } else {
               const selected = shape.getParent()?.findOne("Text");

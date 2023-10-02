@@ -7,11 +7,7 @@ import ButtonPrimary from "../components/ButtonPrimary";
 import { HomeAtomsCtx } from "./AtomsCtx";
 import { DonateAtomsCtx } from "../Services/DonateService";
 import { DonateSource } from "../Services/DonateService/AtomsCtx";
-
-const IMAGES = {
-  PngDonatePay: new URL("./ic_dp.png", import.meta.url).href,
-  PngDonationAlerts: new URL("./ic_da.png", import.meta.url).href,
-};
+import { IMAGES } from ".";
 
 const Root = styled.div`
   position: absolute;

@@ -2,7 +2,7 @@ import React, { memo, useContext, useEffect, useMemo, useRef, useState } from "r
 import { useSetAtom } from "jotai";
 // @ts-ignore
 import io from "socket.io-client";
-import { DonateAtomsCtx, DonateSource, addDonate } from "./AtomsCtx";
+import { DonateAtomsCtx, DonateSource, addDonate, convertCodes } from "./AtomsCtx";
 import { DonateServiceStatus } from "./models";
 
 type Message = {
@@ -41,7 +41,7 @@ export const DonationAlertsService = memo(({ accessToken }: Props) => {
         const msg = JSON.parse(data) as Message;
         addDonate({
           id: msg.id,
-          comment: msg.message,
+          comment: convertCodes(msg.message),
           name: msg.username,
           sum: msg.amount,
           currency: msg.currency,

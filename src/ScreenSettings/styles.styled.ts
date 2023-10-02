@@ -11,3 +11,9 @@ export const FlexCnt = styled.div`
   gap: 1rem;
   overflow: hidden;
 `;
+
+export const Link = styled.a`
+  &:hover {
+    color: var(--secondaryColor500);
+  }
+`;

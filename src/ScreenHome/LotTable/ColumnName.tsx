@@ -23,12 +23,15 @@ const InputSt = styled(Input)`
 const Order = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
+  padding-left: 0.7rem;
   width: 4rem;
   height: 2rem;
   border: 2px solid var(--borderColor);
   border-radius: 8px;
   background-color: var(--primaryColor700);
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const RowNumber = styled.div`
@@ -63,7 +66,7 @@ export const ColumnName = memo(({ row, column, table, getValue }: Props) => {
   return (
     <Root>
       <RowNumber>{row.index + 1}.</RowNumber>
-      <Order>№ {row.original.order + 1}</Order>
+      {/* <Order>№ {row.original.order + 1}</Order> */}
       <InputSt
         value={value as string}
         placeholder="Название"

@@ -2,15 +2,26 @@ import React, { ChangeEvent, memo, useCallback, useMemo, useState } from "react"
 import styled from "styled-components";
 import { ButtonAddLot } from "./ButtonAddLot";
 import { Header } from "./Header";
+import { DonateSource } from "../../Services/DonateService/AtomsCtx";
 import { TextArea } from "../../components/TextArea";
 
-const Root = styled.div<{$isAlarm: boolean}>`
+const Root = styled.div<{ $isAlarm: boolean }>`
   display: flex;
   flex-direction: column;
   background-color: ${props => (props.$isAlarm ? "#7e1e1e" : "var(--primaryColor700)")};
   border-radius: 4px;
   padding: 0.5rem 0.5rem;
   max-width: 18.5rem;
+
+  animation: lot-fade-in-keyframes 0.5s;
+  @keyframes lot-fade-in-keyframes {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;
 
 const Body = styled.div`
@@ -37,15 +48,12 @@ type Props = {
   name: string;
   comment: string;
   currency: string;
+  source: DonateSource;
 };
 
-const blackList = [
-  "бивень",
-  "бивинь",
-  "человеческая многоножка",
-];
+const blackList = ["бивень", "бивинь", "человеческая многоножка", "трусонюх"];
 
-export const NewLot = memo(({ id, sum, name, comment, currency }: Props) => {
+export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props) => {
   const [newComment, setNewComment] = useState(comment);
 
   const onChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -54,7 +62,7 @@ export const NewLot = memo(({ id, sum, name, comment, currency }: Props) => {
   }, []);
 
   const blackListItem = useMemo(() => {
-    for(let i = 0; i < blackList.length; i += 1) {
+    for (let i = 0; i < blackList.length; i += 1) {
       if (comment && comment.trim().toLowerCase().indexOf(blackList[i]) >= 0) {
         return blackList[i];
       }
@@ -64,9 +72,14 @@ export const NewLot = memo(({ id, sum, name, comment, currency }: Props) => {
   }, [comment]);
 
   return (
-    <Root $isAlarm={!!blackListItem}>
-      <Header id={id} userName={name} currency={currency} sum={sum} />
-      {!!blackListItem && <Alarm>Поберегите свой рассудок. Не добавляйте &quot;{blackListItem}&quot;. Вы не сможете это развидеть. Бегите, глупцы...</Alarm>}
+    <Root $isAlarm={!!blackListItem} className="fade-in">
+      <Header id={id} userName={name} currency={currency} sum={sum} source={source} />
+      {!!blackListItem && (
+        <Alarm>
+          Поберегите свой рассудок. Не добавляйте &quot;{blackListItem}&quot;. Вы не сможете это
+          развидеть. Бегите, глупцы...
+        </Alarm>
+      )}
       <Body>
         <TextAreaSt rows={4} value={newComment} onChange={onChange} onBlur={onChange} />
       </Body>

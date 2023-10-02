@@ -24,6 +24,16 @@ const Root = styled.div`
 
 const InputSt = styled(Input)`
   width: 5rem;
+
+  &.borderColor {
+    animation: borderColor-keyframes 7s;
+    @keyframes borderColor-keyframes {
+      0% { border-color: var(--secondaryColor500); }
+      10% { border-color: var(--secondaryColor500); }
+      95% { border-color: var(--secondaryColor500); }
+      100% { border-color: var(--borderColor); }
+    }
+  }
 `;
 
 const Plus = styled.div`
@@ -34,6 +44,16 @@ const Plus = styled.div`
   border-radius: 4px;
   font-weight: 600;
   color: var(--secondaryColor500);
+
+  &.fade {
+    animation: fade-in-keyframes 7s;
+    @keyframes fade-in-keyframes {
+      0% { opacity: 0; }
+      10% { opacity: 1; top: 10px; right: 48px; }
+      95% { opacity: 1; top: 10px; right: 48px; }
+      100% { opacity: 0; top: 14px; right: 48px; }
+    }
+  }
 `;
 
 type Props = {

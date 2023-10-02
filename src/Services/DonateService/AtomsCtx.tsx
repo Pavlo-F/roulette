@@ -5,7 +5,7 @@ import { DonateServiceStatus } from "./models";
 export enum DonateSource {
   DonatePay,
   DonationAlerts,
-};
+}
 
 export type Donate = {
   id: string;
@@ -82,3 +82,17 @@ const Provider = memo(({ children }: Props) => {
 });
 
 export { Context as DonateAtomsCtx, Provider as DonateAtomsProvider };
+
+export const convertCodes = (str: string) => {
+  if (!str) {
+    return str;
+  }
+  
+  let result = str;
+  result = result.replace(/&amp;/g, "&");
+  result = result.replace(/&gt;/g, ">");
+  result = result.replace(/&lt;/g, "<");
+  result = result.replace(/&quot;/g, '"');
+  result = result.replace(/&#039;/g, "'");
+  return result;
+};

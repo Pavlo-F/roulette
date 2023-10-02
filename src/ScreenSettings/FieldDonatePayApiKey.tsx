@@ -14,7 +14,7 @@ import ButtonPrimary from "../components/ButtonPrimary";
 import { Error } from "../components/Error";
 import { Input } from "../components/Input";
 import { SettingsAtomsCtx } from "./AtomsCtx";
-import { Hint } from "./styles.styled";
+import { Hint, Link } from "./styles.styled";
 import { ValidationContext } from "../forms/Validation";
 
 const InputSt = styled(Input)`
@@ -110,9 +110,9 @@ export const FieldDonatePayApiKey = memo(() => {
       {error && <Error>{error}</Error>}
       <Hint>
         <span>Ссылка на ключ находится по адресу: </span>
-        <a href="https://donatepay.ru/page/api" target="_blank" rel="noreferrer">
+        <Link href="https://donatepay.ru/page/api" target="_blank" rel="noreferrer">
           https://donatepay.ru/page/api
-        </a>
+        </Link>
       </Hint>
     </div>
   );

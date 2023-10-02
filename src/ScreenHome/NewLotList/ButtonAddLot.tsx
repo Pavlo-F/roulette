@@ -10,7 +10,6 @@ const ButtonPrimarySt = styled(ButtonPrimary)`
   margin-left: auto;
   margin-top: 1rem;
   height: 32px;
-  background-color: transparent;
   width: 7rem;
 `;
 

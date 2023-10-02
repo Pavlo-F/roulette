@@ -2,7 +2,7 @@ import React, { memo, useCallback, useContext, useEffect, useMemo, useRef, useSt
 import Centrifuge from "Centrifuge";
 import axios, { AxiosResponse } from "axios";
 import { useSetAtom } from "jotai";
-import { DonateAtomsCtx, DonateSource, addDonate } from "./AtomsCtx";
+import { DonateAtomsCtx, DonateSource, addDonate, convertCodes } from "./AtomsCtx";
 import { DonateServiceStatus } from "./models";
 
 const tokentUrl = "https://donatepay.ru/api/v2/socket/token";
@@ -23,10 +23,7 @@ type Message = {
       vars: string;
 
       transaction: {
-        what: string;
-        sum: string;
         currency: string;
-        comment: string;
       };
     };
   };
@@ -92,7 +89,7 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
             const parcedVars: Vars = JSON.parse(vars);
             addDonate({
               id,
-              comment: parcedVars.comment,
+              comment: convertCodes(parcedVars.comment),
               name: parcedVars.name,
               sum: parcedVars.sum,
               currency: transaction.currency,

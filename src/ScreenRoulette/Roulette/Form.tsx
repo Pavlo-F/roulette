@@ -43,8 +43,7 @@ const SlowMessage = styled.div`
 export const Form = memo(() => {
   const cnt = useRef<HTMLDivElement>(null);
   const [radius, setRadius] = useState(0);
-  const [slowPhraseIndex, setSlowPhraseIndex] = useState(-1);
-  const [slowMessage, setSlowMessage] = useState(false);
+  const [slowMessage, setSlowMessage] = useState("");
 
   const { modeAtom, winMessageAtom, removeMessageAtom } = useContext(RouletteAtomsCtx);
   const mode = useAtomValue(modeAtom);
@@ -58,25 +57,9 @@ export const Form = memo(() => {
     }
   }, []);
 
-  const slowPhrase = useMemo(() => {
-    return slowPhrases[slowPhraseIndex];
-  }, [slowPhraseIndex]);
-
   const onSlow = useCallback(() => {
-    setSlowPhraseIndex(old => {
-      let result = old;
-      const next = old + 1;
-
-      if (next < slowPhrases.length) {
-        result = next;
-      } else {
-        result = 0;
-      }
-
-      return result;
-    });
-
-    setSlowMessage(true);
+    const result = Math.floor(Math.random() * slowPhrases.length); 
+    setSlowMessage(slowPhrases[result]);
   }, []);
 
   const onSelected = useCallback((selected: WheelData) => {
@@ -88,7 +71,7 @@ export const Form = memo(() => {
   }, [setWinMessage]);
 
   const onMessageClick = useCallback(() => {
-    setSlowMessage(false);
+    setSlowMessage("");
   }, []);
 
   return (
@@ -105,7 +88,7 @@ export const Form = memo(() => {
         )}
         {slowMessage && (
           <SlowMessageCnt onClick={onMessageClick}>
-            <SlowMessage>{slowPhrase}</SlowMessage>
+            <SlowMessage>{slowMessage}</SlowMessage>
           </SlowMessageCnt>
         )}
       </Konva>

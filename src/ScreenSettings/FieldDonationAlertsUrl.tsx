@@ -14,7 +14,7 @@ import ButtonPrimary from "../components/ButtonPrimary";
 import { Error } from "../components/Error";
 import { Input } from "../components/Input";
 import { SettingsAtomsCtx } from "./AtomsCtx";
-import { Hint } from "./styles.styled";
+import { Hint, Link } from "./styles.styled";
 import { ValidationContext } from "../forms/Validation";
 
 const InputSt = styled(Input)`
@@ -110,12 +110,12 @@ export const FieldDonationAlertsUrl = memo(() => {
       {error && <Error>{error}</Error>}
       <Hint>
         <span>Ссылка на виджет находится по адресу: </span>
-        <a
+        <Link
           href="https://www.donationalerts.com/dashboard/widgets/alerts"
           target="_blank"
           rel="noreferrer">
           https://www.donationalerts.com/dashboard/widgets/alerts
-        </a>
+        </Link>
       </Hint>
     </div>
   );
