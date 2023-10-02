@@ -17,9 +17,10 @@ type Props = {
   id: string;
   name: string;
   sum: number;
+  userName: string;
 };
 
-export const ButtonAddLot = memo(({ id, name, sum }: Props) => {
+export const ButtonAddLot = memo(({ id, name, sum, userName }: Props) => {
   const { addTime } = useContext(TimerAtomsCtx);
   const { lotsAtom, newLotsAtom } = useContext(HomeAtomsCtx);
   const { settingsAtom } = useContext(SettingsAtomsCtx);
@@ -43,6 +44,7 @@ export const ButtonAddLot = memo(({ id, name, sum }: Props) => {
       id: new Date().getTime().toString(),
       name,
       sum,
+      userName,
       order,
     };
 
@@ -69,6 +71,7 @@ export const ButtonAddLot = memo(({ id, name, sum }: Props) => {
     settings.timer.thresholdToAddTime,
     settings.timer.timeForNewPosition,
     sum,
+    userName,
   ]);
 
   return <ButtonPrimarySt onClick={onClick}>Добавить</ButtonPrimarySt>;

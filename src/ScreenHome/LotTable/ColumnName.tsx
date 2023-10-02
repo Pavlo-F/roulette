@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  memo,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, memo, useCallback, useEffect, useState } from "react";
 import { Column, Getter, Row, Table } from "@tanstack/react-table";
 import styled from "styled-components";
 import { Input } from "../../components/Input";
@@ -38,6 +32,19 @@ const RowNumber = styled.div`
   width: 2rem;
 `;
 
+const UserCnt = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--borderColor);
+  max-width: 20rem;
+`;
+
+const User = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 type Props = {
   row: Row<TableData>;
   column: Column<TableData, unknown>;
@@ -67,12 +74,14 @@ export const ColumnName = memo(({ row, column, table, getValue }: Props) => {
     <Root>
       <RowNumber>{row.index + 1}.</RowNumber>
       {/* <Order>№ {row.original.order + 1}</Order> */}
-      <InputSt
-        value={value as string}
-        placeholder="Название"
-        onChange={onChange}
-        onBlur={onBlur}
-      />
+      <InputSt value={value as string} placeholder="Название" onChange={onChange} onBlur={onBlur} />
+      
+      {row.original.userName && (
+        <UserCnt>
+          <div>Инициатор:</div>
+          <User>{row.original.userName}</User>
+        </UserCnt>
+      )}
     </Root>
   );
 });

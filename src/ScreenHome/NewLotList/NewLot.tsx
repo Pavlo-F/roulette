@@ -83,7 +83,7 @@ export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props)
       <Body>
         <TextAreaSt rows={4} value={newComment} onChange={onChange} onBlur={onChange} />
       </Body>
-      <ButtonAddLot id={id} name={newComment} sum={sum} />
+      <ButtonAddLot id={id} name={newComment} sum={sum} userName={name} />
     </Root>
   );
 });
