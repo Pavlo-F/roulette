@@ -26,6 +26,7 @@ const Name = styled.span`
   color: var(--secondaryColor500);
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const Sum = styled.span`

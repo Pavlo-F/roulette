@@ -4,15 +4,17 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import styled from "styled-components";
 import { ButtonAddLot } from "./ButtonAddLot";
 import { ButtonClearLots } from "./ButtonClearLots";
+import { ButtonShowDonates } from "./ButtonShowDonates";
+import { DonateListDialog } from "./DonateListDialog";
 import { FieldLotName } from "./FieldLotName";
 import { FieldLotSum } from "./FieldLotSum";
 import { LotTable } from "./LotTable";
-import { Timer } from "./Timer";
 import { NewLotList } from "./NewLotList";
-import { ButtonShowDonates } from "./ButtonShowDonates";
-import { DonateListDialog } from "./DonateListDialog";
+import { Timer } from "./Timer";
+import { BackAnimations } from "./BackAnimations";
 
 const Root = styled.div`
+  position: relative;
   display: grid;
   grid-template-areas:
     "header sidebar"
@@ -34,12 +36,14 @@ const Row = styled.div`
 const Header = styled(Row)`
   grid-area: header;
   display: flex;
+  z-index: 10;
 `;
 
 const Sidebar = styled.div`
   grid-area: sidebar;
   display: flex;
   flex-direction: column;
+  z-index: 10;
 `;
 
 const Main = styled.div`
@@ -49,27 +53,29 @@ const Main = styled.div`
 
 export const Screen = memo(() => {
   return (
-      <Root>
-        <Header>
-          <FieldLotName />
-          <FieldLotSum />
-          <ButtonAddLot />
-          <ButtonShowDonates />
+    <Root>
+      <BackAnimations />
+      
+      <Header>
+        <FieldLotName />
+        <FieldLotSum />
+        <ButtonAddLot />
+        <ButtonShowDonates />
 
-          <ButtonClearLots />
-        </Header>
+        <ButtonClearLots />
+      </Header>
 
-        <Sidebar>
-          <Timer />
-          <NewLotList />
-        </Sidebar>
-        <Main>
-          <PerfectScrollbar>
-            <LotTable />
-          </PerfectScrollbar>
-        </Main>
+      <Sidebar>
+        <Timer />
+        <NewLotList />
+      </Sidebar>
+      <Main>
+        <PerfectScrollbar>
+          <LotTable />
+        </PerfectScrollbar>
+      </Main>
 
-        <DonateListDialog />
-      </Root>
+      <DonateListDialog />
+    </Root>
   );
 });

@@ -236,10 +236,30 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         } else if (!finished && !controlled) {
           if (shape) {
             if (totalRotation < 10) {
-                onSlow?.();
+              onSlow?.();
             } else {
-              const selected = shape.getParent()?.findOne("Text");
-              process(selected as Konva.Node);
+
+              const parent = shape.getParent();
+              if (parent) {
+                const selected = parent?.findOne("Text");
+
+                if (mode === Mode.Elimination) {
+                  const tmp = new Konva.Tween({
+                    node: parent,
+                    duration: 1,
+                    opacity: 0,
+                    easing: Konva.Easings.EaseOut,
+                  });
+    
+                  tmp.onFinish = () => {
+                    process(selected as Konva.Node);
+                  };
+
+                  tmp.play();
+                } else {
+                  process(selected as Konva.Node);
+                }
+              }
             }
           }
           finished = true;
@@ -269,7 +289,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         }
       }
     },
-    [onSlow, process]
+    [mode, onSlow, process]
   );
 
   const initStage = useCallback(() => {
@@ -305,7 +325,17 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
       shadowOpacity: 0.5,
     });
 
+    const shadowCircle = new Konva.Circle({
+      x: radius,
+      y: radius,
+      radius: radius - 40,
+      stroke: "#232f34",
+      shadowColor: "#fff",
+      shadowBlur: 35,
+    });
+
     // add components to the stage
+    layer.add(shadowCircle);
     layer.add(wheel);
     layer.add(pointer);
     stage.add(layer);

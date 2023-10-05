@@ -43,6 +43,7 @@ const UserCnt = styled.div`
 const User = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 type Props = {
@@ -75,11 +76,10 @@ export const ColumnName = memo(({ row, column, table, getValue }: Props) => {
       <RowNumber>{row.index + 1}.</RowNumber>
       {/* <Order>№ {row.original.order + 1}</Order> */}
       <InputSt value={value as string} placeholder="Название" onChange={onChange} onBlur={onBlur} />
-      
+
       {row.original.userName && (
         <UserCnt>
-          <div>Инициатор:</div>
-          <User>{row.original.userName}</User>
+          <User title="Инициатор">{row.original.userName}</User>
         </UserCnt>
       )}
     </Root>

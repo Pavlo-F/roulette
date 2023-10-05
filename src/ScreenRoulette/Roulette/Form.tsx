@@ -17,6 +17,9 @@ const Root = styled.div`
 const Konva = styled.div`
   position: relative;
   flex: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SlowMessageCnt = styled.div`
@@ -77,7 +80,7 @@ export const Form = memo(() => {
   return (
     <Root id="Konva-cnt">
       <Konva ref={cnt}>
-        {radius && (
+        {!!radius && (
           <Roulette
             mode={mode}
             radius={radius / 2}

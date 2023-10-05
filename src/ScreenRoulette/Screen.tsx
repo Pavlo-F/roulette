@@ -7,10 +7,13 @@ import { WheelData } from "./Roulette/models";
 import { SwitchMode } from "./SwitchMode";
 import { HomeAtomsCtx } from "../ScreenHome";
 import { ButtonShuffleLots } from "./ButtonShuffleLots";
+import { BackAnimations } from "./BackAnimations";
 
 const Root = styled.div`
+  position: relative;
   display: flex;
   flex: auto;
+  overflow: hidden;
 `;
 
 export const Screen = memo(() => {
@@ -32,6 +35,7 @@ export const Screen = memo(() => {
   return (
     <RouletteAtomsProvider wheelData={data}>
       <Root>
+        <BackAnimations />
         <Roulette />
         <div>
           <SwitchMode />
