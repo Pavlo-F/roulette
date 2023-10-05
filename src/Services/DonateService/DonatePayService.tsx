@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from "axios";
 import { useSetAtom } from "jotai";
 import { DonateAtomsCtx, DonateSource, addDonate, convertCodes } from "./AtomsCtx";
 import { DonateServiceStatus } from "./models";
+import { createAbortController, useAbortController } from "../../Utils/useAbortController";
 
 const tokentUrl = "https://donatepay.ru/api/v2/socket/token";
 
@@ -36,6 +37,7 @@ type Props = {
 
 export const DonatePayService = memo(({ accessToken, userId }: Props) => {
   const [reconnect, setReconnect] = useState<Date>(new Date());
+  const abortControllerRef = useAbortController();
 
   const centrifugeRef = useRef(
     new Centrifuge("wss://centrifugo.donatepay.ru:43002/connection/websocket", {
@@ -59,17 +61,17 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
       access_token: accessToken,
     };
 
-    const controller = new AbortController(); // TODO вынести в useHook
+    const abortController = createAbortController(abortControllerRef);
 
     const req = axios.post<any, AxiosResponse>(tokentUrl, data, {
-      signal: controller.signal,
+      signal: abortController.signal,
       headers: {
         "Content-Type": "application/json",
       },
     });
 
     return req;
-  }, [accessToken]);
+  }, [accessToken, abortControllerRef]);
 
   useEffect(() => {
     getToken()

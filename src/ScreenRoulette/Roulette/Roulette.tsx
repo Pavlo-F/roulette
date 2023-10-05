@@ -175,6 +175,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         fillPriority: "radial-gradient",
         stroke: "#5f6d75",
         strokeWidth: 1,
+        opacity: 1,
       });
 
       wedge.add(wedgeBackground);
@@ -417,6 +418,15 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
     dataWithPercent.forEach(x => {
       addWedge(x);
     });
+
+    wheel.opacity(0);
+    new Konva.Tween({
+      node: wheel,
+      duration: 0.5,
+      opacity: 1,
+      easing: Konva.Easings.EaseIn,
+    }).play();
+
   }, [addWedge, dataWithPercent]);
 
   useEffect(() => {
