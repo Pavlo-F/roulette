@@ -239,7 +239,6 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
             if (totalRotation < 10) {
               onSlow?.();
             } else {
-
               const parent = shape.getParent();
               if (parent) {
                 const selected = parent?.findOne("Text");
@@ -251,7 +250,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
                     opacity: 0,
                     easing: Konva.Easings.EaseOut,
                   });
-    
+
                   tmp.onFinish = () => {
                     process(selected as Konva.Node);
                   };
@@ -283,9 +282,11 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
           }).play();
 
           if (activeWedge) {
-            activeWedge.fillPriority("radial-gradient");
+            // activeWedge.fillPriority("radial-gradient");
+            activeWedge.opacity(1);
           }
-          shape.fillPriority("fill");
+          // shape.fillPriority("fill");
+          shape.opacity(0.5);
           activeWedge = shape;
         }
       }
@@ -335,9 +336,30 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
       shadowBlur: 35,
     });
 
+    const width = radius / 3;
+    const height = radius / 3;
+
+    const speedText = new Konva.Text({
+      x: radius - width / 2,
+      y: radius - height / 5,
+      width,
+      height,
+      align: "center",
+      verticalAlign: "center",
+      fontFamily: "Calibri",
+      fontSize: radius * 0.15,
+      fill: "white",
+      stroke: "#fff",
+      strokeWidth: 1,
+      wrap: "none",
+      listening: false,
+      opacity: 1,
+    });
+
     // add components to the stage
     layer.add(shadowCircle);
     layer.add(wheel);
+    layer.add(speedText);
     layer.add(pointer);
     stage.add(layer);
 
@@ -370,6 +392,17 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
       if (angularVelocity > 50) {
         angularVelocity = 50;
+      }
+
+      if (angularVelocity > 0) {
+        speedText.setText(angularVelocity.toFixed(1));
+        speedText.opacity(1);
+        new Konva.Tween({
+          node: speedText,
+          duration: 5,
+          opacity: 0,
+          easing: Konva.Easings.EaseOut,
+        }).play();
       }
 
       startAngularVelocity = angularVelocity;
@@ -419,14 +452,14 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
       addWedge(x);
     });
 
-    wheel.opacity(0);
+    wheel.opacity(0.5);
     new Konva.Tween({
       node: wheel,
       duration: 0.5,
       opacity: 1,
       easing: Konva.Easings.EaseIn,
     }).play();
-
+    
   }, [addWedge, dataWithPercent]);
 
   useEffect(() => {

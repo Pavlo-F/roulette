@@ -63,7 +63,6 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 
 export const Form = memo(() => {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = React.useState("");
 
   const { lotsAtom } = useContext(HomeAtomsCtx);
   const [lots, setLots] = useAtom(lotsAtom);

@@ -33,6 +33,7 @@ const Title = styled.div`
 const Body = styled.div`
   font-size: 2rem;
   word-wrap: anywhere;
+  text-align: center;
 `;
 
 export const RemoveMessage = memo(() => {
