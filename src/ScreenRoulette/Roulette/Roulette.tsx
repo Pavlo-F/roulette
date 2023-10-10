@@ -294,6 +294,35 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
     [mode, onSlow, process]
   );
 
+  const spinWheel = useCallback((speedText: Konva.Text, speedCoof: number) => {
+    const order = rotationOrders.reduce((a, b) => a + b, 0);
+    rotationOrder = order > 0 ? 1 : -1;
+
+    controlled = false;
+    angularVelocity = Math.abs(getAverageAngularVelocity() * speedCoof);
+
+    if (angularVelocity > 100) {
+      angularVelocity = 100;
+    }
+
+    if (angularVelocity > 0) {
+      speedText.setText(angularVelocity.toFixed(1));
+      speedText.opacity(1);
+      new Konva.Tween({
+        node: speedText,
+        duration: 5,
+        opacity: 0,
+        easing: Konva.Easings.EaseOut,
+      }).play();
+    }
+
+    startAngularVelocity = angularVelocity;
+
+    angularVelocities = [];
+
+    inProgress = true;
+  }, [getAverageAngularVelocity]);
+
   const initStage = useCallback(() => {
     stage = new Konva.Stage({
       container: "rouletteContainer",
@@ -384,32 +413,15 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         return;
       }
 
-      const order = rotationOrders.reduce((a, b) => a + b, 0);
-      rotationOrder = order > 0 ? 1 : -1;
+      spinWheel(speedText, 1.5);
+    });
 
-      controlled = false;
-      angularVelocity = Math.abs(getAverageAngularVelocity() * 1.5);
-
-      if (angularVelocity > 50) {
-        angularVelocity = 50;
+    stage.addEventListener("mouseleave", () => {
+      if (inProgress) {
+        return;
       }
 
-      if (angularVelocity > 0) {
-        speedText.setText(angularVelocity.toFixed(1));
-        speedText.opacity(1);
-        new Konva.Tween({
-          node: speedText,
-          duration: 5,
-          opacity: 0,
-          easing: Konva.Easings.EaseOut,
-        }).play();
-      }
-
-      startAngularVelocity = angularVelocity;
-
-      angularVelocities = [];
-
-      inProgress = true;
+      spinWheel(speedText, 3);
     });
 
     stage.addEventListener("mousemove touchmove", () => {
@@ -439,7 +451,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
     anim = new Konva.Animation(animate, layer);
     anim.start();
-  }, [animate, getAverageAngularVelocity, radius]);
+  }, [animate, radius, spinWheel]);
 
   const refreshData = useCallback(() => {
     totalAngle = 0;
