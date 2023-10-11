@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import { Column, Getter, Row, Table } from "@tanstack/react-table";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import styled from "styled-components";
 import SvgAdd from "./ic_add.svg";
 import { ButtonSvg } from "../../components/ButtonSvg";
@@ -161,6 +161,8 @@ export const ColumnSum = memo(({ row, column, table, getValue }: Props) => {
 
           const result = parced + Number.parseFloat(addValue) || 0;
 
+          table.options.meta?.updateData(column.id, result, row.original.id);
+
           return result.toString();
         });
 
@@ -178,7 +180,7 @@ export const ColumnSum = memo(({ row, column, table, getValue }: Props) => {
         e.preventDefault();
       }
     },
-    [addValue]
+    [addValue, column.id, row.original.id, table.options.meta]
   );
 
   useEffect(() => {
