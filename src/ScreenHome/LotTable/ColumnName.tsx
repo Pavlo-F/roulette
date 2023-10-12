@@ -1,8 +1,9 @@
-import React, { ChangeEvent, memo, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Column, Getter, Row, Table } from "@tanstack/react-table";
 import styled from "styled-components";
 import { Input } from "../../components/Input";
 import { TableData } from "../AtomsCtx";
+import { useTotalAmount } from "./useTotalAmount";
 
 const Root = styled.div`
   display: flex;
@@ -46,6 +47,10 @@ const User = styled.div`
   white-space: nowrap;
 `;
 
+const Percent = styled.div`
+  color: var(--borderColor);
+`;
+
 type Props = {
   row: Row<TableData>;
   column: Column<TableData, unknown>;
@@ -56,6 +61,11 @@ type Props = {
 export const ColumnName = memo(({ row, column, table, getValue }: Props) => {
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
+  const totalAmount = useTotalAmount();
+
+  const percent = useMemo(() => {
+    return (row.original.sum || 0) / (totalAmount || 1) * 100;
+  }, [row.original.sum, totalAmount]);
 
   const onBlur = useCallback(() => {
     table.options.meta?.updateData(column.id, value, row.original.id);
@@ -82,6 +92,8 @@ export const ColumnName = memo(({ row, column, table, getValue }: Props) => {
           <User title="Инициатор">{row.original.userName}</User>
         </UserCnt>
       )}
+
+      <Percent>{percent.toFixed(2)}%</Percent>
     </Root>
   );
 });

@@ -75,7 +75,7 @@ export const Form = memo(() => {
     return result;
   }, [lots]);
 
-  const columns = React.useMemo<ColumnDef<TableData>[]>(
+  const columns = useMemo<ColumnDef<TableData>[]>(
     () => [
       {
         accessorFn: row => row.name,
