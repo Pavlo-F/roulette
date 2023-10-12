@@ -6,7 +6,6 @@ import { Mode, RouletteAtomsCtx } from "../AtomsCtx";
 
 Konva.angleDeg = false;
 let angularVelocity = 2;
-let startAngularVelocity = 0;
 let angularVelocities: number[] = [];
 let lastRotation = 0;
 let controlled = true;
@@ -235,34 +234,31 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
           wheel.rotate(diff * rotationOrder);
           totalRotation += diff;
         } else if (!finished && !controlled) {
-          if (shape) {
-            if (totalRotation < 10) {
-              onSlow?.();
-            } else {
-              const parent = shape.getParent();
-              if (parent) {
-                const selected = parent?.findOne("Text");
+          if (shape && totalRotation > 9) {
+            const parent = shape.getParent();
+            if (parent) {
+              const selected = parent?.findOne("Text");
 
-                if (mode === Mode.Elimination) {
-                  const tmp = new Konva.Tween({
-                    node: parent,
-                    duration: 1,
-                    opacity: 0,
-                    easing: Konva.Easings.EaseOut,
-                  });
+              if (mode === Mode.Elimination) {
+                const tmp = new Konva.Tween({
+                  node: parent,
+                  duration: 1,
+                  opacity: 0,
+                  easing: Konva.Easings.EaseOut,
+                });
 
-                  tmp.onFinish = () => {
-                    process(selected as Konva.Node);
-                  };
-
-                  tmp.play();
-                } else {
+                tmp.onFinish = () => {
                   process(selected as Konva.Node);
-                }
+                };
+
+                tmp.play();
+              } else {
+                process(selected as Konva.Node);
               }
             }
           }
           finished = true;
+          angularVelocities = [];
         } else if (finished) {
           inProgress = false;
         }
@@ -291,37 +287,46 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         }
       }
     },
-    [mode, onSlow, process]
+    [mode, process]
   );
 
-  const spinWheel = useCallback((speedText: Konva.Text, speedCoof: number) => {
-    const order = rotationOrders.reduce((a, b) => a + b, 0);
-    rotationOrder = order > 0 ? 1 : -1;
+  const spinWheel = useCallback(
+    (speedText: Konva.Text, speedCoof: number) => {
+      controlled = false;
 
-    controlled = false;
-    angularVelocity = Math.abs(getAverageAngularVelocity() * speedCoof);
+      let angularVelocityTmp = Math.abs(getAverageAngularVelocity() * speedCoof);
+      if (angularVelocityTmp > 100) {
+        angularVelocityTmp = 100;
+      }
 
-    if (angularVelocity > 100) {
-      angularVelocity = 100;
-    }
+      if (angularVelocityTmp > 5) {
+        speedText.setText(angularVelocityTmp.toFixed(1));
+        speedText.opacity(1);
+        new Konva.Tween({
+          node: speedText,
+          duration: 5,
+          opacity: 0,
+          easing: Konva.Easings.EaseOut,
+        }).play();
+      } else if (angularVelocityTmp > 0) {
+        onSlow?.();
+        finished = true;
+        angularVelocity = 0;
+        angularVelocities = [];
+        return;
+      }
 
-    if (angularVelocity > 0) {
-      speedText.setText(angularVelocity.toFixed(1));
-      speedText.opacity(1);
-      new Konva.Tween({
-        node: speedText,
-        duration: 5,
-        opacity: 0,
-        easing: Konva.Easings.EaseOut,
-      }).play();
-    }
+      const order = rotationOrders.reduce((a, b) => a + b, 0);
+      rotationOrder = order > 0 ? 1 : -1;
 
-    startAngularVelocity = angularVelocity;
+      angularVelocity = angularVelocityTmp;
 
-    angularVelocities = [];
+      angularVelocities = [];
 
-    inProgress = true;
-  }, [getAverageAngularVelocity]);
+      inProgress = true;
+    },
+    [getAverageAngularVelocity, onSlow]
+  );
 
   const initStage = useCallback(() => {
     stage = new Konva.Stage({
@@ -400,7 +405,6 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
       rotationOrders = [];
       totalRotation = 0;
-      startAngularVelocity = 0;
       angularVelocity = 0;
       controlled = true;
       target = evt.target;
@@ -417,7 +421,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
     });
 
     stage.addEventListener("mouseleave", () => {
-      if (inProgress) {
+      if (inProgress || finished) {
         return;
       }
 
@@ -471,7 +475,6 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
       opacity: 1,
       easing: Konva.Easings.EaseIn,
     }).play();
-    
   }, [addWedge, dataWithPercent]);
 
   useEffect(() => {
