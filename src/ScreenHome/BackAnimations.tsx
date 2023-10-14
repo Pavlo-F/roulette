@@ -4,16 +4,15 @@ import styled from "styled-components";
 const BackgroundHummer = styled.div`
   position: absolute;
   animation: Hummer-rotating-function 600s linear infinite;
-  width: 70rem;
-  height: 70rem;
-  right: 7rem;
+  width: 67vw;
+  height: 100vh;
+  right: 4rem;
   transform-origin: 0% 100%;
   transform: scaleX(-1);
   background-image: url("ic_hammer.svg");
   background-repeat: no-repeat;
-  background-size: 70rem 70rem;
+  background-size: 100% 100%;
   opacity: 0.3;
-  top: 1rem;
   z-index: 0;
 
   @keyframes Hummer-rotating-function {
@@ -34,14 +33,14 @@ const BackgroundHummer = styled.div`
 const BackgroundStar = styled.div`
   position: absolute;
   animation: Star-rotating-function 500s linear infinite;
-  width: 50rem;
-  height: 50rem;
+  width: 100vh;
+  height: 95vh;
   background-image: url("star.svg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   opacity: 0.3;
   right: 0;
-  top: 9rem;
+  top: 1rem;
   z-index: 0;
 
   @keyframes Star-rotating-function {
