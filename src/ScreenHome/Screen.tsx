@@ -12,6 +12,7 @@ import { LotTable } from "./LotTable";
 import { NewLotList } from "./NewLotList";
 import { Timer } from "./Timer";
 import { BackAnimations } from "./BackAnimations";
+import { Fifteen } from "./Fifteen";
 
 const Root = styled.div`
   position: relative;
@@ -44,6 +45,7 @@ const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 10;
+  width: 20.2rem;
 `;
 
 const Main = styled.div`
@@ -55,7 +57,7 @@ export const Screen = memo(() => {
   return (
     <Root>
       <BackAnimations />
-      
+
       <Header>
         <FieldLotName />
         <FieldLotSum />
@@ -68,6 +70,7 @@ export const Screen = memo(() => {
       <Sidebar>
         <Timer />
         <NewLotList />
+        <Fifteen />
       </Sidebar>
       <Main>
         <PerfectScrollbar>

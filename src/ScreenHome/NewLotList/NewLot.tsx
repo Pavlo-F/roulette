@@ -11,7 +11,6 @@ const Root = styled.div<{ $isAlarm: boolean }>`
   background-color: ${props => (props.$isAlarm ? "#7e1e1e" : "var(--primaryColor700)")};
   border-radius: 4px;
   padding: 0.5rem 0.5rem;
-  max-width: 18.5rem;
 
   animation: lot-fade-in-keyframes 0.5s;
   @keyframes lot-fade-in-keyframes {

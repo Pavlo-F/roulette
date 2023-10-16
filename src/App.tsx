@@ -2,13 +2,11 @@ import React, { memo, useContext, useMemo } from "react";
 import { useAtomValue } from "jotai";
 import styled from "styled-components";
 import { AppRouts } from "./AppRouts";
-import {
-  SettingsAtomsCtx,
-  withProvider as withSettingsProvider,
-} from "./ScreenSettings/AtomsCtx";
+import { DonateProcess, HomeAtomsProvider, TimerAtomsProvider } from "./ScreenHome";
+import { FifteenAtomsProvider } from "./ScreenHome/Fifteen";
+import { SettingsAtomsCtx, withProvider as withSettingsProvider } from "./ScreenSettings/AtomsCtx";
 import { DonateAtomsProvider, DonateService } from "./Services/DonateService";
 import { Sidebar } from "./Sidebar";
-import { DonateProcess, HomeAtomsProvider, TimerAtomsProvider } from "./ScreenHome";
 
 // import { Header } from "./Header";
 
@@ -61,11 +59,13 @@ const Providers = withSettingsProvider(
             addMilliseconds={addMilliseconds}
             totalMilliseconds={totalMilliseconds}>
             <HomeAtomsProvider>
-              <DonateProcess />
+              <FifteenAtomsProvider>
+                <DonateProcess />
 
-              <BodyArea>
-                <AppRouts />
-              </BodyArea>
+                <BodyArea>
+                  <AppRouts />
+                </BodyArea>
+              </FifteenAtomsProvider>
             </HomeAtomsProvider>
           </TimerAtomsProvider>
         </DonateAtomsProvider>

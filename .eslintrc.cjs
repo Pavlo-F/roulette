@@ -11,7 +11,7 @@ module.exports = {
         "plugin:import/typescript",
         "prettier",
 
-        // "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-type-checked",
         "plugin:react-hooks/recommended",
     ],
     "overrides": [

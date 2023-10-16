@@ -6,11 +6,12 @@ import { NewLot } from "./NewLot";
 import { HomeAtomsCtx } from "../AtomsCtx";
 
 const Root = styled.div`
-  margin: 2rem 0 0 1rem;
+  margin-top: 2rem;
   max-width: 20rem;
   flex: auto;
   position: relative;
   overflow: hidden;
+  height: 100%;
 `;
 
 const ScrolCnt = styled.div`
