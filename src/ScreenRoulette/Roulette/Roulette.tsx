@@ -258,7 +258,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
             }
           }
           finished = true;
-          angularVelocities = [];
+          angularVelocity = 0;
         } else if (finished) {
           inProgress = false;
         }
