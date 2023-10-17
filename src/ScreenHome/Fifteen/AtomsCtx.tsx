@@ -3,7 +3,7 @@ import { PrimitiveAtom, atom } from "jotai";
 import { shuffleArray } from "../../Utils/common";
 
 export const fifteenSize = 4;
-export const totalSeconds = 30;
+export const totalSeconds = 20;
 
 export type TableItem = {
   row: number;
@@ -20,6 +20,7 @@ type IAtoms = {
   fifteenAtom: PrimitiveAtom<TableData>;
   winValueAtom: PrimitiveAtom<number>;
   timeLeftAtom: PrimitiveAtom<number>;
+  voteMapAtom: PrimitiveAtom<Record<number, number>>;
 };
 
 type IContext = IAtoms;
@@ -32,8 +33,8 @@ const getDefault = () => {
   const result: TableItem[] = [];
 
   let values = [];
-  for(let i = 0; i < (fifteenSize * fifteenSize); i += 1) {
-    values.push(i + 1);
+  for(let i = 1; i < (fifteenSize * fifteenSize); i += 1) {
+    values.push(i);
   }
   values = shuffleArray(values);
 
@@ -60,6 +61,7 @@ const create = () => {
     fifteenAtom: atom<TableData>(getDefault()),
     winValueAtom: atom<number>(0),
     timeLeftAtom: atom<number>(0),
+    voteMapAtom: atom<Record<number, number>>({}),
   };
 
   return r;
