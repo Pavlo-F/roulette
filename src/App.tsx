@@ -6,6 +6,7 @@ import { DonateProcess, HomeAtomsProvider, TimerAtomsProvider } from "./ScreenHo
 import { FifteenAtomsProvider } from "./ScreenHome/Fifteen";
 import { SettingsAtomsCtx, withProvider as withSettingsProvider } from "./ScreenSettings/AtomsCtx";
 import { DonateAtomsProvider, DonateService } from "./Services/DonateService";
+import { TrovoAtomsProvider, TrovoService } from "./Services/TrovoService";
 import { Sidebar } from "./Sidebar";
 
 // import { Header } from "./Header";
@@ -50,24 +51,31 @@ const Providers = withSettingsProvider(
       return settings.timer.addSeconds * 1000;
     }, [settings.timer.addSeconds]);
 
+    const trovoChannel = useMemo(() => {
+      return settings.integration.trovoChannel;
+    }, [settings.integration.trovoChannel]);
+
     return (
       <>
         <DonateAtomsProvider>
-          <DonateService />
+          <TrovoAtomsProvider channelUrl={trovoChannel}>
+            <DonateService />
+            <TrovoService />
 
-          <TimerAtomsProvider
-            addMilliseconds={addMilliseconds}
-            totalMilliseconds={totalMilliseconds}>
-            <HomeAtomsProvider>
-              <FifteenAtomsProvider>
-                <DonateProcess />
+            <TimerAtomsProvider
+              addMilliseconds={addMilliseconds}
+              totalMilliseconds={totalMilliseconds}>
+              <HomeAtomsProvider>
+                <FifteenAtomsProvider>
+                  <DonateProcess />
 
-                <BodyArea>
-                  <AppRouts />
-                </BodyArea>
-              </FifteenAtomsProvider>
-            </HomeAtomsProvider>
-          </TimerAtomsProvider>
+                  <BodyArea>
+                    <AppRouts />
+                  </BodyArea>
+                </FifteenAtomsProvider>
+              </HomeAtomsProvider>
+            </TimerAtomsProvider>
+          </TrovoAtomsProvider>
         </DonateAtomsProvider>
       </>
     );

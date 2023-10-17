@@ -1,9 +1,9 @@
 import React, { createContext, memo, useMemo, useState } from "react";
 import { PrimitiveAtom, atom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
 import { shuffleArray } from "../../Utils/common";
 
 export const fifteenSize = 4;
+export const totalSeconds = 30;
 
 export type TableItem = {
   row: number;
@@ -12,12 +12,14 @@ export type TableItem = {
   value: number;
 };
 
-type TableData = {
+export type TableData = {
   data: TableItem[];
 };
 
 type IAtoms = {
   fifteenAtom: PrimitiveAtom<TableData>;
+  winValueAtom: PrimitiveAtom<number>;
+  timeLeftAtom: PrimitiveAtom<number>;
 };
 
 type IContext = IAtoms;
@@ -43,7 +45,7 @@ const getDefault = () => {
         isFree = true;
       }
 
-      result.push({ value: values.shift(), isFree, row: i, column: j});
+      result.push({ value: values.shift(), isFree, row: i, column: j });
     }
 
   const data: TableData = {
@@ -56,6 +58,8 @@ const getDefault = () => {
 const create = () => {
   const r: IAtoms = {
     fifteenAtom: atom<TableData>(getDefault()),
+    winValueAtom: atom<number>(0),
+    timeLeftAtom: atom<number>(0),
   };
 
   return r;

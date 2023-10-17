@@ -2,14 +2,14 @@ import React, { FC, createContext, memo, useEffect, useMemo, useState } from "re
 import { PrimitiveAtom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
 import { atomWithStorage } from "jotai/utils";
-import { DonateServiceStatus } from "../Services/DonateService/models";
+import { ServiceStatus } from "../Services/statuses";
 
-export const statusMap: Record<DonateServiceStatus, string> = {
-  [DonateServiceStatus.Connecting]: "Подключение",
-  [DonateServiceStatus.Connected]: "Подключен",
-  [DonateServiceStatus.Reconnecting]: "Переподключение...",
-  [DonateServiceStatus.Disconnected]: "Отключен",
-  [DonateServiceStatus.Error]: "Ошибка подключения",
+export const statusMap: Record<ServiceStatus, string> = {
+  [ServiceStatus.Connecting]: "Подключение",
+  [ServiceStatus.Connected]: "Подключен",
+  [ServiceStatus.Reconnecting]: "Переподключение...",
+  [ServiceStatus.Disconnected]: "Отключен",
+  [ServiceStatus.Error]: "Ошибка подключения",
 };
 
 export type Settings = {
@@ -25,6 +25,8 @@ export type Settings = {
     donateApiUserId: string;
 
     donationAlertsWidgetUrl: string;
+
+    trovoChannel: string,
   };
 };
 
@@ -52,6 +54,8 @@ const defaultSettings = {
     donateApiUserId: "",
 
     donationAlertsWidgetUrl: "",
+
+    trovoChannel: "",
   },
 };
 

@@ -3,8 +3,8 @@ import Centrifuge from "Centrifuge";
 import axios, { AxiosResponse } from "axios";
 import { useSetAtom } from "jotai";
 import { DonateAtomsCtx, DonateSource, addDonate, convertCodes } from "./AtomsCtx";
-import { DonateServiceStatus } from "./models";
 import { createAbortController, useAbortController } from "../../Utils/useAbortController";
+import { ServiceStatus } from "../statuses";
 
 const tokentUrl = "https://donatepay.ru/api/v2/socket/token";
 
@@ -79,7 +79,7 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
         if (data.data.status === "error") {
           // eslint-disable-next-line no-console
           console.log("DonatePay get token error:", data.data.message);
-          setDonatePayStatus(DonateServiceStatus.Error);
+          setDonatePayStatus(ServiceStatus.Error);
           return;
         }
 
@@ -105,16 +105,16 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
           window.setTimeout(() => {
             // eslint-disable-next-line no-console
             console.log("DonatePay reconnecting", e);
-            setDonatePayStatus(DonateServiceStatus.Reconnecting);
+            setDonatePayStatus(ServiceStatus.Reconnecting);
             setReconnect(new Date());
           }, 5000);
         });
 
         centrifuge.on("connect", () => {
-          setDonatePayStatus(DonateServiceStatus.Connected);
+          setDonatePayStatus(ServiceStatus.Connected);
         });
 
-        setDonatePayStatus(DonateServiceStatus.Connecting);
+        setDonatePayStatus(ServiceStatus.Connecting);
         centrifuge.connect();
       })
       .catch(err => {

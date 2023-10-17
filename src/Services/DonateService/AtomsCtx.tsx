@@ -1,6 +1,6 @@
 import React, { createContext, memo, useEffect, useMemo, useState } from "react";
 import { PrimitiveAtom, atom, useSetAtom } from "jotai";
-import { DonateServiceStatus } from "./models";
+import { ServiceStatus } from "../statuses";
 
 export enum DonateSource {
   DonatePay,
@@ -20,8 +20,8 @@ export type Donate = {
 type IAtoms = {
   donateAtom: PrimitiveAtom<Donate>;
   donateListAtom: PrimitiveAtom<Donate[]>;
-  donatePayStatusAtom: PrimitiveAtom<DonateServiceStatus>;
-  donationAlertsStatusAtom: PrimitiveAtom<DonateServiceStatus>;
+  donatePayStatusAtom: PrimitiveAtom<ServiceStatus>;
+  donationAlertsStatusAtom: PrimitiveAtom<ServiceStatus>;
 };
 
 type IContext = IAtoms;
@@ -34,8 +34,8 @@ const create = () => {
   const r: IAtoms = {
     donateAtom: atom<Donate>({} as Donate),
     donateListAtom: atom<Donate[]>([]),
-    donatePayStatusAtom: atom<DonateServiceStatus>(DonateServiceStatus.Disconnected),
-    donationAlertsStatusAtom: atom<DonateServiceStatus>(DonateServiceStatus.Disconnected),
+    donatePayStatusAtom: atom<ServiceStatus>(ServiceStatus.Disconnected),
+    donationAlertsStatusAtom: atom<ServiceStatus>(ServiceStatus.Disconnected),
   };
 
   return r;
@@ -87,7 +87,7 @@ export const convertCodes = (str: string) => {
   if (!str) {
     return str;
   }
-  
+
   let result = str;
   result = result.replace(/&amp;/g, "&");
   result = result.replace(/&gt;/g, ">");

@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 // @ts-ignore
 import io from "socket.io-client";
 import { DonateAtomsCtx, DonateSource, addDonate, convertCodes } from "./AtomsCtx";
-import { DonateServiceStatus } from "./models";
+import { ServiceStatus } from "../statuses";
 
 type Message = {
   id: string;
@@ -33,7 +33,7 @@ export const DonationAlertsService = memo(({ accessToken }: Props) => {
   useEffect(() => {
     if (ioClient) {
       ioClient.on("connect", () => {
-        setDdonationAlertsStatus(DonateServiceStatus.Connected);
+        setDdonationAlertsStatus(ServiceStatus.Connected);
         ioClient.emit("add-user", { token: accessToken, type: "alert_widget" });
       });
 
@@ -58,7 +58,7 @@ export const DonationAlertsService = memo(({ accessToken }: Props) => {
         }, 5000);
       });
 
-      setDdonationAlertsStatus(DonateServiceStatus.Connecting);
+      setDdonationAlertsStatus(ServiceStatus.Connecting);
       ioClient.connect();
     }
 

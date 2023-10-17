@@ -4,7 +4,7 @@ import { produce } from "immer";
 import { useAtom } from "jotai";
 import { SettingsAtomsCtx, statusMap } from "./AtomsCtx";
 import { DonateAtomsCtx } from "../Services/DonateService";
-import { DonateServiceStatus } from "../Services/DonateService/models";
+import { ServiceStatus } from "../Services/statuses";
 
 const donactionAxios = axios.create({
   baseURL: "https://donaction.club",
@@ -31,16 +31,16 @@ export const DonatePayStatus = memo(() => {
 
   useEffect(() => {
     if (!donatePayApiKey) {
-      setDonatePayStatus(DonateServiceStatus.Disconnected);
+      setDonatePayStatus(ServiceStatus.Disconnected);
       return;
     }
 
     setDonatePayStatus(old => {
-      if (old === DonateServiceStatus.Connected) {
-        return DonateServiceStatus.Connected;
+      if (old === ServiceStatus.Connected) {
+        return ServiceStatus.Connected;
       }
 
-      return DonateServiceStatus.Connecting;
+      return ServiceStatus.Connecting;
     });
 
     donactionAxios

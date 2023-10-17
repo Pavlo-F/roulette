@@ -12,6 +12,8 @@ import { FieldDefaultTime } from "./FieldDefaultTime";
 import { FieldDonatePayApiKey } from "./FieldDonatePayApiKey";
 import { FieldDonationAlertsUrl } from "./FieldDonationAlertsUrl";
 import { FieldThresholdToAddTime } from "./FieldThresholdToAddTime";
+import { FieldTrovoUrl } from "./FieldTrovoUrl";
+import { TrovoStatus } from "./TrovoStatus";
 import { FlexCnt } from "./styles.styled";
 import { withValidationProvider } from "../forms/Validation";
 
@@ -102,6 +104,12 @@ export const Screen = withValidationProvider(
               <DonationAlertsStatus />
             </FlexCnt>
             <FieldDonationAlertsUrl />
+
+            <FlexCnt>
+              <DonationTitle>Trovo</DonationTitle>
+              <TrovoStatus />
+            </FlexCnt>
+            <FieldTrovoUrl />
           </Grid>
         </Row>
 
