@@ -3,6 +3,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import styled from "styled-components";
 import { FifteenAtomsCtx, TableItem } from "./AtomsCtx";
 import { useMove } from "./useMove";
+import { useVoteMax } from "./useVoteMax";
 
 const Root = styled.div`
   display: flex;
@@ -21,11 +22,12 @@ const Rect = styled.div<{ $isFree: boolean }>`
   border: ${props => (props.$isFree ? "none" : "1px solid var(--borderColor);")};
 `;
 
-const Vote = styled.div`
+const Vote = styled.div<{$isMax: boolean}>`
   position: absolute;
   top: 0rem;
   left: 0.5rem;
   font-size: 1rem;
+  color: ${props => (props.$isMax ? "var(--secondaryColor500)" : "inherit")};
 `;
 
 type Props = {
@@ -39,6 +41,7 @@ export const Item = memo(({ tableItem }: Props) => {
   const voteMap = useAtomValue(voteMapAtom);
 
   const { move } = useMove();
+  const { maxVote } = useVoteMax();
 
   const vote = useMemo(() => {
     return voteMap[tableItem.value] || "";
@@ -51,10 +54,18 @@ export const Item = memo(({ tableItem }: Props) => {
     }
   }, [move, setFifteen, tableItem]);
 
+  const isMax = useMemo(() => {
+    if (!tableItem.value || !maxVote.length) {
+      return false;
+    }
+
+    return maxVote.includes(tableItem.value.toString());
+  }, [maxVote, tableItem.value]);
+
   return (
     <Root onClick={onClick}>
       <Rect $isFree={tableItem.isFree}>
-        <Vote title="Проголосовало">{vote}</Vote>
+        <Vote title="Проголосовало" $isMax={isMax}>{vote}</Vote>
         {!tableItem.isFree && <div>{tableItem.value}</div>}
         </Rect>
     </Root>
