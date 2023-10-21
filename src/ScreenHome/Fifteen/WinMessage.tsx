@@ -13,6 +13,7 @@ const Root = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 11;
 `;
 
 const Message = styled.div`
@@ -44,9 +45,13 @@ export const WinMessage = memo(() => {
   const [isWin, setIsWin] = useState(false);
 
   useEffect(() => {
-    let result = false;
-    for(let i = 0; i < fifteen.data.length; i += 1) {
-      result = fifteen.data[i].value === i + 1;
+    let result = true;
+    let prev = 0;
+
+    for(let i = 0; i < fifteen.data.length - 1; i += 1) {
+      result &&= (prev + 1) === fifteen.data[i].value;
+      prev = fifteen.data[i].value;
+
       if (!result) {
         break;
       }
