@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { AppRouts } from "./AppRouts";
 import { DonateProcess, HomeAtomsProvider, TimerAtomsProvider } from "./ScreenHome";
 import { FifteenAtomsProvider } from "./ScreenHome/Fifteen";
+import { MinesweeperAtomsProvider } from "./ScreenHome/Minesweeper/AtomsCtx";
 import { SettingsAtomsCtx, withProvider as withSettingsProvider } from "./ScreenSettings/AtomsCtx";
 import { DonateAtomsProvider, DonateService } from "./Services/DonateService";
 import { TrovoAtomsProvider, TrovoService } from "./Services/TrovoService";
@@ -67,11 +68,13 @@ const Providers = withSettingsProvider(
               totalMilliseconds={totalMilliseconds}>
               <HomeAtomsProvider>
                 <FifteenAtomsProvider>
-                  <DonateProcess />
+                  <MinesweeperAtomsProvider>
+                    <DonateProcess />
 
-                  <BodyArea>
-                    <AppRouts />
-                  </BodyArea>
+                    <BodyArea>
+                      <AppRouts />
+                    </BodyArea>
+                  </MinesweeperAtomsProvider>
                 </FifteenAtomsProvider>
               </HomeAtomsProvider>
             </TimerAtomsProvider>

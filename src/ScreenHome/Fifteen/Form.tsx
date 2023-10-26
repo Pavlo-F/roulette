@@ -5,7 +5,7 @@ import { FifteenAtomsCtx } from "./AtomsCtx";
 import { Item } from "./Item";
 import { Process } from "./Process";
 import { WinMessage } from "./WinMessage";
-import { SettingsAtomsCtx } from "../../ScreenSettings/AtomsCtx";
+import { Games, SettingsAtomsCtx } from "../../ScreenSettings/AtomsCtx";
 
 const Root = styled.div`
   color: var(--borderColor);
@@ -26,15 +26,17 @@ const Fifteen = styled.div`
 `;
 
 export const Form = memo(() => {
-  const { fifteenAtom } = useContext(FifteenAtomsCtx);
-  const { timeLeftAtom } = useContext(FifteenAtomsCtx);
+  const { fifteenAtom, timeLeftAtom } = useContext(FifteenAtomsCtx);
   const { settingsAtom } = useContext(SettingsAtomsCtx);
-  
+
   const settings = useAtomValue(settingsAtom);
   const fifteen = useAtomValue(fifteenAtom);
   const timeLeft = useAtomValue(timeLeftAtom);
 
-  if (!settings.integration?.trovoChannel) {
+  if (
+    (settings.integration && !settings.integration.trovoChannel) ||
+    settings.integration.game !== Games.Fifteen
+  ) {
     return null;
   }
 
@@ -46,8 +48,7 @@ export const Form = memo(() => {
       <Process />
 
       <Fifteen>
-
-      <WinMessage />
+        <WinMessage />
 
         {fifteen.data?.map(x => {
           return <Item key={`Item_${x.column}_${x.row}`} tableItem={x} />;

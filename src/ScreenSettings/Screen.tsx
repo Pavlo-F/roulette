@@ -16,6 +16,7 @@ import { FieldTrovoUrl } from "./FieldTrovoUrl";
 import { TrovoStatus } from "./TrovoStatus";
 import { FlexCnt } from "./styles.styled";
 import { withValidationProvider } from "../forms/Validation";
+import { SwitchGame } from "./SwitchGame";
 
 const Root = styled.div`
   display: flex;
@@ -109,7 +110,10 @@ export const Screen = withValidationProvider(
               <DonationTitle>Trovo</DonationTitle>
               <TrovoStatus />
             </FlexCnt>
-            <FieldTrovoUrl />
+            <FlexCnt>
+              <FieldTrovoUrl />
+              <SwitchGame />
+            </FlexCnt>
           </Grid>
         </Row>
 

@@ -12,6 +12,11 @@ export const statusMap: Record<ServiceStatus, string> = {
   [ServiceStatus.Error]: "Ошибка подключения",
 };
 
+export enum Games {
+  Fifteen = "Fifteen",
+  Minesweeper = "Minesweeper",
+};
+
 export type Settings = {
   timer: {
     defaultMinutes: number;
@@ -26,7 +31,8 @@ export type Settings = {
 
     donationAlertsWidgetUrl: string;
 
-    trovoChannel: string,
+    trovoChannel: string;
+    game: Games;
   };
 };
 
@@ -56,6 +62,7 @@ const defaultSettings = {
     donationAlertsWidgetUrl: "",
 
     trovoChannel: "",
+    game: Games.Minesweeper,
   },
 };
 
@@ -78,6 +85,9 @@ const Provider = memo(({ children }: Props) => {
 
   useEffect(() => {
     const check = settings as Settings;
+    if (!check.integration.game) {
+      check.integration.game = Games.Minesweeper;
+    }
     setSettingsTemp(check);
   }, [setSettingsTemp, settings]);
 
