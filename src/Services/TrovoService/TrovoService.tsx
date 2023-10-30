@@ -1,15 +1,12 @@
 import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { useSetAtom } from "jotai";
 import { TrovoAtomsCtx, addChatMessage } from "./AtomsCtx";
 import { Socket } from "./Socket";
 import { Chat, ChatTypes, User } from "./models";
 import { createAbortController, useAbortController } from "../../Utils/useAbortController";
 import { ServiceStatus } from "../statuses";
-
-const trovoAxios = axios.create({
-  baseURL: "https://donaction.club",
-});
+import { useDonactionAxios } from "../../useDonactionAxios";
 
 export const TrovoService = memo(() => {
   const { connectStatusAtom } = useContext(TrovoAtomsCtx);
@@ -19,6 +16,7 @@ export const TrovoService = memo(() => {
   const tokenAbortControllerRef = useAbortController();
 
   const { channelUrl } = useContext(TrovoAtomsCtx);
+  const { instance } = useDonactionAxios();
 
   const [user, setUser] = useState<User>();
   const [chatToken, setChatToken] = useState("");
@@ -31,7 +29,7 @@ export const TrovoService = memo(() => {
 
       const abortController = createAbortController(abortControllerRef);
 
-      const req = trovoAxios.get<any, AxiosResponse>(`/api/trovo/GetUserInfo`, {
+      const req = instance.get<any, AxiosResponse>(`/api/trovo/GetUserInfo`, {
         signal: abortController.signal,
         params: {
           userName,
@@ -40,7 +38,7 @@ export const TrovoService = memo(() => {
 
       return req;
     },
-    [abortControllerRef]
+    [abortControllerRef, instance]
   );
 
   const getChatToken = useCallback(
@@ -51,7 +49,7 @@ export const TrovoService = memo(() => {
 
       const abortController = createAbortController(tokenAbortControllerRef);
 
-      const req = trovoAxios.get<any, AxiosResponse>(`/api/trovo/GetChatToken`, {
+      const req = instance.get<any, AxiosResponse>(`/api/trovo/GetChatToken`, {
         signal: abortController.signal,
         params: {
           channelId,
@@ -60,7 +58,7 @@ export const TrovoService = memo(() => {
 
       return req;
     },
-    [tokenAbortControllerRef]
+    [instance, tokenAbortControllerRef]
   );
 
   const userName: string = useMemo(() => {
@@ -111,7 +109,6 @@ export const TrovoService = memo(() => {
     chats.forEach(x => {
       if (x.type === ChatTypes.Normal) {
         addChatMessage(x);
-        console.log(x.content);
       }
     });
 

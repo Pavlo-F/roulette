@@ -3,6 +3,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import styled from "styled-components";
 import { SettingsAtomsCtx } from "./AtomsCtx";
 import { ButtonApply } from "./ButtonApply";
+import { ButtonConnectToTwich } from "./ButtonConnectToTwich";
 import { DonatePayStatus } from "./DonatePayStatus";
 import { DonationAlertsStatus } from "./DonationAlertsStatus";
 import { FieldAddTime } from "./FieldAddTime";
@@ -13,10 +14,12 @@ import { FieldDonatePayApiKey } from "./FieldDonatePayApiKey";
 import { FieldDonationAlertsUrl } from "./FieldDonationAlertsUrl";
 import { FieldThresholdToAddTime } from "./FieldThresholdToAddTime";
 import { FieldTrovoUrl } from "./FieldTrovoUrl";
+import { SwitchGame } from "./SwitchGame";
 import { TrovoStatus } from "./TrovoStatus";
+import { TwichStatus } from "./TwichStatus";
 import { FlexCnt } from "./styles.styled";
 import { withValidationProvider } from "../forms/Validation";
-import { SwitchGame } from "./SwitchGame";
+import { FieldTwichUrl } from "./FieldTwichUrl";
 
 const Root = styled.div`
   display: flex;
@@ -91,7 +94,7 @@ export const Screen = withValidationProvider(
         </Row>
 
         <Row>
-          <Header>Интеграция</Header>
+          <Header>Интеграция с донатами</Header>
 
           <Grid>
             <FlexCnt>
@@ -105,14 +108,30 @@ export const Screen = withValidationProvider(
               <DonationAlertsStatus />
             </FlexCnt>
             <FieldDonationAlertsUrl />
+          </Grid>
+        </Row>
 
+        <Row>
+          <Header>Интеграция с чатом</Header>
+
+          <SwitchGame />
+
+          <Grid>
             <FlexCnt>
               <DonationTitle>Trovo</DonationTitle>
               <TrovoStatus />
             </FlexCnt>
             <FlexCnt>
               <FieldTrovoUrl />
-              <SwitchGame />
+            </FlexCnt>
+
+            <FlexCnt>
+              <DonationTitle>Twich</DonationTitle>
+              <TwichStatus />
+            </FlexCnt>
+            <FlexCnt>
+              <FieldTwichUrl />
+              <ButtonConnectToTwich />
             </FlexCnt>
           </Grid>
         </Row>

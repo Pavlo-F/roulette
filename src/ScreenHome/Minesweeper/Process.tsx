@@ -3,6 +3,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { MinesweeperAtomsCtx, minesweeperSize, totalSeconds } from "./AtomsCtx";
 import { TrovoAtomsCtx } from "../../Services/TrovoService";
 import { useOpen } from "./useOpen";
+import { TwichAtomsCtx } from "../../Services/TwichService";
 
 const size = minesweeperSize.columns * minesweeperSize.rows;
 let interval = 0;
@@ -10,10 +11,12 @@ let elepsated = 0;
 
 export const Process = memo(() => {
   const { messageAtom } = useContext(TrovoAtomsCtx);
+  const { messageAtom: messageTwichAtom } = useContext(TwichAtomsCtx);
   const { timeLeftAtom, minesweeperAtom, voteMapAtom } = useContext(MinesweeperAtomsCtx);
   const valueMap = useRef<Record<number, number>>({});
 
   const message = useAtomValue(messageAtom);
+  const messageTwich = useAtomValue(messageTwichAtom);
   const setTimeLeft = useSetAtom(timeLeftAtom);
   const [winValue, setWinValue] = useState(0);
   const minesweeper = useAtomValue(minesweeperAtom);
@@ -36,10 +39,11 @@ export const Process = memo(() => {
     const found = findItem();
     if (found) {
       open(found);
-      setWinValue(0);
-      setVoteMap({});
-      valueMap.current = {};
     }
+    
+    setWinValue(0);
+    setVoteMap({});
+    valueMap.current = {};
   }, [findItem, open, setVoteMap]);
 
   useEffect(() => {
@@ -71,8 +75,7 @@ export const Process = memo(() => {
     };
   }, [setTimeLeft, setVoteMap, setWinValue]);
 
-  useEffect(() => {
-    const text = message.content;
+  const process = useCallback((text: string) => {
     if (!text) {
       return;
     }
@@ -92,7 +95,15 @@ export const Process = memo(() => {
 
       setVoteMap({ ...valueMap.current });
     }
-  }, [message, setVoteMap]);
+  }, [setVoteMap]);
+
+  useEffect(() => {
+    process(message.content);
+  }, [message, process]);
+
+  useEffect(() => {
+    process(messageTwich.text);
+  }, [messageTwich, process]);
 
   return null;
 });

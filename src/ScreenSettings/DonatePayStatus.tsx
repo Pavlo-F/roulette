@@ -5,10 +5,7 @@ import { useAtom } from "jotai";
 import { SettingsAtomsCtx, statusMap } from "./AtomsCtx";
 import { DonateAtomsCtx } from "../Services/DonateService";
 import { ServiceStatus } from "../Services/statuses";
-
-const donactionAxios = axios.create({
-  baseURL: "https://donaction.club",
-});
+import { useDonactionAxios } from "../useDonactionAxios";
 
 export const DonatePayStatus = memo(() => {
   const { donatePayStatusAtom } = useContext(DonateAtomsCtx);
@@ -20,6 +17,7 @@ export const DonatePayStatus = memo(() => {
   const [reconnect, setReconnect] = useState(new Date());
 
   const reconnectCount = useRef(0);
+  const { instance } = useDonactionAxios();
 
   const donatePayApiKey = useMemo(() => {
     if (!settings.integration?.donatePayApiKey) {
@@ -43,7 +41,7 @@ export const DonatePayStatus = memo(() => {
       return ServiceStatus.Connecting;
     });
 
-    donactionAxios
+    instance
       .get<any, AxiosResponse>("/api/donatepay/GetUserInfo", {
         params: {
           apiKey: donatePayApiKey,
@@ -73,7 +71,7 @@ export const DonatePayStatus = memo(() => {
           }
         }, 10000);
       });
-  }, [donatePayApiKey, reconnect, setDonatePayStatus, setSettings, setSettingsTemp]);
+  }, [donatePayApiKey, instance, reconnect, setDonatePayStatus, setSettings, setSettingsTemp]);
 
   return <div>{statusMap[donatePayStatus]}</div>;
 });

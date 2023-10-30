@@ -5,7 +5,12 @@ import styled from "styled-components";
 import { Radio } from "../components/Radio";
 import { Games, SettingsAtomsCtx } from "./AtomsCtx";
 
-const Root = styled.div``;
+const Root = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+`;
 
 export const SwitchGame = memo(() => {
   const { settingsTempAtom, settingsAtom } = useContext(SettingsAtomsCtx);
@@ -34,6 +39,7 @@ export const SwitchGame = memo(() => {
 
   return (
     <Root>
+      <div>Игра для чата</div>
       <Radio
         name="game"
         value={Games.Fifteen}

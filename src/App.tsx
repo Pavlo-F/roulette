@@ -8,24 +8,18 @@ import { MinesweeperAtomsProvider } from "./ScreenHome/Minesweeper/AtomsCtx";
 import { SettingsAtomsCtx, withProvider as withSettingsProvider } from "./ScreenSettings/AtomsCtx";
 import { DonateAtomsProvider, DonateService } from "./Services/DonateService";
 import { TrovoAtomsProvider, TrovoService } from "./Services/TrovoService";
+import { TwichAtomsProvider, TwichService } from "./Services/TwichService";
 import { Sidebar } from "./Sidebar";
-
-// import { Header } from "./Header";
 
 const Root = styled.div`
   display: grid;
   grid-template-areas:
-    /* "sidebar header" */
     "sidebar body"
     "sidebar body";
   grid-template-rows: 50px 1fr;
   grid-template-columns: auto 1fr;
   height: 100%;
 `;
-
-// const HeaderArea = styled.div`
-//   grid-area: header;
-// `;
 
 const SidebarArea = styled.div`
   grid-area: sidebar;
@@ -56,29 +50,36 @@ const Providers = withSettingsProvider(
       return settings.integration.trovoChannel;
     }, [settings.integration.trovoChannel]);
 
+    const twichChannel = useMemo(() => {
+      return settings.integration.twichChannel;
+    }, [settings.integration.twichChannel]);
+
     return (
       <>
         <DonateAtomsProvider>
-          <TrovoAtomsProvider channelUrl={trovoChannel}>
-            <DonateService />
-            <TrovoService />
+          <TwichAtomsProvider channelUrl={twichChannel}>
+            <TrovoAtomsProvider channelUrl={trovoChannel}>
+              <DonateService />
+              <TrovoService />
+              <TwichService />
 
-            <TimerAtomsProvider
-              addMilliseconds={addMilliseconds}
-              totalMilliseconds={totalMilliseconds}>
-              <HomeAtomsProvider>
-                <FifteenAtomsProvider>
-                  <MinesweeperAtomsProvider>
-                    <DonateProcess />
+              <TimerAtomsProvider
+                addMilliseconds={addMilliseconds}
+                totalMilliseconds={totalMilliseconds}>
+                <HomeAtomsProvider>
+                  <FifteenAtomsProvider>
+                    <MinesweeperAtomsProvider>
+                      <DonateProcess />
 
-                    <BodyArea>
-                      <AppRouts />
-                    </BodyArea>
-                  </MinesweeperAtomsProvider>
-                </FifteenAtomsProvider>
-              </HomeAtomsProvider>
-            </TimerAtomsProvider>
-          </TrovoAtomsProvider>
+                      <BodyArea>
+                        <AppRouts />
+                      </BodyArea>
+                    </MinesweeperAtomsProvider>
+                  </FifteenAtomsProvider>
+                </HomeAtomsProvider>
+              </TimerAtomsProvider>
+            </TrovoAtomsProvider>
+          </TwichAtomsProvider>
         </DonateAtomsProvider>
       </>
     );
@@ -88,10 +89,6 @@ const Providers = withSettingsProvider(
 export const App = memo(() => {
   return (
     <Root>
-      {/* <HeaderArea>
-        <Header />
-      </HeaderArea> */}
-
       <SidebarArea>
         <Sidebar />
       </SidebarArea>

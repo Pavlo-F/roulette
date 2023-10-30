@@ -22,7 +22,7 @@ export const useOpen = () => {
       const right = isNextColumnOutOfRange ? undefined : minesweeper[tableItem.row]?.at(nextColumn);
       const rightBottom = isNextRowOutOfRange || isNextColumnOutOfRange ? undefined : minesweeper[nextRow]?.at(nextColumn);
       const bottom = isNextRowOutOfRange ? undefined : minesweeper[nextRow]?.at(tableItem.column);
-      const leftBottom = isNextRowOutOfRange || prevColumn < 0 ? undefined : minesweeper[nextRow]?.at(prevColumn);
+      const leftBottom = prevColumn < 0 || isNextRowOutOfRange ? undefined : minesweeper[nextRow]?.at(prevColumn);
       const left = prevColumn < 0 ? undefined : minesweeper[tableItem.row]?.at(prevColumn);
       const topLeft = prevRow < 0 || prevColumn < 0 ? undefined : minesweeper[prevRow]?.at(prevColumn);
 

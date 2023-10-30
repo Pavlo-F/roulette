@@ -32,6 +32,8 @@ export type Settings = {
     donationAlertsWidgetUrl: string;
 
     trovoChannel: string;
+    twichChannel: string;
+
     game: Games;
   };
 };
@@ -62,6 +64,8 @@ const defaultSettings = {
     donationAlertsWidgetUrl: "",
 
     trovoChannel: "",
+    twichChannel: "",
+    
     game: Games.Minesweeper,
   },
 };
