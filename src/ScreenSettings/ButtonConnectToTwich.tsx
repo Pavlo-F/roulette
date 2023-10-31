@@ -44,7 +44,7 @@ export const ButtonConnectToTwich = memo(() => {
   useEffect(() => {
     const code = searchParams.get("code");
     const state = searchParams.get("state");
-    if (!code || !settingsTemp.integration.twichChannel) {
+    if (!code || !settings.integration.twichChannel) {
       return;
     }
 
@@ -75,12 +75,16 @@ export const ButtonConnectToTwich = memo(() => {
     setAccessToken,
     setCode,
     setConnectStatus,
-    settingsTemp.integration.twichChannel,
+    settings.integration.twichChannel,
     twichState,
   ]);
 
+  if (!settings.integration.twichChannel) {
+    return null;
+  }
+
   return (
-    <ButtonPrimary disabled={!settingsTemp.integration.twichChannel}>
+    <ButtonPrimary>
       <a href={url}>Подключить Twitch</a>
     </ButtonPrimary>
   );
