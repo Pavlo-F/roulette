@@ -1,4 +1,4 @@
-import React, { memo, useContext } from "react";
+import React, { memo, useContext, useMemo } from "react";
 import { useAtomValue } from "jotai";
 import styled from "styled-components";
 import { FifteenAtomsCtx } from "./AtomsCtx";
@@ -33,8 +33,21 @@ export const Form = memo(() => {
   const fifteen = useAtomValue(fifteenAtom);
   const timeLeft = useAtomValue(timeLeftAtom);
 
+  const integratedChat = useMemo(() => {
+    const result = [];
+    if (settings.integration.trovoChannel) {
+      result.push("Trovo");
+    }
+
+    if (settings.integration.twichChannel) {
+      result.push("Twich");
+    }
+
+    return result;
+  }, [settings.integration.trovoChannel, settings.integration.twichChannel]);
+
   if (
-    (settings.integration && !settings.integration.trovoChannel) ||
+    (settings.integration && !integratedChat.length) ||
     settings.integration.game !== Games.Fifteen
   ) {
     return null;
@@ -42,7 +55,7 @@ export const Form = memo(() => {
 
   return (
     <Root>
-      <div>Пятнашки для Trovo</div>
+      <div>Пятнашки для {integratedChat.join(", ")}</div>
       <span>Напиши в чат цифру и она подвинется через {timeLeft} секунд</span>
 
       <Process />

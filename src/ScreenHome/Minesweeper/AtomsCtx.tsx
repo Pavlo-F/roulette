@@ -6,7 +6,7 @@ export const minesweeperSize = {
   columns: 10,
 };
 
-export const totalMines = Math.floor(minesweeperSize.columns * minesweeperSize.rows * 0.2);
+export const totalMines = Math.floor(minesweeperSize.columns * minesweeperSize.rows * 0.1);
 
 export const totalSeconds = 20;
 

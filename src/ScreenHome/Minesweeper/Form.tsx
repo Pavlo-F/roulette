@@ -46,8 +46,21 @@ export const Form = memo(() => {
     return result;
   }, [minesweeper]);
 
+  const integratedChat = useMemo(() => {
+    const result = [];
+    if (settings.integration.trovoChannel) {
+      result.push("Trovo");
+    }
+
+    if (settings.integration.twichChannel) {
+      result.push("Twich");
+    }
+
+    return result;
+  }, [settings.integration.trovoChannel, settings.integration.twichChannel]);
+
   if (
-    (settings.integration && !settings.integration.trovoChannel) ||
+    (settings.integration && !integratedChat.length) ||
     settings.integration.game !== Games.Minesweeper
   ) {
     return null;
@@ -55,7 +68,7 @@ export const Form = memo(() => {
 
   return (
     <Root>
-      <div>Сапёр для Trovo</div>
+      <div>Сапёр для {integratedChat.join(", ")}</div>
       <span>Напиши в чат цифру и она откроется через {timeLeft} секунд</span>
 
       <Process />
