@@ -35,24 +35,20 @@ type Props = {
   onWin: (value: WheelData) => void;
 };
 
-type DataWithPercent = WheelData & { percent: number };
-
 export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props) => {
   const { wheelDataAtom } = useContext(RouletteAtomsCtx);
   const [rouletteData, setRouletteData] = useAtom(wheelDataAtom);
   const colorMap = useRef<Record<string, Array<number>>>({});
 
   const dataWithPercent = useMemo(() => {
-    const total = rouletteData.reduce((a, b) => a + b.value, 0);
-
-    let result: DataWithPercent[] = [];
+    let result: WheelData[] = [];
     rouletteData.forEach(x => {
       if (x.value) {
-        const item: DataWithPercent = {
+        const item: WheelData = {
           id: x.id,
           name: x.name,
           value: x.value,
-          percent: x.value / total,
+          percent: x.percent,
         };
         result.push(item);
       }
@@ -62,7 +58,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
       const totalInvert = 1 / result.reduce((a, b) => a + 1 / b.percent, 0);
 
       const result2 = result.map(x => {
-        const item: DataWithPercent = {
+        const item: WheelData = {
           id: x.id,
           name: x.name,
           value: x.value,
@@ -129,9 +125,12 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
       if (mode === Mode.Elimination) {
         const result = rouletteData.filter(x => x.id !== selected?.attrs.original.id);
         if (result.length === 1) {
-          onWin(result[0]);
+            onWin(result[0]);
         } else {
-          onSelected(selected?.attrs.original);
+          const win = rouletteData.find(x => x.id === selected?.attrs.original.id);
+          if (win) {
+            onSelected(win);
+          }
         }
 
         setRouletteData(result);
@@ -141,7 +140,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
   );
 
   const addWedge = useCallback(
-    (item: DataWithPercent) => {
+    (item: WheelData) => {
       const s = getColor(item.id);
       const reward = item.name;
       let r = s[0];

@@ -73,6 +73,11 @@ const FlexAuto = styled.div`
   flex: auto;
 `;
 
+const Percent = styled.div`
+  font-size: 1rem;
+  color: var(--primaryTextColor);
+`;
+
 const ParticipantsCnt = styled.div`
   flex: 1;
   max-height: 20rem;
@@ -103,7 +108,12 @@ export const WinMessage = memo(() => {
         <FlexCnt>
           <FlexAuto>
             <Header>Победитель</Header>
-            <Winner>{winMessage.name}</Winner>
+            <Winner>
+              {winMessage.name}
+              <Percent>
+                {winMessage.value} - ({(winMessage.percent * 100).toFixed(2)}%)
+              </Percent>
+            </Winner>
           </FlexAuto>
           <ParticipantsCnt>
             <PerfectScrollbar>

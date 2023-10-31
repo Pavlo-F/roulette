@@ -27,13 +27,15 @@ const Message = styled.div`
   background-color: var(--primaryColor700);
 `;
 
-const Title = styled.div`
-`;
-
 const Body = styled.div`
   font-size: 2rem;
   word-wrap: anywhere;
   text-align: center;
+`;
+
+const Percent = styled.div`
+  font-size: 1rem;
+  color: var(--primaryTextColor);
 `;
 
 export const RemoveMessage = memo(() => {
@@ -51,7 +53,12 @@ export const RemoveMessage = memo(() => {
   return (
     <Root onClick={onClose}>
       <Message>
-        <Body>{removeMessage.name}</Body>
+        <Body>
+          {removeMessage.name}
+          <Percent>
+            {removeMessage.value} - ({(removeMessage.percent * 100).toFixed(2)}%)
+          </Percent>
+        </Body>
       </Message>
     </Root>
   );

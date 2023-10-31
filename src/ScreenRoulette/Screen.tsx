@@ -8,6 +8,7 @@ import { SwitchMode } from "./SwitchMode";
 import { HomeAtomsCtx } from "../ScreenHome";
 import { ButtonShuffleLots } from "./ButtonShuffleLots";
 import { BackAnimations } from "./BackAnimations";
+import { useTotalAmount } from "../ScreenHome/LotTable/useTotalAmount";
 
 const Root = styled.div`
   position: relative;
@@ -19,18 +20,21 @@ const Root = styled.div`
 export const Screen = memo(() => {
   const { lotsAtom } = useContext(HomeAtomsCtx);
   const lots = useAtomValue(lotsAtom);
+  const totalAmount = useTotalAmount();
 
   const data: WheelData[] = useMemo(() => {
     const result = lots.map(x => {
+      const sum = x.sum || 0;
       return {
         id: x.id,
         name: x.name,
-        value: x.sum || 0,
+        value: sum,
+        percent: sum / totalAmount,
       };
     });
 
     return result;
-  }, [lots]);
+  }, [lots, totalAmount]);
 
   return (
     <RouletteAtomsProvider wheelData={data}>
