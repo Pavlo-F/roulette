@@ -1,24 +1,17 @@
 import React, { memo, useContext, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { useAtomValue, useSetAtom } from "jotai";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { SettingsAtomsCtx } from "./AtomsCtx";
-import {
-  TwichAtomsCtx,
-  redirectUri,
-  twichClientId,
-  twichState,
-} from "../Services/TwichService/AtomsCtx";
+import { TwichAtomsCtx, redirectUri, twichClientId } from "../Services/TwichService/AtomsCtx";
 import { ServiceStatus } from "../Services/statuses";
 import { createAbortController, useAbortController } from "../Utils/useAbortController";
-import { ValidationContext } from "../forms/Validation";
 import { useDonactionAxios } from "../useDonactionAxios";
 
 export const ButtonConnectToTwich = memo(() => {
   const abortControllerRef = useAbortController();
 
-  const { isInvalid } = useContext(ValidationContext);
   const { connectStatusAtom, codeAtom, accessTokenAtom } = useContext(TwichAtomsCtx);
   const { settingsAtom, settingsTempAtom } = useContext(SettingsAtomsCtx);
 
@@ -26,6 +19,15 @@ export const ButtonConnectToTwich = memo(() => {
   const setCode = useSetAtom(codeAtom);
   const setAccessToken = useSetAtom(accessTokenAtom);
   const settingsTemp = useAtomValue(settingsTempAtom);
+  const settings = useAtomValue(settingsAtom);
+
+  const twichState = useMemo(() => {
+    if (!settings.integration?.twichOAuthState) {
+      return "";
+    }
+
+    return settings.integration.twichOAuthState;
+  }, [settings.integration?.twichOAuthState]);
 
   const url = useMemo(() => {
     return `https://id.twitch.tv/oauth2/authorize
@@ -34,14 +36,20 @@ export const ButtonConnectToTwich = memo(() => {
 &redirect_uri=${redirectUri}
 &scope=chat%3Aread+user%3Aread%3Achat
 &state=${twichState}`;
-  }, []);
+  }, [twichState]);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const { instance } = useDonactionAxios();
 
   useEffect(() => {
     const code = searchParams.get("code");
+    const state = searchParams.get("state");
     if (!code || !settingsTemp.integration.twichChannel) {
+      return;
+    }
+
+    if (state !== twichState) {
+      console.warn("Wrong state");
       return;
     }
 
@@ -68,6 +76,7 @@ export const ButtonConnectToTwich = memo(() => {
     setCode,
     setConnectStatus,
     settingsTemp.integration.twichChannel,
+    twichState,
   ]);
 
   return (

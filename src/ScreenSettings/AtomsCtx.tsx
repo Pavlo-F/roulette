@@ -1,5 +1,6 @@
 import React, { FC, createContext, memo, useEffect, useMemo, useState } from "react";
-import { PrimitiveAtom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { produce } from "immer";
+import { PrimitiveAtom, useAtom, useSetAtom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
 import { atomWithStorage } from "jotai/utils";
 import { ServiceStatus } from "../Services/statuses";
@@ -15,7 +16,7 @@ export const statusMap: Record<ServiceStatus, string> = {
 export enum Games {
   Fifteen = "Fifteen",
   Minesweeper = "Minesweeper",
-};
+}
 
 export type Settings = {
   timer: {
@@ -32,7 +33,9 @@ export type Settings = {
     donationAlertsWidgetUrl: string;
 
     trovoChannel: string;
+    
     twichChannel: string;
+    twichOAuthState: string;
 
     game: Games;
   };
@@ -64,8 +67,10 @@ const defaultSettings = {
     donationAlertsWidgetUrl: "",
 
     trovoChannel: "",
+
     twichChannel: "",
-    
+    twichOAuthState: new Date().getTime().toString(),
+
     game: Games.Minesweeper,
   },
 };
@@ -84,16 +89,24 @@ const Context = createContext<IContext>(create());
 const Provider = memo(({ children }: Props) => {
   const [atoms] = useState(() => create());
 
-  const settings = useAtomValue(atoms.settingsAtom);
+  const [settings, setSettings] = useAtom(atoms.settingsAtom);
   const setSettingsTemp = useSetAtom(atoms.settingsTempAtom);
 
   useEffect(() => {
-    const check = settings as Settings;
-    if (!check.integration.game) {
-      check.integration.game = Games.Minesweeper;
-    }
-    setSettingsTemp(check);
+    setSettingsTemp(settings);
   }, [setSettingsTemp, settings]);
+
+  useEffect(() => {
+    setSettings(
+      produce(draft => {
+        if (!draft.integration.twichOAuthState) {
+          draft.integration.twichOAuthState = new Date().getTime().toString();
+        }
+
+        return draft;
+      })
+    );
+  }, [setSettings]);
 
   const ctx = useMemo(() => {
     const r: IContext = {

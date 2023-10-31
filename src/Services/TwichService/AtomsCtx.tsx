@@ -5,7 +5,6 @@ import { AccessToken, Chat } from "./models";
 import { ServiceStatus } from "../statuses";
 
 export const twichClientId = "xbfg3381y83ui5sojt2cdyc0i2ud4m";
-export const twichState = "gfvhi4386ftwgebn";
 export const redirectUri =  import.meta.env.DEV ? "http://localhost:5173/settings" : "https://wheel.donaction.club/settings";
 ;
 
