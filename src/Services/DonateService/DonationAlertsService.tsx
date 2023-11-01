@@ -21,7 +21,9 @@ type Props = {
 export const DonationAlertsService = memo(({ accessToken }: Props) => {
   const [reconnect, setReconnect] = useState<Date>(new Date());
 
-  const ioRef = useRef(io("wss://socket.donationalerts.ru"));
+  const ioRef = useRef(io("wss://socket.donationalerts.ru", {
+    autoConnect: false,
+  }));
 
   const { donationAlertsStatusAtom } = useContext(DonateAtomsCtx);
   const setDdonationAlertsStatus = useSetAtom(donationAlertsStatusAtom);
@@ -63,6 +65,7 @@ export const DonationAlertsService = memo(({ accessToken }: Props) => {
     }
 
     return () => {
+      ioClient?.removeAllListeners();
       ioClient?.disconnect();
     };
   }, [accessToken, ioClient, reconnect, setDdonationAlertsStatus]);

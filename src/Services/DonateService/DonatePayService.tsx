@@ -127,6 +127,7 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
 
     return () => {
       centrifuge.removeAllListeners();
+      centrifuge.disconnect();
     };
   }, [centrifuge, getToken, reconnect, setReconnect, userId, setDonatePayStatus]);
 

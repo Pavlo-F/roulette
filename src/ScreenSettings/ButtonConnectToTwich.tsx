@@ -13,12 +13,11 @@ export const ButtonConnectToTwich = memo(() => {
   const abortControllerRef = useAbortController();
 
   const { connectStatusAtom, codeAtom, accessTokenAtom } = useContext(TwichAtomsCtx);
-  const { settingsAtom, settingsTempAtom } = useContext(SettingsAtomsCtx);
+  const { settingsAtom } = useContext(SettingsAtomsCtx);
 
   const setConnectStatus = useSetAtom(connectStatusAtom);
   const setCode = useSetAtom(codeAtom);
   const setAccessToken = useSetAtom(accessTokenAtom);
-  const settingsTemp = useAtomValue(settingsTempAtom);
   const settings = useAtomValue(settingsAtom);
 
   const twichState = useMemo(() => {
