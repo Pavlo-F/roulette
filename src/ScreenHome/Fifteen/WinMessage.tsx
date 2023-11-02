@@ -37,6 +37,10 @@ const FlexCnt = styled.div`
   padding: 1rem;
 `;
 
+const WinMsg = styled.div`
+  color: #53ce31;
+`;
+
 let timeout = 0;
 
 export const WinMessage = memo(() => {
@@ -48,8 +52,8 @@ export const WinMessage = memo(() => {
     let result = true;
     let prev = 0;
 
-    for(let i = 0; i < fifteen.data.length - 1; i += 1) {
-      result &&= (prev + 1) === fifteen.data[i].value;
+    for (let i = 0; i < fifteen.data.length - 1; i += 1) {
+      result &&= prev + 1 === fifteen.data[i].value;
       prev = fifteen.data[i].value;
 
       if (!result) {
@@ -66,9 +70,9 @@ export const WinMessage = memo(() => {
       }, 10000);
     }
 
-    return (() => {
+    return () => {
       clearTimeout(timeout);
-    });
+    };
   }, [fifteen.data, setFifteen]);
 
   const onClose = useCallback(() => {
@@ -85,7 +89,7 @@ export const WinMessage = memo(() => {
     <Root onClick={onClose}>
       <Message>
         <FlexCnt>
-            <div>Чатик, Вы лучшие игроки в Пятнашки!</div>
+          <WinMsg>Чатик, Вы лучшие игроки в Пятнашки!</WinMsg>
         </FlexCnt>
       </Message>
     </Root>

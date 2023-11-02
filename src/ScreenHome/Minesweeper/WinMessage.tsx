@@ -30,7 +30,10 @@ const FlexCnt = styled.div`
   justify-content: center;
   text-align: center;
   color: var(--secondaryColor500);
-  padding: 1rem;
+`;
+
+const WinMsg = styled.div`
+  color: #53ce31;
 `;
 
 let timeout = 0;
@@ -47,11 +50,15 @@ export const WinMessage = memo(() => {
   }, [setMinesweeper]);
 
   useEffect(() => {
+    if (isWin !== undefined) {
+      return;
+    }
+    
     let closed = 0;
 
     for (let i = 0; i < minesweeperSize.rows; i += 1) {
       for (let j = 0; j < minesweeperSize.columns; j += 1) {
-        if (minesweeper[i][j].status === "opened" && minesweeper[i][j].isMine) {
+        if (minesweeper[i][j].status === "opened" && minesweeper[i][j].isMine && !isWin) {
           setIsWin(false);
           closed = 999;
           break;
@@ -67,7 +74,7 @@ export const WinMessage = memo(() => {
       setIsWin(true);
     }
 
-  }, [minesweeper]);
+  }, [isWin, minesweeper]);
 
   useEffect(() => {
     if (isWin !== undefined) {
@@ -100,7 +107,7 @@ export const WinMessage = memo(() => {
     <Root onClick={onClose}>
       <Message>
         <FlexCnt>
-          {isWin && <div>Чатик, Вы лучшие игроки в Сапёра!</div>}
+          {isWin && <WinMsg>Чатик, Вы лучшие игроки в Сапёр!</WinMsg>}
           {isWin === false && <div>Чатик, не быть тебе сапёром</div>}
         </FlexCnt>
       </Message>

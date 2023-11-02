@@ -80,7 +80,7 @@ export const Process = memo(() => {
       return;
     }
 
-    const matches = /[\d]+/.exec(text);
+    const matches = /^[\d]+/.exec(text);
     if (!matches) {
       return;
     }
