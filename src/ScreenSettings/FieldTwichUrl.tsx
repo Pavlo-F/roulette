@@ -72,7 +72,7 @@ export const FieldTwichUrl = memo(() => {
     <div>
         <InputSt
           value={url}
-          placeholder="Вставьте ссылку на Twich канал https://www.twitch.tv/..."
+          placeholder="Вставьте ссылку на Twitch канал https://www.twitch.tv/..."
           onChange={onChange}
           className={error ? "invalid" : ""}
         />

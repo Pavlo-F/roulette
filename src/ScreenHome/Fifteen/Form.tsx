@@ -40,7 +40,7 @@ export const Form = memo(() => {
     }
 
     if (settings.integration.twichChannel) {
-      result.push("Twich");
+      result.push("Twitch");
     }
 
     return result;

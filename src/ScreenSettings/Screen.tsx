@@ -126,7 +126,7 @@ export const Screen = withValidationProvider(
             </FlexCnt>
 
             <FlexCnt>
-              <DonationTitle>Twich</DonationTitle>
+              <DonationTitle>Twitch</DonationTitle>
               <TwichStatus />
             </FlexCnt>
             <FlexCnt>
