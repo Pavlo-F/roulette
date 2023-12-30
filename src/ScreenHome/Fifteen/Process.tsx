@@ -1,8 +1,9 @@
-import React, { memo, useContext, useEffect, useRef } from "react";
+import React, { memo, useCallback, useContext, useEffect, useRef } from "react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { FifteenAtomsCtx, fifteenSize, totalSeconds } from "./AtomsCtx";
 import { useMove } from "./useMove";
 import { TrovoAtomsCtx } from "../../Services/TrovoService";
+import { TwichAtomsCtx } from "../../Services/TwichService";
 
 const size = fifteenSize * fifteenSize;
 let interval = 0;
@@ -10,10 +11,12 @@ let elepsated = 0;
 
 export const Process = memo(() => {
   const { messageAtom } = useContext(TrovoAtomsCtx);
+  const { messageAtom: messageTwichAtom } = useContext(TwichAtomsCtx);
   const { timeLeftAtom, winValueAtom, fifteenAtom, voteMapAtom } = useContext(FifteenAtomsCtx);
   const valueMap = useRef<Record<number, number>>({});
 
   const message = useAtomValue(messageAtom);
+  const messageTwich = useAtomValue(messageTwichAtom);
   const setTimeLeft = useSetAtom(timeLeftAtom);
   const [winValue, setWinValue] = useAtom(winValueAtom);
   const [fifteen, setFifteen] = useAtom(fifteenAtom);
@@ -62,8 +65,7 @@ export const Process = memo(() => {
     };
   }, [setTimeLeft, setVoteMap, setWinValue]);
 
-  useEffect(() => {
-    const text = message.content;
+  const process = useCallback((text: string) => {
     if (!text) {
       return;
     }
@@ -83,7 +85,15 @@ export const Process = memo(() => {
 
       setVoteMap({ ...valueMap.current });
     }
-  }, [message, setVoteMap]);
+  }, [setVoteMap]);
+
+  useEffect(() => {
+    process(message.content);
+  }, [message.content, process]);
+
+  useEffect(() => {
+    process(messageTwich.text);
+  }, [messageTwich.text, process]);
 
   return null;
 });
