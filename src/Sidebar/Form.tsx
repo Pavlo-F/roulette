@@ -68,16 +68,6 @@ const ShowHide = styled.div<{ $hide: boolean }>`
   }
 `;
 
-const Christmas = styled.div`
-  position: absolute;
-  bottom: 0px;
-  opacity: 0.5;
-
-  > img {
-    width: 100%;
-  }
-`;
-
 export const Form = memo(() => {
   const location = useLocation();
 
@@ -119,10 +109,6 @@ export const Form = memo(() => {
           <div>Настройки</div>
         </NavItem>
       </Link>
-
-      <Christmas>
-        <img src="christmas_tree.png" />
-      </Christmas>
     </Root>
   );
 });
