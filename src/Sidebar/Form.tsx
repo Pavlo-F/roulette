@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 import SvgDoubleArrow from "./ic_double-arrow.svg";
 import SvgHammer from "./ic_hammer.svg";
+import SvgInfo from "./ic_info.svg";
 import SvgChart from "./ic_pieChart.svg";
 import SvgSettings from "./ic_settings.svg";
 
@@ -18,7 +19,7 @@ const Root = styled.div<{ $hide: boolean }>`
   transition: width 180ms;
 `;
 
-const NavItem = styled.div<{ selected: boolean }>`
+const NavItem = styled.div<{ selected?: boolean }>`
   display: flex;
   align-items: center;
   height: 3rem;
@@ -68,6 +69,12 @@ const ShowHide = styled.div<{ $hide: boolean }>`
   }
 `;
 
+const Hr = styled.hr`
+  width: 90%;
+  border: none;
+  border-top: 1px solid var(--borderColor);
+`;
+
 export const Form = memo(() => {
   const location = useLocation();
 
@@ -109,6 +116,17 @@ export const Form = memo(() => {
           <div>Настройки</div>
         </NavItem>
       </Link>
+
+      <Hr />
+
+      <a href="https://donaction.club/exclusive" target="_blank" rel="noopener noreferrer">
+        <NavItem>
+          <Icon>
+            <SvgInfo />
+          </Icon>
+          Другие проекты
+        </NavItem>
+      </a>
     </Root>
   );
 });
