@@ -72,6 +72,7 @@ export const Header = memo(({ id, currency, sum, userName, source }: Props) => {
           {source === DonateSource.DonationAlerts && (
             <Icon src={IMAGES.PngDonationAlerts} alt="DonationAlerts" />
           )}
+          {source === DonateSource.Twitch && <Icon src={IMAGES.PngTwitch} alt="Twitch" />}
         </IconCnt>
         <Sum>
           {sum} {currency.toLocaleLowerCase()}

@@ -36,6 +36,7 @@ export type Settings = {
     
     twichChannel: string;
     twichOAuthState: string;
+    twitchExchangeRate: number;
 
     game: Games;
   };
@@ -70,6 +71,7 @@ const defaultSettings = {
 
     twichChannel: "",
     twichOAuthState: new Date().getTime().toString(),
+    twitchExchangeRate: 100,
 
     game: Games.Minesweeper,
   },
@@ -101,6 +103,10 @@ const Provider = memo(({ children }: Props) => {
       produce(draft => {
         if (!draft.integration.twichOAuthState) {
           draft.integration.twichOAuthState = new Date().getTime().toString();
+        }
+
+        if (!draft.integration.twitchExchangeRate) {
+          draft.integration.twitchExchangeRate = 100;
         }
 
         return draft;

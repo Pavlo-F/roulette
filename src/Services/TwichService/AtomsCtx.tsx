@@ -14,10 +14,12 @@ type IAtoms = {
   channelUrl: string;
   codeAtom: PrimitiveAtom<string>;
   accessTokenAtom: PrimitiveAtom<AccessToken>;
+  exchangeRate: number;
 };
 
 type IParams = {
   channelUrl: string;
+  exchangeRate: number;
 };
 
 type IContext = IAtoms;
@@ -33,6 +35,7 @@ const create = () => {
     channelUrl: "",
     codeAtom: atom<string>(""),
     accessTokenAtom: atomWithImmer<AccessToken>({} as AccessToken),
+    exchangeRate: 100,
   };
 
   return r;
@@ -47,7 +50,7 @@ export const addChatMessage = (value: Chat) => {
   chatMessagesQueue.push(value);
 };
 
-const Provider = memo(({ children, channelUrl }: Props) => {
+const Provider = memo(({ children, channelUrl, exchangeRate }: Props) => {
   const [atoms] = useState(() => create());
   const setMessage = useSetAtom(atoms.messageAtom);
 
@@ -68,9 +71,10 @@ const Provider = memo(({ children, channelUrl }: Props) => {
     const r: IContext = {
       ...atoms,
       channelUrl,
+      exchangeRate,
     };
     return r;
-  }, [atoms, channelUrl]);
+  }, [atoms, channelUrl, exchangeRate]);
 
   return <Context.Provider value={ctx}>{children}</Context.Provider>;
 });

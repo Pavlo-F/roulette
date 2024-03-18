@@ -12,8 +12,10 @@
   "dependencies": {
     "@tanstack/match-sorter-utils": "^8.8.4",
     "@tanstack/react-table": "^8.9.9",
-    "@twurple/auth": "^7.0.4",
-    "@twurple/chat": "^7.0.4",
+    "@twurple/api": "^7.0.10",
+    "@twurple/auth": "^7.0.10",
+    "@twurple/chat": "^7.0.10",
+    "@twurple/pubsub": "^7.0.10",
     "axios": "^1.5.0",
     "centrifuge": "2.8.5",
     "dayjs": "^1.11.9",

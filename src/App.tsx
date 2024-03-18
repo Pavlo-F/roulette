@@ -54,10 +54,14 @@ const Providers = withSettingsProvider(
       return settings.integration.twichChannel;
     }, [settings.integration.twichChannel]);
 
+    const twitchExchangeRate = useMemo(() => {
+      return settings.integration.twitchExchangeRate;
+    }, [settings.integration.twitchExchangeRate]);
+
     return (
       <>
         <DonateAtomsProvider>
-          <TwichAtomsProvider channelUrl={twichChannel}>
+          <TwichAtomsProvider channelUrl={twichChannel} exchangeRate={twitchExchangeRate}>
             <TrovoAtomsProvider channelUrl={trovoChannel}>
               <DonateService />
               <TrovoService />

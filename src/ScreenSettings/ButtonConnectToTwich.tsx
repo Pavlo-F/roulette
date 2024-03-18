@@ -33,7 +33,7 @@ export const ButtonConnectToTwich = memo(() => {
 ?response_type=code
 &client_id=${twichClientId}
 &redirect_uri=${redirectUri}
-&scope=chat%3Aread+user%3Aread%3Achat
+&scope=chat%3Aread+user%3Aread%3Achat+channel%3Aread%3Aredemptions
 &state=${twichState}`;
   }, [twichState]);
 

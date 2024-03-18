@@ -14,12 +14,13 @@ import { FieldDonatePayApiKey } from "./FieldDonatePayApiKey";
 import { FieldDonationAlertsUrl } from "./FieldDonationAlertsUrl";
 import { FieldThresholdToAddTime } from "./FieldThresholdToAddTime";
 import { FieldTrovoUrl } from "./FieldTrovoUrl";
+import { FieldTwichUrl } from "./FieldTwichUrl";
+import { FieldTwitchExchangeRate } from "./FieldTwitchExchangeRate";
 import { SwitchGame } from "./SwitchGame";
 import { TrovoStatus } from "./TrovoStatus";
 import { TwichStatus } from "./TwichStatus";
 import { FlexCnt } from "./styles.styled";
 import { withValidationProvider } from "../forms/Validation";
-import { FieldTwichUrl } from "./FieldTwichUrl";
 
 const Root = styled.div`
   display: flex;
@@ -53,6 +54,11 @@ const Footer = styled.div`
   bottom: 0;
   padding: 0.5rem 0;
   background-color: var(--primaryColor800);
+`;
+
+const Currency = styled.span`
+  color: var(--secondaryColor500);
+  font-weight: 600;
 `;
 
 export const Screen = withValidationProvider(
@@ -108,6 +114,9 @@ export const Screen = withValidationProvider(
               <DonationAlertsStatus />
             </FlexCnt>
             <FieldDonationAlertsUrl />
+
+            <div>Курс к балам Twitch. <Currency>1</Currency> рубль равен:</div>
+            <FieldTwitchExchangeRate />
           </Grid>
         </Row>
 

@@ -125,6 +125,9 @@ export const DonateListDialog = memo(() => {
                     {x.source === DonateSource.DonationAlerts && (
                       <Icon src={IMAGES.PngDonationAlerts} alt="DonationAlerts" />
                     )}
+                    {x.source === DonateSource.Twitch && (
+                      <Icon src={IMAGES.PngTwitch} alt="Twitch" />
+                    )}
                   </IconCnt>
                   <Date>{dayjs(x.date).format("DD.MM.YYYY HH:mm")}</Date>
                   <Amount>{`${x.sum} ${x.currency.toLowerCase()}`}</Amount>

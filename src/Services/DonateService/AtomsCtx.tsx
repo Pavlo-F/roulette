@@ -5,6 +5,7 @@ import { ServiceStatus } from "../statuses";
 export enum DonateSource {
   DonatePay,
   DonationAlerts,
+  Twitch,
 }
 
 export type Donate = {
