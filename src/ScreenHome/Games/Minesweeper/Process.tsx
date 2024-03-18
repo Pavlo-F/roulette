@@ -1,40 +1,50 @@
-import React, { memo, useCallback, useContext, useEffect, useRef } from "react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { FifteenAtomsCtx, fifteenSize, totalSeconds } from "./AtomsCtx";
-import { useMove } from "./useMove";
-import { TrovoAtomsCtx } from "../../Services/TrovoService";
-import { TwichAtomsCtx } from "../../Services/TwichService";
+import React, { memo, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
+import { MinesweeperAtomsCtx, minesweeperSize, totalSeconds } from "./AtomsCtx";
+import { TrovoAtomsCtx } from "../../../Services/TrovoService";
+import { useOpen } from "./useOpen";
+import { TwichAtomsCtx } from "../../../Services/TwichService";
 
-const size = fifteenSize * fifteenSize;
+const size = minesweeperSize.columns * minesweeperSize.rows;
 let interval = 0;
 let elepsated = 0;
 
 export const Process = memo(() => {
   const { messageAtom } = useContext(TrovoAtomsCtx);
   const { messageAtom: messageTwichAtom } = useContext(TwichAtomsCtx);
-  const { timeLeftAtom, winValueAtom, fifteenAtom, voteMapAtom } = useContext(FifteenAtomsCtx);
+  const { timeLeftAtom, minesweeperAtom, voteMapAtom } = useContext(MinesweeperAtomsCtx);
   const valueMap = useRef<Record<number, number>>({});
 
   const message = useAtomValue(messageAtom);
   const messageTwich = useAtomValue(messageTwichAtom);
   const setTimeLeft = useSetAtom(timeLeftAtom);
-  const [winValue, setWinValue] = useAtom(winValueAtom);
-  const [fifteen, setFifteen] = useAtom(fifteenAtom);
+  const [winValue, setWinValue] = useState(0);
+  const minesweeper = useAtomValue(minesweeperAtom);
   const setVoteMap = useSetAtom(voteMapAtom);
-  const { move } = useMove();
+  const { open } = useOpen();
+
+  const findItem = useCallback(() => {
+    for (let i = 0; i < minesweeperSize.rows; i += 1) {
+      for (let j = 0; j < minesweeperSize.columns; j += 1) {
+        if (minesweeper[i][j].status === "closed" && minesweeper[i][j].value === winValue) {
+          return minesweeper[i][j];
+        }
+      }
+    }
+
+    return null;
+  }, [minesweeper, winValue]);
 
   useEffect(() => {
-    const found = fifteen.data.find(x => x.value === winValue);
+    const found = findItem();
     if (found) {
-      const result = move(found);
-      if (result) {
-        setFifteen(result);
-      }
-      setWinValue(0);
-      setVoteMap({});
-      valueMap.current = {};
+      open(found);
     }
-  }, [fifteen.data, move, setFifteen, setVoteMap, setWinValue, winValue]);
+    
+    setWinValue(0);
+    setVoteMap({});
+    valueMap.current = {};
+  }, [findItem, open, setVoteMap]);
 
   useEffect(() => {
     clearInterval(interval);
@@ -89,11 +99,11 @@ export const Process = memo(() => {
 
   useEffect(() => {
     process(message.content);
-  }, [message.content, process]);
+  }, [message, process]);
 
   useEffect(() => {
     process(messageTwich.text);
-  }, [messageTwich.text, process]);
+  }, [messageTwich, process]);
 
   return null;
 });

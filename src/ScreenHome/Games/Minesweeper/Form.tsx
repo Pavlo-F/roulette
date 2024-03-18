@@ -5,7 +5,7 @@ import { MinesweeperAtomsCtx, TableItem, minesweeperSize } from "./AtomsCtx";
 import { Item } from "./Item";
 import { Process } from "./Process";
 import { WinMessage } from "./WinMessage";
-import { Games, SettingsAtomsCtx } from "../../ScreenSettings/AtomsCtx";
+import { Games, SettingsAtomsCtx } from "../../../ScreenSettings/AtomsCtx";
 
 const Root = styled.div`
   position: relative;
