@@ -12,8 +12,9 @@ import { LotTable } from "./LotTable";
 import { NewLotList } from "./NewLotList";
 import { Timer } from "./Timer";
 import { BackAnimations } from "./BackAnimations";
-import { Fifteen } from "./Fifteen";
-import { Minesweeper } from "./Minesweeper";
+import { Fifteen } from "./Games/Fifteen";
+import { Minesweeper } from "./Games/Minesweeper";
+import { Contextually } from "./Games/Contextually";
 
 const Root = styled.div`
   position: relative;
@@ -74,6 +75,7 @@ export const Screen = memo(() => {
         
         <Fifteen />
         <Minesweeper />
+        <Contextually />
       </Sidebar>
       <Main>
         <PerfectScrollbar>

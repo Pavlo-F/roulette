@@ -54,6 +54,13 @@ export const SwitchGame = memo(() => {
         checked={settingsTemp.integration.game === Games.Minesweeper}>
         Сапёр
       </Radio>
+      <Radio
+        name="game"
+        value={Games.Contextually}
+        onChange={onChange}
+        checked={settingsTemp.integration.game === Games.Contextually}>
+        Контекстно
+      </Radio>
     </Root>
   );
 });
