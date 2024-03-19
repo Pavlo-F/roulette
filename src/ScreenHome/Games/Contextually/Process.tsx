@@ -26,7 +26,7 @@ export const Process = memo(() => {
   const setTimeLeft = useSetAtom(timeLeftAtom);
   const [winValue, setWinValue] = useAtom(winValueAtom);
   const showWinWindow = useSetAtom(showWinWindowAtom);
-  const [contextually, setContextually] = useAtom(contextuallyAtom);
+  const setContextually = useSetAtom(contextuallyAtom);
   const setVoteMap = useSetAtom(voteMapAtom);
   const setFetchMessage = useSetAtom(fetchMessageAtom);
 
@@ -37,11 +37,15 @@ export const Process = memo(() => {
       return;
     }
 
-    setFetchMessage("Получение...");
     getScore(winValue.value)
       .then(data => {
+        setFetchMessage("");
+
         if (data.data.error) {
           setFetchMessage("Нет такого слова в списке");
+          setTimeout(() => {
+            setFetchMessage("");
+          }, 3000);
           return;
         }
 
@@ -59,12 +63,16 @@ export const Process = memo(() => {
         setWinValue({ value: "" });
         setVoteMap({});
         valueMap.current = {};
-
-        setTimeout(() => {
-          setFetchMessage("");
-        }, 3000);
       });
-  }, [getScore, setContextually, setFetchMessage, setVoteMap, setWinValue, showWinWindow, winValue.value]);
+  }, [
+    getScore,
+    setContextually,
+    setFetchMessage,
+    setVoteMap,
+    setWinValue,
+    showWinWindow,
+    winValue.value,
+  ]);
 
   useEffect(() => {
     clearInterval(interval);

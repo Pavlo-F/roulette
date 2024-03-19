@@ -65,7 +65,7 @@ export const FieldTwitchExchangeRate = memo(() => {
         onChange={onChange}
         onKeyDown={onKeyDown}
       />
-      <span> балам</span>
+      <span> баллам</span>
     </Root>
   );
 });

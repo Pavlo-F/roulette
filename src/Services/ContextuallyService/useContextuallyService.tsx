@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { AxiosResponse } from "axios";
 import { useAtom } from "jotai";
 import { Challenge, challengeAtom, tokenAtom } from "./atoms";
-import { ScoreRequest, ScoreResponce } from "./models";
+import { ScoreRequest, ScoreResponce, TipRequest } from "./models";
 import { useAxios } from "./useAxios";
 import { createAbortController, useAbortController } from "../../Utils/useAbortController";
 
@@ -12,6 +12,7 @@ export const useContextuallyService = () => {
 
   const abortControllerChalengeRef = useAbortController();
   const abortControllerScoreRef = useAbortController();
+  const abortControllerTipRef = useAbortController();
 
   const { instance } = useAxios();
 
@@ -51,8 +52,26 @@ export const useContextuallyService = () => {
     [abortControllerScoreRef, challenge.id, token, instance]
   );
 
+  const getTip = useCallback(() => {
+    const abortController = createAbortController(abortControllerTipRef);
+
+    const params: TipRequest = {
+      challenge_id: challenge.id,
+      challenge_type: "random",
+      user_id: token.token,
+    };
+
+    const req = instance.get<any, AxiosResponse<ScoreResponce>>("/get_tip", {
+      signal: abortController.signal,
+      params,
+    });
+
+    return req;
+  }, [abortControllerTipRef, challenge.id, instance, token.token]);
+
   return {
     getScore,
     initRandomChallenge,
+    getTip,
   };
 };

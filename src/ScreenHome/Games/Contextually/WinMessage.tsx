@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect } from "react";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import styled from "styled-components";
-import { showWinWindowAtom } from "./atoms";
+import { contextuallyAtom, showWinWindowAtom } from "./atoms";
 import { useContextuallyService } from "../../../Services/ContextuallyService";
 import { ScoreResponce } from "../../../Services/ContextuallyService/models";
 
@@ -47,16 +47,18 @@ let timeout = 0;
 
 export const WinMessage = memo(() => {
   const [showWinWindow, setShowWinWindow] = useAtom(showWinWindowAtom);
-  
+  const setContextually = useSetAtom(contextuallyAtom);
+
   const { initRandomChallenge } = useContextuallyService();
 
   const onClose = useCallback(() => {
     initRandomChallenge();
     setShowWinWindow({} as ScoreResponce);
-  }, [initRandomChallenge, setShowWinWindow]);
+    setContextually([]);
+  }, [initRandomChallenge, setContextually, setShowWinWindow]);
 
   useEffect(() => {
-    if (showWinWindow?.id) {
+    if (showWinWindow?.completed) {
       timeout = window.setTimeout(() => {
         onClose();
       }, 10000);
@@ -65,9 +67,9 @@ export const WinMessage = memo(() => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [onClose, showWinWindow?.id]);
+  }, [onClose, showWinWindow?.completed]);
 
-  if (!showWinWindow?.id) {
+  if (!showWinWindow?.completed) {
     return null;
   }
 
@@ -77,6 +79,7 @@ export const WinMessage = memo(() => {
         <FlexCnt>
           <WinMsg>{showWinWindow.word}</WinMsg>
           <div>Попыток: {showWinWindow.tries}</div>
+          <div>Подсказок: {showWinWindow.tips}</div>
         </FlexCnt>
       </Message>
     </Root>

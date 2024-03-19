@@ -33,7 +33,7 @@ export const Votes = memo(() => {
 
     const sorted = result.sort((a, b) => b.votes - a.votes);
     if (sorted?.length) {
-      return sorted.slice(0, 4);
+      return sorted.slice(0, 5);
     }
 
     return [];

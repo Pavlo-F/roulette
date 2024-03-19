@@ -5,6 +5,12 @@ export type ScoreRequest = {
   challenge_type: string;
 };
 
+export type TipRequest = {
+  challenge_id: string;
+  user_id: string;
+  challenge_type: string;
+};
+
 export type ScoreResponce = {
   id: string;
   completed: boolean;

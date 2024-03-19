@@ -1,11 +1,12 @@
 import React, { memo, useContext, useMemo } from "react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import styled, { css } from "styled-components";
 import { Process } from "./Process";
 import { Votes } from "./Votes";
 import { WinMessage } from "./WinMessage";
 import { contextuallyAtom, fetchMessageAtom, timeLeftAtom } from "./atoms";
 import { Games, SettingsAtomsCtx } from "../../../ScreenSettings/AtomsCtx";
+import { ButtonTip } from "./ButtonTip";
 
 const Root = styled.div`
   color: var(--borderColor);
@@ -22,6 +23,7 @@ const Game = styled.div`
   margin-bottom: 0.1rem;
   gap: 0.2rem;
   max-height: 10rem;
+  min-height: 7rem;
 `;
 
 const Item = styled.div`
@@ -60,11 +62,17 @@ const Bacground = styled.div<{ $width: number }>`
 
 const Message = styled.div`
   max-height: 5rem;
-  color: var(--invalid);
+  color: #fff;
+`;
+
+const FixedWidth = styled.div`
+  width: 1.3rem;
+  display: inline-block;
+  text-align: center;
 `;
 
 export const Form = memo(() => {
-  const [contextually, setContextually] = useAtom(contextuallyAtom);
+  const contextually = useAtomValue(contextuallyAtom);
   const { settingsAtom } = useContext(SettingsAtomsCtx);
 
   const settings = useAtomValue(settingsAtom);
@@ -85,7 +93,7 @@ export const Form = memo(() => {
   }, [settings.integration.trovoChannel, settings.integration.twichChannel]);
 
   const sortedContextually = useMemo(() => {
-    return contextually?.sort((a, b) => a.rank - b.rank).slice(0, 4) || [];
+    return contextually?.sort((a, b) => a.rank - b.rank).slice(0, 5) || [];
   }, [contextually]);
 
   if (
@@ -98,8 +106,8 @@ export const Form = memo(() => {
   return (
     <Root>
       <div>Контекстно для {integratedChat.join(", ")}</div>
-      <span>Напиши в чат слово для проверки. Результат через {timeLeft} секунд</span>
-
+      <span>Напиши в чат слово для проверки. Результат через <FixedWidth>{timeLeft}</FixedWidth> секунд. <ButtonTip /></span>
+      
       <Votes />
       <Message>{fetchMessage}</Message>
 

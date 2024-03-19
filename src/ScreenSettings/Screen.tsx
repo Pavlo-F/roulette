@@ -115,7 +115,7 @@ export const Screen = withValidationProvider(
             </FlexCnt>
             <FieldDonationAlertsUrl />
 
-            <div>Курс к балам Twitch. <Currency>1</Currency> рубль равен:</div>
+            <div>Курс к баллам Twitch. <Currency>1</Currency> рубль равен:</div>
             <FieldTwitchExchangeRate />
           </Grid>
         </Row>

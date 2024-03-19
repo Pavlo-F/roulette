@@ -1,5 +1,4 @@
 import { atom } from "jotai";
-import { atomWithImmer } from "jotai-immer";
 import { ScoreResponce } from "../../../Services/ContextuallyService/models";
 
 export const totalSeconds = 20;
