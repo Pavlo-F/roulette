@@ -126,21 +126,21 @@ export const Screen = withValidationProvider(
           <SwitchGame />
 
           <Grid>
-            <FlexCnt>
-              <DonationTitle>Trovo</DonationTitle>
-              <TrovoStatus />
-            </FlexCnt>
-            <FlexCnt>
-              <FieldTrovoUrl />
-            </FlexCnt>
-
-            <FlexCnt>
+          <FlexCnt>
               <DonationTitle>Twitch</DonationTitle>
               <TwichStatus />
             </FlexCnt>
             <FlexCnt>
               <FieldTwichUrl />
               <ButtonConnectToTwich />
+            </FlexCnt>
+            
+            <FlexCnt>
+              <DonationTitle>Trovo</DonationTitle>
+              <TrovoStatus />
+            </FlexCnt>
+            <FlexCnt>
+              <FieldTrovoUrl />
             </FlexCnt>
           </Grid>
         </Row>

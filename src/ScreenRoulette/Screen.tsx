@@ -9,6 +9,7 @@ import { HomeAtomsCtx } from "../ScreenHome";
 import { ButtonShuffleLots } from "./ButtonShuffleLots";
 import { BackAnimations } from "./BackAnimations";
 import { useTotalAmount } from "../ScreenHome/LotTable/useTotalAmount";
+import { FieldSpeed } from "./FieldSpeed";
 
 const Root = styled.div`
   position: relative;
@@ -44,6 +45,7 @@ export const Screen = memo(() => {
         <div>
           <SwitchMode />
           <ButtonShuffleLots />
+          <FieldSpeed />
         </div>
       </Root>
     </RouletteAtomsProvider>

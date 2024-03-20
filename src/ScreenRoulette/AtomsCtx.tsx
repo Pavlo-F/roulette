@@ -16,7 +16,6 @@ export const slowPhrases = [
   "Да ты издеваешься...",
   "Ты не достоин чтобы меня вертеть!",
   "Чатик, помогите ему уже крутануть наконец-то",
-  "Ай ладно, сам крутанусь, слабак. Хотя нет, страдай",
 ];
 
 type IParams = {
@@ -28,6 +27,7 @@ type IAtoms = {
   winMessageAtom: PrimitiveAtom<WheelData | undefined>;
   removeMessageAtom: PrimitiveAtom<WheelData | undefined>;
   wheelDataAtom: PrimitiveAtom<WheelData[]>;
+  speedAtom: PrimitiveAtom<number>;
 };
 
 type IContext = IAtoms;
@@ -42,6 +42,7 @@ const create = () => {
     winMessageAtom: atom<WheelData | undefined>(undefined),
     removeMessageAtom: atom<WheelData | undefined>(undefined),
     wheelDataAtom: atom<WheelData[]>([]),
+    speedAtom: atomWithStorage<number>("rouletteSpeed", 50),
   };
 
   return r;
