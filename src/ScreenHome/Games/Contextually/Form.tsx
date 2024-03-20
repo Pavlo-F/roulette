@@ -1,12 +1,13 @@
 import React, { memo, useContext, useMemo } from "react";
 import { useAtomValue } from "jotai";
 import styled, { css } from "styled-components";
+import { ButtonTip } from "./ButtonTip";
 import { Process } from "./Process";
+import { Rules } from "./Rules";
 import { Votes } from "./Votes";
 import { WinMessage } from "./WinMessage";
 import { contextuallyAtom, fetchMessageAtom, timeLeftAtom } from "./atoms";
 import { Games, SettingsAtomsCtx } from "../../../ScreenSettings/AtomsCtx";
-import { ButtonTip } from "./ButtonTip";
 
 const Root = styled.div`
   color: var(--borderColor);
@@ -106,27 +107,34 @@ export const Form = memo(() => {
   return (
     <Root>
       <div>Контекстно для {integratedChat.join(", ")}</div>
-      <span>Напиши в чат слово для проверки. Результат через <FixedWidth>{timeLeft}</FixedWidth> секунд. <ButtonTip /></span>
-      
+      <span>
+        Напиши в чат слово для проверки. Результат через <FixedWidth>{timeLeft}</FixedWidth> секунд.{" "}
+        <ButtonTip />
+      </span>
+
       <Votes />
       <Message>{fetchMessage}</Message>
 
       <Process />
 
-      <Game>
-        <WinMessage />
+      {!sortedContextually.length && <Rules />}
 
-        {sortedContextually.map(x => {
-          const percent = x.rank > 1000 ? 0 : 100 - (x.rank / 1000) * 100;
-          return (
-            <Item key={`Item_${x.id}`}>
-              <Bacground $width={percent} />
-              <Text $width={percent}>{x.word}</Text>
-              <Text $width={percent}>{x.rank}</Text>
-            </Item>
-          );
-        })}
-      </Game>
+      {!!sortedContextually.length && (
+        <Game>
+          <WinMessage />
+
+          {sortedContextually.map(x => {
+            const percent = x.rank > 1000 ? 0 : 100 - (x.rank / 1000) * 100;
+            return (
+              <Item key={`Item_${x.id}`}>
+                <Bacground $width={percent} />
+                <Text $width={percent}>{x.word}</Text>
+                <Text $width={percent}>{x.rank}</Text>
+              </Item>
+            );
+          })}
+        </Game>
+      )}
     </Root>
   );
 });

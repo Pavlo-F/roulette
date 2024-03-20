@@ -104,15 +104,17 @@ export const Process = memo(() => {
 
   const process = useCallback(
     (text: string) => {
-      if (!text) {
+      if (!text || (text && text.split(" ").length > 1)) {
         return;
       }
 
-      if (!valueMap.current[text]) {
-        valueMap.current[text] = 0;
+      const str = text.toLowerCase();
+
+      if (!valueMap.current[str]) {
+        valueMap.current[str] = 0;
       }
 
-      valueMap.current[text] += 1;
+      valueMap.current[str] += 1;
 
       setVoteMap({ ...valueMap.current });
     },
