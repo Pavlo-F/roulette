@@ -12,6 +12,16 @@ const Root = styled.div`
   margin-bottom: 2rem;
 `;
 
+const Help = styled.div`
+  display: inline-block;
+  border: 1px solid var(--borderColor);
+  border-radius: 50%;
+  width: 1.1rem;
+  height: 1.1rem;
+  text-align: center;
+  font-size: 14px;
+`;
+
 export const SwitchGame = memo(() => {
   const { settingsTempAtom, settingsAtom } = useContext(SettingsAtomsCtx);
 
@@ -53,6 +63,16 @@ export const SwitchGame = memo(() => {
         onChange={onChange}
         checked={settingsTemp.integration.game === Games.Minesweeper}>
         Сапёр
+      </Radio>
+      <Radio
+        name="game"
+        value={Games.Contextually}
+        onChange={onChange}
+        checked={settingsTemp.integration.game === Games.Contextually}>
+        <span>Контекстно.рф</span>{" "}
+        <Help title="Цель игры - угадать секретное слово. Оригинал по адресу https://контекстно.рф">
+          ?
+        </Help>
       </Radio>
     </Root>
   );

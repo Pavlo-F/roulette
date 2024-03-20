@@ -1,6 +1,6 @@
 import React, { createContext, memo, useMemo, useState } from "react";
 import { PrimitiveAtom, atom } from "jotai";
-import { shuffleArray } from "../../Utils/common";
+import { shuffleArray } from "../../../Utils/common";
 
 export const fifteenSize = 4;
 export const totalSeconds = 20;

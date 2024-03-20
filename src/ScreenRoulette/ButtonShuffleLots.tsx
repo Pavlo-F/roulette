@@ -17,7 +17,7 @@ export const ButtonShuffleLots = memo(() => {
     setWheelData(old => {
       return shuffleArray(old);
     });
-  }, [setWheelData, shuffleArray]);
+  }, [setWheelData]);
 
   return <ButtonPrimarySt onClick={onClick}>Перемешать</ButtonPrimarySt>;
 });

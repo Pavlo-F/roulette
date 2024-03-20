@@ -3,13 +3,14 @@ import { useAtomValue } from "jotai";
 import styled from "styled-components";
 import { AppRouts } from "./AppRouts";
 import { DonateProcess, HomeAtomsProvider, TimerAtomsProvider } from "./ScreenHome";
-import { FifteenAtomsProvider } from "./ScreenHome/Fifteen";
-import { MinesweeperAtomsProvider } from "./ScreenHome/Minesweeper/AtomsCtx";
-import { SettingsAtomsCtx, withProvider as withSettingsProvider } from "./ScreenSettings/AtomsCtx";
+import { FifteenAtomsProvider } from "./ScreenHome/Games/Fifteen";
+import { MinesweeperAtomsProvider } from "./ScreenHome/Games/Minesweeper/AtomsCtx";
+import { Games, SettingsAtomsCtx, withProvider as withSettingsProvider } from "./ScreenSettings/AtomsCtx";
 import { DonateAtomsProvider, DonateService } from "./Services/DonateService";
 import { TrovoAtomsProvider, TrovoService } from "./Services/TrovoService";
 import { TwichAtomsProvider, TwichService } from "./Services/TwichService";
 import { Sidebar } from "./Sidebar";
+import { ContextuallyService } from "./Services/ContextuallyService";
 
 const Root = styled.div`
   display: grid;
@@ -66,6 +67,7 @@ const Providers = withSettingsProvider(
               <DonateService />
               <TrovoService />
               <TwichService />
+              {settings.integration.game === Games.Contextually && <ContextuallyService />}
 
               <TimerAtomsProvider
                 addMilliseconds={addMilliseconds}

@@ -2,7 +2,7 @@ import React, { memo, useCallback, useContext, useEffect, useState } from "react
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import { FifteenAtomsCtx } from "./AtomsCtx";
-import { shuffleArray } from "../../Utils/common";
+import { shuffleArray } from "../../../Utils/common";
 
 const Root = styled.div`
   position: absolute;

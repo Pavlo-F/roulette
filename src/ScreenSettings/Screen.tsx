@@ -115,7 +115,7 @@ export const Screen = withValidationProvider(
             </FlexCnt>
             <FieldDonationAlertsUrl />
 
-            <div>Курс к балам Twitch. <Currency>1</Currency> рубль равен:</div>
+            <div>Курс к баллам Twitch. <Currency>1</Currency> рубль равен:</div>
             <FieldTwitchExchangeRate />
           </Grid>
         </Row>
@@ -126,21 +126,21 @@ export const Screen = withValidationProvider(
           <SwitchGame />
 
           <Grid>
-            <FlexCnt>
-              <DonationTitle>Trovo</DonationTitle>
-              <TrovoStatus />
-            </FlexCnt>
-            <FlexCnt>
-              <FieldTrovoUrl />
-            </FlexCnt>
-
-            <FlexCnt>
+          <FlexCnt>
               <DonationTitle>Twitch</DonationTitle>
               <TwichStatus />
             </FlexCnt>
             <FlexCnt>
               <FieldTwichUrl />
               <ButtonConnectToTwich />
+            </FlexCnt>
+            
+            <FlexCnt>
+              <DonationTitle>Trovo</DonationTitle>
+              <TrovoStatus />
+            </FlexCnt>
+            <FlexCnt>
+              <FieldTrovoUrl />
             </FlexCnt>
           </Grid>
         </Row>

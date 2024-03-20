@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useContext, useEffect, useMemo, useRef } from "react";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import Konva from "konva";
 import { WheelData } from "./models";
 import { Mode, RouletteAtomsCtx } from "../AtomsCtx";
@@ -36,9 +36,14 @@ type Props = {
 };
 
 export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props) => {
-  const { wheelDataAtom } = useContext(RouletteAtomsCtx);
+  const { wheelDataAtom, speedAtom } = useContext(RouletteAtomsCtx);
   const [rouletteData, setRouletteData] = useAtom(wheelDataAtom);
+  const speedPercent = useAtomValue(speedAtom);
   const colorMap = useRef<Record<string, Array<number>>>({});
+
+  const speed = useMemo(() => {
+    return 1000 - speedPercent * 9;
+  }, [speedPercent]);
 
   const dataWithPercent = useMemo(() => {
     let result: WheelData[] = [];
@@ -212,7 +217,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
     (frame: any) => {
       // handle wheel spin
       const angularVelocityChange =
-        (angularVelocity * frame.timeDiff * (1 - angularFriction)) / 1000;
+        (angularVelocity * frame.timeDiff * (1 - angularFriction)) / speed;
       angularVelocity -= angularVelocityChange;
 
       // activate / deactivate wedges based on point intersection
@@ -228,7 +233,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
         angularVelocities.push(((wheel.rotation() - lastRotation) * 1000) / frame.timeDiff);
       } else {
-        const diff = (frame.timeDiff * angularVelocity) / 1000;
+        const diff = (frame.timeDiff * angularVelocity) / speed;
         if (diff > 0.00005) {
           wheel.rotate(diff * rotationOrder);
           totalRotation += diff;
@@ -286,7 +291,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         }
       }
     },
-    [mode, process]
+    [mode, process, speed]
   );
 
   const spinWheel = useCallback(

@@ -1,48 +1,50 @@
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  memo,
-  useCallback,
-  useContext,
-} from "react";
+import React, { ChangeEvent, KeyboardEvent, memo, useCallback, useContext } from "react";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import { Input } from "../components/Input";
-import { SettingsAtomsCtx } from "./AtomsCtx";
+import { RouletteAtomsCtx } from "./AtomsCtx";
 
 const Root = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 1rem;
 `;
 
 const InputSt = styled(Input)`
   width: 4rem;
 `;
 
-export const FieldTwitchExchangeRate = memo(() => {
-  const { settingsTempAtom } = useContext(SettingsAtomsCtx);
-  const [settings, setSettings] = useAtom(settingsTempAtom);
+const min = 1;
+const max = 100;
+
+export const FieldSpeed = memo(() => {
+  const { speedAtom } = useContext(RouletteAtomsCtx);
+  const [speed, setSpeed] = useAtom(speedAtom);
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
 
       if (!newValue) {
-        setSettings(draft => {
-          draft.integration.twitchExchangeRate = 1;
-          return draft;
-        });
-
+        setSpeed(min);
         return;
       }
 
-      setSettings(draft => {
-        draft.integration.twitchExchangeRate = Number.parseInt(newValue, 10);
-        return draft;
-      });
+      const parced = Number.parseInt(newValue, 10);
+      if (!parced) {
+        setSpeed(min);
+        return;
+      }
+
+      if (parced > max) {
+        setSpeed(max);
+        return;
+      }
+
+      setSpeed(parced);
     },
-    [setSettings]
+    [setSpeed]
   );
 
   const onKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
@@ -59,13 +61,17 @@ export const FieldTwitchExchangeRate = memo(() => {
 
   return (
     <Root>
+      Скорость
       <InputSt
-        maxLength={9}
-        value={settings.integration.twitchExchangeRate || ""}
+        type="number"
+        min={min}
+        max={max}
+        maxLength={3}
+        value={speed}
         onChange={onChange}
         onKeyDown={onKeyDown}
       />
-      <span> баллам</span>
+      %
     </Root>
   );
 });

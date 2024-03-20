@@ -16,6 +16,7 @@ export const statusMap: Record<ServiceStatus, string> = {
 export enum Games {
   Fifteen = "Fifteen",
   Minesweeper = "Minesweeper",
+  Contextually = "Contextually",
 }
 
 export type Settings = {
