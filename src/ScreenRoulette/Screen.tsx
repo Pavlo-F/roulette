@@ -1,15 +1,10 @@
-import React, { memo, useContext, useMemo } from "react";
-import { useAtomValue } from "jotai";
+import React, { memo } from "react";
 import styled from "styled-components";
-import { RouletteAtomsProvider } from "./AtomsCtx";
-import { Roulette } from "./Roulette";
-import { WheelData } from "./Roulette/models";
-import { SwitchMode } from "./SwitchMode";
-import { HomeAtomsCtx } from "../ScreenHome";
-import { ButtonShuffleLots } from "./ButtonShuffleLots";
 import { BackAnimations } from "./BackAnimations";
-import { useTotalAmount } from "../ScreenHome/LotTable/useTotalAmount";
+import { ButtonShuffleLots } from "./ButtonShuffleLots";
 import { FieldSpeed } from "./FieldSpeed";
+import { Roulette } from "./Roulette";
+import { SwitchMode } from "./SwitchMode";
 
 const Root = styled.div`
   position: relative;
@@ -18,36 +13,20 @@ const Root = styled.div`
   overflow: hidden;
 `;
 
+const Settings = styled.div`
+  position: relative;
+`;
+
 export const Screen = memo(() => {
-  const { lotsAtom } = useContext(HomeAtomsCtx);
-  const lots = useAtomValue(lotsAtom);
-  const totalAmount = useTotalAmount();
-
-  const data: WheelData[] = useMemo(() => {
-    const result = lots.map(x => {
-      const sum = x.sum || 0;
-      return {
-        id: x.id,
-        name: x.name,
-        value: sum,
-        percent: sum / totalAmount,
-      };
-    });
-
-    return result;
-  }, [lots, totalAmount]);
-
   return (
-    <RouletteAtomsProvider wheelData={data}>
-      <Root>
-        <BackAnimations />
-        <Roulette />
-        <div>
-          <SwitchMode />
-          <ButtonShuffleLots />
-          <FieldSpeed />
-        </div>
-      </Root>
-    </RouletteAtomsProvider>
+    <Root>
+      <BackAnimations />
+      <Roulette />
+      <Settings>
+        <SwitchMode />
+        <ButtonShuffleLots />
+        <FieldSpeed />
+      </Settings>
+    </Root>
   );
 });

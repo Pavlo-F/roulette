@@ -2,15 +2,22 @@ import React, { memo, useContext, useMemo } from "react";
 import { useAtomValue } from "jotai";
 import styled from "styled-components";
 import { AppRouts } from "./AppRouts";
-import { DonateProcess, HomeAtomsProvider, TimerAtomsProvider } from "./ScreenHome";
+import { DonateProcess, HomeAtomsCtx, HomeAtomsProvider, TimerAtomsProvider } from "./ScreenHome";
 import { FifteenAtomsProvider } from "./ScreenHome/Games/Fifteen";
 import { MinesweeperAtomsProvider } from "./ScreenHome/Games/Minesweeper/AtomsCtx";
-import { Games, SettingsAtomsCtx, withProvider as withSettingsProvider } from "./ScreenSettings/AtomsCtx";
+import { useTotalAmount } from "./ScreenHome/LotTable/useTotalAmount";
+import { RouletteAtomsProvider } from "./ScreenRoulette/AtomsCtx";
+import { WheelData } from "./ScreenRoulette/Roulette/models";
+import {
+  Games,
+  SettingsAtomsCtx,
+  withProvider as withSettingsProvider,
+} from "./ScreenSettings/AtomsCtx";
+import { ContextuallyService } from "./Services/ContextuallyService";
 import { DonateAtomsProvider, DonateService } from "./Services/DonateService";
 import { TrovoAtomsProvider, TrovoService } from "./Services/TrovoService";
 import { TwichAtomsProvider, TwichService } from "./Services/TwichService";
 import { Sidebar } from "./Sidebar";
-import { ContextuallyService } from "./Services/ContextuallyService";
 
 const Root = styled.div`
   display: grid;
@@ -33,6 +40,28 @@ const BodyArea = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const RouletteWrap = memo(({ children }: { children: React.ReactNode }) => {
+  const { lotsAtom } = useContext(HomeAtomsCtx);
+  const lots = useAtomValue(lotsAtom);
+  const totalAmount = useTotalAmount();
+
+  const data: WheelData[] = useMemo(() => {
+    const result = lots.map(x => {
+      const sum = x.sum || 0;
+      return {
+        id: x.id,
+        name: x.name,
+        value: sum,
+        percent: sum / totalAmount,
+      };
+    });
+
+    return result;
+  }, [lots, totalAmount]);
+
+  return <RouletteAtomsProvider wheelData={data}>{children}</RouletteAtomsProvider>;
+});
 
 const Providers = withSettingsProvider(
   memo(() => {
@@ -77,9 +106,11 @@ const Providers = withSettingsProvider(
                     <MinesweeperAtomsProvider>
                       <DonateProcess />
 
-                      <BodyArea>
-                        <AppRouts />
-                      </BodyArea>
+                      <RouletteWrap>
+                        <BodyArea>
+                          <AppRouts />
+                        </BodyArea>
+                      </RouletteWrap>
                     </MinesweeperAtomsProvider>
                   </FifteenAtomsProvider>
                 </HomeAtomsProvider>
