@@ -51,7 +51,20 @@ export const DonateProcess = memo(() => {
       setAnimateRow({ lotId: lotExists.id, sum: donate.sum });
     } else {
       setNewLots(draft => {
-        draft.push(donate);
+        const found = draft.find(x => {
+          const a = x.comment?.trim().toLowerCase() || "";
+          const distance = levenshtein.get(a, donate.comment);
+          const percent = 1 - distance / a.length;
+    
+          return percent >= 0.8;
+        });
+
+        if (found) {
+          found.sum += donate.sum;
+        } else {
+          draft.push(donate);
+        }
+
         return [...draft];
       });
     }
