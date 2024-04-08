@@ -50,7 +50,7 @@ type Props = {
   source: DonateSource;
 };
 
-const blackList = ["бивень", "бивинь", "человеческая многоножка", "трусонюх"];
+const blackList = ["бивень", "бивинь", "человеческая многоножка", "трусонюх", "смута"];
 
 export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props) => {
   const [newComment, setNewComment] = useState(comment);

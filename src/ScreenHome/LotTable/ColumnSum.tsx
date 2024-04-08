@@ -24,6 +24,7 @@ const Root = styled.div`
 
 const InputSt = styled(Input)`
   width: 5rem;
+  background: transparent;
 
   &.borderColor {
     animation: borderColor-keyframes 7s;

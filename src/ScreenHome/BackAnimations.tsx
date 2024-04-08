@@ -53,6 +53,29 @@ const BackgroundStar = styled.div`
   }
 `;
 
+const BackgroundTree = styled.div`
+  position: absolute;
+  animation: Tree-grow-function 1200s linear;
+  width: 100vh;
+  height: 95vh;
+  background-image: url("tree.svg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: 0.3;
+  right: -3rem;
+  bottom: 0;
+  z-index: 0;
+
+  @keyframes Tree-grow-function {
+    from {
+      height: 0vh;
+    }
+    to {
+      height: 95vh;
+    }
+  }
+`;
+
 let prevIndex = -1;
 
 export const BackAnimations = () => {
@@ -65,8 +88,10 @@ export const BackAnimations = () => {
 
   return (
     <>
-      {result === 0 && <BackgroundStar />}
-      {result === 1 && <BackgroundHummer />}
+      {/* {result === 0 && <BackgroundStar />}
+      {result === 1 && <BackgroundHummer />} */}
+
+      <BackgroundTree />
     </>
   );
 };
