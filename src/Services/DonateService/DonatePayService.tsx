@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import Centrifuge from "centrifuge";
+import Centrifuge from "Centrifuge";
 import axios, { AxiosResponse } from "axios";
 import { useSetAtom } from "jotai";
 import { DonateAtomsCtx, DonateSource, addDonate, convertCodes } from "./AtomsCtx";

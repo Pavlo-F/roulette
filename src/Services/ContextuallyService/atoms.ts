@@ -13,6 +13,6 @@ export type Challenge = {
 const storage = createJSONStorage<Token>(() => localStorage);
 
 export const tokenAtom = atomWithStorage<Token>("Contextually_Token", { token: "" }, storage, {
-  getOnInit: true,
+  unstable_getOnInit: true,
 });
 export const challengeAtom = atom<Challenge>({} as Challenge);
