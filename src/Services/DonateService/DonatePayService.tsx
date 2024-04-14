@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import Centrifuge from "Centrifuge";
 import axios, { AxiosResponse } from "axios";
 import { useSetAtom } from "jotai";
+import Centrifuge from "centrifuge";
 import { DonateAtomsCtx, DonateSource, addDonate, convertCodes } from "./AtomsCtx";
 import { createAbortController, useAbortController } from "../../Utils/useAbortController";
 import { ServiceStatus } from "../statuses";

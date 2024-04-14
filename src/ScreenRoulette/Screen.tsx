@@ -18,6 +18,10 @@ const Root = styled.div`
   overflow: hidden;
 `;
 
+const Settings = styled.div`
+  position: relative;
+`;
+
 export const Screen = memo(() => {
   const { lotsAtom } = useContext(HomeAtomsCtx);
   const lots = useAtomValue(lotsAtom);
@@ -42,11 +46,11 @@ export const Screen = memo(() => {
       <Root>
         <BackAnimations />
         <Roulette />
-        <div>
+        <Settings>
           <SwitchMode />
           <ButtonShuffleLots />
           <FieldSpeed />
-        </div>
+        </Settings>
       </Root>
     </RouletteAtomsProvider>
   );
