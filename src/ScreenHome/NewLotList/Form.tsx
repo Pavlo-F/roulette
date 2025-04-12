@@ -14,7 +14,7 @@ const Root = styled.div`
   height: 100%;
 `;
 
-const ScrolCnt = styled.div`
+const ScrollCnt = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -28,7 +28,7 @@ export const Form = memo(() => {
   return (
     <Root>
       <PerfectScrollbar>
-        <ScrolCnt>
+        <ScrollCnt>
           {newLots.map(x => {
             return (
               <NewLot
@@ -42,7 +42,7 @@ export const Form = memo(() => {
               />
             );
           })}
-        </ScrolCnt>
+        </ScrollCnt>
       </PerfectScrollbar>
     </Root>
   );

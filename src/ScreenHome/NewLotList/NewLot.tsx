@@ -4,6 +4,7 @@ import { ButtonAddLot } from "./ButtonAddLot";
 import { Header } from "./Header";
 import { DonateSource } from "../../Services/DonateService/AtomsCtx";
 import { TextArea } from "../../components/TextArea";
+import { ButtonAddBoringLot } from "./ButtonAddBoringLot";
 
 const Root = styled.div<{ $isAlarm: boolean }>`
   display: flex;
@@ -81,6 +82,8 @@ export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props)
     return "";
   }, [comment]);
 
+  const isBoring = !!boringListItem && !blackListItem;
+
   return (
     <Root $isAlarm={!!blackListItem || !!boringListItem} className="fade-in">
       <Header id={id} userName={name} currency={currency} sum={sum} source={source} />
@@ -90,7 +93,7 @@ export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props)
           развидеть. Бегите, глупцы...
         </Alarm>
       )}
-      {!!boringListItem && !blackListItem && (
+      {isBoring && (
         <Alarm>
           {name} передумай пока не поздно, пожалей стримера и чатик. Ну пожалуйстааааа...
           Я верю, что ты не хотел так поступать, давай жить дружно.
@@ -99,7 +102,8 @@ export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props)
       <Body>
         <TextAreaSt rows={4} value={newComment} onChange={onChange} onBlur={onChange} />
       </Body>
-      <ButtonAddLot id={id} name={newComment} sum={sum} userName={name} />
+      {!isBoring && <ButtonAddLot id={id} name={newComment} sum={sum} userName={name} />}
+      {isBoring && <ButtonAddBoringLot id={id} name={newComment} sum={sum} userName={name} />}
     </Root>
   );
 });
