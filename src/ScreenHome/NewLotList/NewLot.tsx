@@ -50,7 +50,8 @@ type Props = {
   source: DonateSource;
 };
 
-const blackList = ["бивень", "бивинь", "человеческая многоножка", "трусонюх", "смута"];
+const blackList = ["бивень", "бивинь", "человеческая многоножка", "трусонюх"];
+const boringList = ["вв ", " вв", "великолепный век", "велеколепный век"];
 
 export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props) => {
   const [newComment, setNewComment] = useState(comment);
@@ -70,13 +71,29 @@ export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props)
     return "";
   }, [comment]);
 
+  const boringListItem = useMemo(() => {
+    for (let i = 0; i < boringList.length; i += 1) {
+      if (comment && comment.trim().toLowerCase().indexOf(boringList[i]) >= 0 || comment.trim().toLowerCase() === "вв") {
+        return boringList[i];
+      }
+    }
+
+    return "";
+  }, [comment]);
+
   return (
-    <Root $isAlarm={!!blackListItem} className="fade-in">
+    <Root $isAlarm={!!blackListItem || !!boringListItem} className="fade-in">
       <Header id={id} userName={name} currency={currency} sum={sum} source={source} />
       {!!blackListItem && (
         <Alarm>
           Поберегите свой рассудок. Не добавляйте &quot;{blackListItem}&quot;. Вы не сможете это
           развидеть. Бегите, глупцы...
+        </Alarm>
+      )}
+      {!!boringListItem && !blackListItem && (
+        <Alarm>
+          {name} передумай пока не поздно, пожалей стримера и чатик. Ну пожалуйстааааа...
+          Я верю, что ты не хотел так поступать, давай жить дружно.
         </Alarm>
       )}
       <Body>

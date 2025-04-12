@@ -3692,10 +3692,10 @@ jotai-immer@^0.2.0:
   resolved "https://registry.yarnpkg.com/jotai-immer/-/jotai-immer-0.2.0.tgz#9bfa1a5a7911c5b222d22a8388a801c05bc06c65"
   integrity sha512-hahK8EPiROS9RoNWmX/Z8rY9WkAijspX4BZ1O7umpcwI4kPNkbcCpu/PhiQ8FMcpEcF6KmbpbMpSSj/GFmo8NA==
 
-jotai@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.4.2.tgz#85610d82d247a7b19de7cce82e8d3ddf007f8d4d"
-  integrity sha512-90jXVOd9h6gi5JXk558M+wnJfaaVN2WegcNOCfiFbWboNaDl6DkRgiY/K1oeqTfYJmq8yM7XPsL99LAvcOPqhw==
+jotai@^2.12.2:
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.12.2.tgz#21626f5f019fc971b4da6bc528790a02d1448e3c"
+  integrity sha512-oN8715y7MkjXlSrpyjlR887TOuc/NLZMs9gvgtfWH/JP47ChwO0lR2ijSwBvPMYyXRAPT+liIAhuBavluKGgtA==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
