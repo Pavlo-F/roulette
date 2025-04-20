@@ -4,7 +4,7 @@ import { atomWithImmer } from "jotai-immer";
 import { AccessToken, Chat } from "./models";
 import { ServiceStatus } from "../statuses";
 
-export const twichClientId = "xbfg3381y83ui5sojt2cdyc0i2ud4m";
+export const twitchClientId = "xbfg3381y83ui5sojt2cdyc0i2ud4m";
 export const redirectUri =  import.meta.env.DEV ? "http://localhost:5173/settings" : "https://wheel.donaction.club/settings";
 ;
 
@@ -79,4 +79,4 @@ const Provider = memo(({ children, channelUrl, exchangeRate }: Props) => {
   return <Context.Provider value={ctx}>{children}</Context.Provider>;
 });
 
-export { Context as TwichAtomsCtx, Provider as TwichAtomsProvider };
+export { Context as TwitchAtomsCtx, Provider as TwitchAtomsProvider };

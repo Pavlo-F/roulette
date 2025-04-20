@@ -11,14 +11,14 @@ import {
 } from "./atoms";
 import { useContextuallyService } from "../../../Services/ContextuallyService";
 import { TrovoAtomsCtx } from "../../../Services/TrovoService";
-import { TwichAtomsCtx } from "../../../Services/TwichService";
+import { TwitchAtomsCtx } from "../../../Services/TwitchService";
 
 let interval = 0;
 let elepsated = 0;
 
 export const Process = memo(() => {
   const { messageAtom } = useContext(TrovoAtomsCtx);
-  const { messageAtom: messageTwichAtom } = useContext(TwichAtomsCtx);
+  const { messageAtom: messageTwichAtom } = useContext(TwitchAtomsCtx);
   const valueMap = useRef<Record<string, number>>({});
 
   const message = useAtomValue(messageAtom);

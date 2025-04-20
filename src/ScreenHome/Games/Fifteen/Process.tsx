@@ -3,7 +3,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { FifteenAtomsCtx, fifteenSize, totalSeconds } from "./AtomsCtx";
 import { useMove } from "./useMove";
 import { TrovoAtomsCtx } from "../../../Services/TrovoService";
-import { TwichAtomsCtx } from "../../../Services/TwichService";
+import { TwitchAtomsCtx } from "../../../Services/TwitchService";
 
 const size = fifteenSize * fifteenSize;
 let interval = 0;
@@ -11,7 +11,7 @@ let elepsated = 0;
 
 export const Process = memo(() => {
   const { messageAtom } = useContext(TrovoAtomsCtx);
-  const { messageAtom: messageTwichAtom } = useContext(TwichAtomsCtx);
+  const { messageAtom: messageTwichAtom } = useContext(TwitchAtomsCtx);
   const { timeLeftAtom, winValueAtom, fifteenAtom, voteMapAtom } = useContext(FifteenAtomsCtx);
   const valueMap = useRef<Record<number, number>>({});
 

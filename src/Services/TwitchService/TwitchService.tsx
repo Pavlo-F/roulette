@@ -2,16 +2,16 @@ import React, { memo, useCallback, useContext, useMemo } from "react";
 import { ChatMessage } from "@twurple/chat";
 import { PubSubRedemptionMessage } from "@twurple/pubsub";
 import { useAtomValue, useSetAtom } from "jotai";
-import { TwichAtomsCtx, addChatMessage } from "./AtomsCtx";
+import { TwitchAtomsCtx, addChatMessage } from "./AtomsCtx";
 import { PubSub } from "./PubSub";
 import { RefreshAccessToken } from "./RefreshAccessToken";
 import { Socket } from "./Socket";
 import { DonateSource, addDonate } from "../DonateService/AtomsCtx";
 import { ServiceStatus } from "../statuses";
 
-export const TwichService = memo(() => {
+export const TwitchService = memo(() => {
   const { connectStatusAtom, channelUrl, accessTokenAtom, exchangeRate } =
-    useContext(TwichAtomsCtx);
+    useContext(TwitchAtomsCtx);
   const setConnectStatus = useSetAtom(connectStatusAtom);
   const accessToken = useAtomValue(accessTokenAtom);
 

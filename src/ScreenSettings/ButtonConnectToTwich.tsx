@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 import { useAtomValue, useSetAtom } from "jotai";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { SettingsAtomsCtx } from "./AtomsCtx";
-import { TwichAtomsCtx, redirectUri, twichClientId } from "../Services/TwichService/AtomsCtx";
+import { TwitchAtomsCtx, redirectUri, twitchClientId } from "../Services/TwitchService/AtomsCtx";
 import { ServiceStatus } from "../Services/statuses";
 import { createAbortController, useAbortController } from "../Utils/useAbortController";
 import { useDonactionAxios } from "../useDonactionAxios";
@@ -12,7 +12,7 @@ import { useDonactionAxios } from "../useDonactionAxios";
 export const ButtonConnectToTwich = memo(() => {
   const abortControllerRef = useAbortController();
 
-  const { connectStatusAtom, codeAtom, accessTokenAtom } = useContext(TwichAtomsCtx);
+  const { connectStatusAtom, codeAtom, accessTokenAtom } = useContext(TwitchAtomsCtx);
   const { settingsAtom } = useContext(SettingsAtomsCtx);
 
   const setConnectStatus = useSetAtom(connectStatusAtom);
@@ -20,7 +20,7 @@ export const ButtonConnectToTwich = memo(() => {
   const setAccessToken = useSetAtom(accessTokenAtom);
   const settings = useAtomValue(settingsAtom);
 
-  const twichState = useMemo(() => {
+  const twitchState = useMemo(() => {
     if (!settings.integration?.twichOAuthState) {
       return "";
     }
@@ -31,11 +31,11 @@ export const ButtonConnectToTwich = memo(() => {
   const url = useMemo(() => {
     return `https://id.twitch.tv/oauth2/authorize
 ?response_type=code
-&client_id=${twichClientId}
+&client_id=${twitchClientId}
 &redirect_uri=${redirectUri}
 &scope=chat%3Aread+user%3Aread%3Achat+channel%3Aread%3Aredemptions
-&state=${twichState}`;
-  }, [twichState]);
+&state=${twitchState}`;
+  }, [twitchState]);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const { instance } = useDonactionAxios();
@@ -47,7 +47,7 @@ export const ButtonConnectToTwich = memo(() => {
       return;
     }
 
-    if (state !== twichState) {
+    if (state !== twitchState) {
       console.warn("Wrong state");
       return;
     }
@@ -75,7 +75,7 @@ export const ButtonConnectToTwich = memo(() => {
     setCode,
     setConnectStatus,
     settings.integration.twichChannel,
-    twichState,
+    twitchState,
   ]);
 
   if (!settings.integration.twichChannel) {

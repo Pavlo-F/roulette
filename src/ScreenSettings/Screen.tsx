@@ -18,7 +18,7 @@ import { FieldTwichUrl } from "./FieldTwichUrl";
 import { FieldTwitchExchangeRate } from "./FieldTwitchExchangeRate";
 import { SwitchGame } from "./SwitchGame";
 import { TrovoStatus } from "./TrovoStatus";
-import { TwichStatus } from "./TwichStatus";
+import { TwitchStatus } from "./TwitchStatus";
 import { FlexCnt } from "./styles.styled";
 import { withValidationProvider } from "../forms/Validation";
 
@@ -128,7 +128,7 @@ export const Screen = withValidationProvider(
           <Grid>
           <FlexCnt>
               <DonationTitle>Twitch</DonationTitle>
-              <TwichStatus />
+              <TwitchStatus />
             </FlexCnt>
             <FlexCnt>
               <FieldTwichUrl />

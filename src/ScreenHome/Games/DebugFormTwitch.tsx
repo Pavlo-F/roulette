@@ -2,7 +2,7 @@ import React, { ChangeEvent, memo, useCallback, useState } from "react";
 import { ChatMessage } from "@twurple/chat";
 import ButtonPrimary from "../../components/ButtonPrimary";
 import { Input } from "../../components/Input";
-import { addChatMessage } from "../../Services/TwichService/AtomsCtx";
+import { addChatMessage } from "../../Services/TwitchService/AtomsCtx";
 
 export const DebugFormTwitch = memo(() => {
   const [input, setInput] = useState("");

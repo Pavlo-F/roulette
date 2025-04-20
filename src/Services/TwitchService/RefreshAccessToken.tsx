@@ -1,7 +1,7 @@
 import React, { memo, useContext, useEffect } from "react";
 import { AxiosResponse } from "axios";
 import { useAtom } from "jotai";
-import { TwichAtomsCtx } from "./AtomsCtx";
+import { TwitchAtomsCtx } from "./AtomsCtx";
 import { createAbortController, useAbortController } from "../../Utils/useAbortController";
 import { useDonactionAxios } from "../../useDonactionAxios";
 
@@ -9,7 +9,7 @@ let timer = 0;
 
 export const RefreshAccessToken = memo(() => {
   const abortControllerRef = useAbortController();
-  const { accessTokenAtom } = useContext(TwichAtomsCtx);
+  const { accessTokenAtom } = useContext(TwitchAtomsCtx);
   const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
 
   const { instance } = useDonactionAxios();

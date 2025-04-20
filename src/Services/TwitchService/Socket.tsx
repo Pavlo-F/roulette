@@ -2,7 +2,7 @@ import React, { memo, useContext, useEffect, useMemo, useRef } from "react";
 import { StaticAuthProvider } from "@twurple/auth";
 import { ChatClient } from "@twurple/chat";
 import { useAtomValue, useSetAtom } from "jotai";
-import { TwichAtomsCtx, twichClientId } from "./AtomsCtx";
+import { TwitchAtomsCtx, twitchClientId } from "./AtomsCtx";
 import { ServiceStatus } from "../statuses";
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 export const Socket = memo(({ userName, onMessage }: Props) => {
   const chatClientRef = useRef<ChatClient>();
 
-  const { connectStatusAtom, accessTokenAtom } = useContext(TwichAtomsCtx);
+  const { connectStatusAtom, accessTokenAtom } = useContext(TwitchAtomsCtx);
   const setConnectStatus = useSetAtom(connectStatusAtom);
   const accessToken = useAtomValue(accessTokenAtom);
 
@@ -23,7 +23,7 @@ export const Socket = memo(({ userName, onMessage }: Props) => {
       return undefined;
     }
 
-    return new StaticAuthProvider(twichClientId, accessToken.accessToken, ["chat:read"]);
+    return new StaticAuthProvider(twitchClientId, accessToken.accessToken, ["chat:read"]);
   }, [accessToken.accessToken]);
 
   useEffect(() => {

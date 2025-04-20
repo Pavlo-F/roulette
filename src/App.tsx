@@ -8,7 +8,7 @@ import { MinesweeperAtomsProvider } from "./ScreenHome/Games/Minesweeper/AtomsCt
 import { Games, SettingsAtomsCtx, withProvider as withSettingsProvider } from "./ScreenSettings/AtomsCtx";
 import { DonateAtomsProvider, DonateService } from "./Services/DonateService";
 import { TrovoAtomsProvider, TrovoService } from "./Services/TrovoService";
-import { TwichAtomsProvider, TwichService } from "./Services/TwichService";
+import { TwitchAtomsProvider, TwitchService } from "./Services/TwitchService";
 import { Sidebar } from "./Sidebar";
 import { ContextuallyService } from "./Services/ContextuallyService";
 
@@ -62,11 +62,11 @@ const Providers = withSettingsProvider(
     return (
       <>
         <DonateAtomsProvider>
-          <TwichAtomsProvider channelUrl={twichChannel} exchangeRate={twitchExchangeRate}>
+          <TwitchAtomsProvider channelUrl={twichChannel} exchangeRate={twitchExchangeRate}>
             <TrovoAtomsProvider channelUrl={trovoChannel}>
               <DonateService />
               <TrovoService />
-              <TwichService />
+              <TwitchService />
               {settings.integration.game === Games.Contextually && <ContextuallyService />}
 
               <TimerAtomsProvider
@@ -85,7 +85,7 @@ const Providers = withSettingsProvider(
                 </HomeAtomsProvider>
               </TimerAtomsProvider>
             </TrovoAtomsProvider>
-          </TwichAtomsProvider>
+          </TwitchAtomsProvider>
         </DonateAtomsProvider>
       </>
     );

@@ -3,7 +3,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { MinesweeperAtomsCtx, minesweeperSize, totalSeconds } from "./AtomsCtx";
 import { TrovoAtomsCtx } from "../../../Services/TrovoService";
 import { useOpen } from "./useOpen";
-import { TwichAtomsCtx } from "../../../Services/TwichService";
+import { TwitchAtomsCtx } from "../../../Services/TwitchService";
 
 const size = minesweeperSize.columns * minesweeperSize.rows;
 let interval = 0;
@@ -11,7 +11,7 @@ let elepsated = 0;
 
 export const Process = memo(() => {
   const { messageAtom } = useContext(TrovoAtomsCtx);
-  const { messageAtom: messageTwichAtom } = useContext(TwichAtomsCtx);
+  const { messageAtom: messageTwichAtom } = useContext(TwitchAtomsCtx);
   const { timeLeftAtom, minesweeperAtom, voteMapAtom } = useContext(MinesweeperAtomsCtx);
   const valueMap = useRef<Record<number, number>>({});
 

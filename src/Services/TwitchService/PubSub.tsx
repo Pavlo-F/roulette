@@ -3,7 +3,7 @@ import { ApiClient } from "@twurple/api";
 import { StaticAuthProvider } from "@twurple/auth";
 import { PubSubClient, PubSubRedemptionMessage } from "@twurple/pubsub";
 import { useAtomValue } from "jotai";
-import { TwichAtomsCtx, twichClientId } from "./AtomsCtx";
+import { TwitchAtomsCtx, twitchClientId } from "./AtomsCtx";
 
 type Props = {
   userName: string;
@@ -16,7 +16,7 @@ export const PubSub = memo(({ userName, onMessage }: Props) => {
   const apiClientRef = useRef<ApiClient>();
   const [userId, setUserId] = useState<string>();
 
-  const { accessTokenAtom } = useContext(TwichAtomsCtx);
+  const { accessTokenAtom } = useContext(TwitchAtomsCtx);
   const accessToken = useAtomValue(accessTokenAtom);
 
   const authProvider = useMemo(() => {
@@ -24,7 +24,7 @@ export const PubSub = memo(({ userName, onMessage }: Props) => {
       return undefined;
     }
 
-    return new StaticAuthProvider(twichClientId, accessToken.accessToken, [
+    return new StaticAuthProvider(twitchClientId, accessToken.accessToken, [
       "channel:read:redemptions",
     ]);
   }, [accessToken.accessToken]);
