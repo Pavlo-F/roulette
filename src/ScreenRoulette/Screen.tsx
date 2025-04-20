@@ -39,7 +39,8 @@ export const Screen = memo(() => {
     });
 
     return result;
-  }, [lots, totalAmount]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [/* update by render only  */]);
 
   return (
     <RouletteAtomsProvider wheelData={data}>
