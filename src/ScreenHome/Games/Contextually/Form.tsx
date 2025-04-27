@@ -8,6 +8,7 @@ import { Votes } from "./Votes";
 import { WinMessage } from "./WinMessage";
 import { contextuallyAtom, fetchMessageAtom, timeLeftAtom } from "./atoms";
 import { Games, SettingsAtomsCtx } from "../../../ScreenSettings/AtomsCtx";
+import { Debug } from "./Debug";
 
 const Root = styled.div`
   color: var(--borderColor);
@@ -50,7 +51,7 @@ const Text = styled.span<{ $width: number }>`
   }};
 `;
 
-const Bacground = styled.div<{ $width: number }>`
+const Background = styled.div<{ $width: number }>`
   position: absolute;
   background-color: #006f4a;
   height: 100%;
@@ -112,6 +113,8 @@ export const Form = memo(() => {
         <ButtonTip />
       </span>
 
+      {/* <Debug /> */}
+
       <Votes />
       <Message>{fetchMessage}</Message>
 
@@ -127,7 +130,7 @@ export const Form = memo(() => {
             const percent = x.rank > 1000 ? 0 : 100 - (x.rank / 1000) * 100;
             return (
               <Item key={`Item_${x.id}`}>
-                <Bacground $width={percent} />
+                <Background $width={percent} />
                 <Text $width={percent}>{x.word}</Text>
                 <Text $width={percent}>{x.rank}</Text>
               </Item>
