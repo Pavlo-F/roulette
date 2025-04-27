@@ -54,6 +54,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
           name: x.name,
           value: x.value,
           percent: x.percent,
+          userName: x.userName,
         };
         result.push(item);
       }
@@ -68,6 +69,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
           name: x.name,
           value: x.value,
           percent: totalInvert / x.percent,
+          userName: x.userName,
         };
 
         return item;
@@ -304,7 +306,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
       }
 
       if (angularVelocityTmp > 5) {
-        speedText.setText(angularVelocityTmp.toFixed(1));
+        speedText.setText(angularVelocityTmp.toLocaleString("ru-ru", { maximumFractionDigits: 1 }));
         speedText.opacity(1);
         new Konva.Tween({
           node: speedText,

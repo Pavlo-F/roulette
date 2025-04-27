@@ -3,4 +3,5 @@ export type WheelData = {
   name: string;
   value: number;
   percent: number;
+  userName?: string;
 };

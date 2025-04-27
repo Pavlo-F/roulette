@@ -56,8 +56,10 @@ export const RemoveMessage = memo(() => {
         <Body>
           {removeMessage.name}
           <Percent>
-            {removeMessage.value} - ({(removeMessage.percent * 100).toFixed(2)}%)
+            {removeMessage.value} - (
+            {(removeMessage.percent * 100).toLocaleString("ru-ru", { maximumFractionDigits: 2 })}%)
           </Percent>
+          <Percent>{!!removeMessage.userName && removeMessage.userName}</Percent>
         </Body>
       </Message>
     </Root>

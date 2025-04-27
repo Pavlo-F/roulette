@@ -113,6 +113,7 @@ export const WinMessage = memo(() => {
               <Percent>
                 {winMessage.value} - ({(winMessage.percent * 100).toFixed(2)}%)
               </Percent>
+              <Percent>{!!winMessage.userName && winMessage.userName}</Percent>
             </Winner>
           </FlexAuto>
           <ParticipantsCnt>

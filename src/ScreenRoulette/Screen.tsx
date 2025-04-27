@@ -35,6 +35,7 @@ export const Screen = memo(() => {
         name: x.name,
         value: sum,
         percent: sum / totalAmount,
+        userName: x.userName,
       };
     });
 
