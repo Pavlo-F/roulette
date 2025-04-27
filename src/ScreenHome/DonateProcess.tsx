@@ -31,7 +31,7 @@ export const DonateProcess = memo(() => {
   }, [donate, lots]);
 
   useEffect(() => {
-    if (!donate.sum) {
+    if (!donate.sum || !donate.comment) {
       return;
     }
 

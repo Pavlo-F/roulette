@@ -5,7 +5,7 @@ export const TextArea = styled.textarea`
   cursor: default;
   min-height: 40px;
   color: var(--primaryTextColor);
-  background: var(--primaryColor800);
+  background-color: transparent;
   padding: 8px 15px;
   border: 1px solid var(--borderColor);
   border-radius: 8px;

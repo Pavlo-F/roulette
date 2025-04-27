@@ -2,6 +2,7 @@ import React, { memo, useCallback, useContext, useEffect, useMemo, useState } fr
 import { useAtom } from "jotai";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { HomeAtomsCtx, TableData } from "./AtomsCtx";
+import { DonateSource, addDonate } from "../Services/DonateService/AtomsCtx";
 
 export const ButtonAddLot = memo(() => {
   const { lotsAtom, lotAtom } = useContext(HomeAtomsCtx);
@@ -40,6 +41,25 @@ export const ButtonAddLot = memo(() => {
 
     setLot({ name: "" });
   }, [lot.name, lot.sum, order, setLot, setLots]);
+
+  // const onClickDebug = useCallback(() => {
+  //   const newItem: TableData = {
+  //     id: new Date().getTime().toString(),
+  //     name: lot.name,
+  //     sum: lot.sum,
+  //     order,
+  //   };
+
+  //   addDonate({
+  //     id: new Date().getTime().toString(),
+  //     comment: lot.name,
+  //     name: lot.name,
+  //     sum: lot.sum!,
+  //     currency: "ttt",
+  //     date: new Date().toJSON(),
+  //     source: DonateSource.DonatePay,
+  //   });
+  // }, [lot.name, lot.sum, order]);
 
   return (
     <ButtonPrimary onClick={onClick} disabled={isDisabled}>

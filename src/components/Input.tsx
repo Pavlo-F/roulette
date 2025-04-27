@@ -5,7 +5,7 @@ export const Input = styled.input`
   cursor: default;
   height: 40px;
   color: var(--primaryTextColor);
-  background: var(--primaryColor800);
+  background-color: transparent;
   padding: 1px 15px;
   border: 1px solid var(--borderColor);
   border-radius: 8px;

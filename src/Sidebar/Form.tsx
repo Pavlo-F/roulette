@@ -6,6 +6,8 @@ import SvgHammer from "./ic_hammer.svg";
 import SvgInfo from "./ic_info.svg";
 import SvgChart from "./ic_pieChart.svg";
 import SvgSettings from "./ic_settings.svg";
+import SvgInteractive from "./ic_interactive.svg";
+import { InteractiveCommands } from "./InteractiveCommands";
 
 const Root = styled.div<{ $hide: boolean }>`
   position: relative;
@@ -116,6 +118,17 @@ export const Form = memo(() => {
           <div>Настройки</div>
         </NavItem>
       </Link>
+
+      <Link to="/interactive">
+        <NavItem selected={location.pathname === "/interactive"}>
+          <Icon>
+            <SvgInteractive />
+          </Icon>
+          <div>Интерактив</div>
+        </NavItem>
+      </Link>
+
+      <InteractiveCommands />
 
       <Hr />
 

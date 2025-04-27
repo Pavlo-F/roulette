@@ -7,7 +7,7 @@ const ButtonPrimary = styled.button`
   height: 40px;
   border-radius: 20px;
   border: 1px solid var(--borderColor);
-  background: var(--primaryColor800);
+  background-color: transparent;
   color: var(--primaryTextColor);
   font-size: 16px;
   line-height: 24px;
