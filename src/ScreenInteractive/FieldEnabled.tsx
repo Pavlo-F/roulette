@@ -1,6 +1,8 @@
-import React, { ChangeEvent, memo, useCallback } from "react";
+import React, { ChangeEvent, memo, useCallback, useContext } from "react";
+import { useImmerAtom } from "jotai-immer";
 import styled from "styled-components";
 import { CheckBox } from "../components/CheckBox";
+import { InteractiveSettingsAtomsCtx, SettingsFields } from "./AtomsCtx";
 
 const Root = styled.div`
   display: flex;
@@ -9,24 +11,25 @@ const Root = styled.div`
 `;
 
 type Props = {
-  setValue: (checked: boolean) => void;
-  checked: boolean;
+  field: SettingsFields;
 };
 
-export const FieldEnabled = memo(({ checked, setValue }: Props) => {
+export const FieldEnabled = memo(({ field }: Props) => {
+  const { interactiveSettingsAtom } = useContext(InteractiveSettingsAtomsCtx);
+  const [settings, setSettings] = useImmerAtom(interactiveSettingsAtom);
+
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.checked);
+      setSettings(draft => {
+        draft[field].enabled = e.target.checked;
+      });
     },
-    [setValue]
+    [field, setSettings]
   );
 
   return (
     <Root>
-      <CheckBox
-        checked={checked}
-        onChange={onChange}
-      >
+      <CheckBox checked={settings[field].enabled} onChange={onChange}>
         включено
       </CheckBox>
     </Root>

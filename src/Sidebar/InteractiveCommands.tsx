@@ -6,6 +6,7 @@ import { useChangeBackground, useRotateRoot, useScale } from "../ScreenInteracti
 import { Commands, InteractiveSettingsAtomsCtx } from "../ScreenInteractive/AtomsCtx";
 import { useChangeCursor } from "../ScreenInteractive/useChangeCursor";
 import { useColorFilter } from "../ScreenInteractive/useFilter";
+import { useRotateColors } from "../ScreenInteractive/useRotateColors";
 import { DonateAtomsCtx } from "../Services/DonateService";
 
 const Root = styled.div`
@@ -40,6 +41,7 @@ export const InteractiveCommands = memo(() => {
   const { ColorFilter } = useColorFilter();
   const { ChangeCursor } = useChangeCursor();
   const { ExecuteScale } = useScale();
+  const { ExecuteRotateColors } = useRotateColors();
 
   return (
     <Root>
@@ -66,6 +68,11 @@ export const InteractiveCommands = memo(() => {
       )}
       {interactiveSettings?.scale?.enabled && (
         <ButtonPrimarySt onClick={() => ExecuteScale()}>{Commands.Scale}</ButtonPrimarySt>
+      )}
+      {interactiveSettings?.rotateColors?.enabled && (
+        <ButtonPrimarySt onClick={() => ExecuteRotateColors()}>
+          {Commands.RotateColors}
+        </ButtonPrimarySt>
       )}
     </Root>
   );

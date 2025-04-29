@@ -1,7 +1,6 @@
 import React, { FC, createContext, memo, useEffect, useMemo, useState } from "react";
 import { produce } from "immer";
 import { PrimitiveAtom, useSetAtom } from "jotai";
-import { useImmerAtom } from "jotai-immer";
 import { atomWithStorage } from "jotai/utils";
 
 export enum Commands {
@@ -11,7 +10,17 @@ export enum Commands {
   InvertColor = "Инверсия цветов",
   ChangeCursor = "Поменять курсор",
   Scale = "Поменять масштаб",
+  RotateColors = "Дискотека"
 }
+
+export type SettingsFields =
+  | "rotateRoot"
+  | "backgroundRoot"
+  | "badEyes"
+  | "invertColor"
+  | "cursor"
+  | "scale"
+  | "rotateColors";
 
 export type InteractiveSettings = {
   rotateRoot: {
@@ -40,6 +49,10 @@ export type InteractiveSettings = {
     time?: number;
     enabled: boolean;
   };
+  rotateColors: {
+    time?: number;
+    enabled: boolean;
+  }
 };
 
 type IAtoms = {
@@ -80,6 +93,10 @@ const defaultSettings = {
     time: 60,
     enabled: true,
   },
+  rotateColors: {
+    time: 60,
+    enabled: true,
+  },
 };
 
 const create = () => {
@@ -104,6 +121,9 @@ const Provider = memo(({ children, rootNode }: Props) => {
       produce(draft => {
         if (!draft.scale) {
           draft.scale = defaultSettings.scale;
+        }
+        if (!draft.rotateColors) {
+          draft.rotateColors = defaultSettings.rotateColors;
         }
       })
     );

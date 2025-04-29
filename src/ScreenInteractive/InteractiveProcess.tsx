@@ -2,12 +2,13 @@ import React, { memo, useContext, useEffect, useMemo } from "react";
 import levenshtein from "fast-levenshtein";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Commands } from "./AtomsCtx";
-import { useRotateRoot } from "./useRotateRoot";
-import { DonateAtomsCtx } from "../Services/DonateService";
 import { useChangeBackground } from "./useChangeBackground";
-import { useColorFilter } from "./useFilter";
 import { useChangeCursor } from "./useChangeCursor";
+import { useColorFilter } from "./useFilter";
+import { useRotateColors } from "./useRotateColors";
+import { useRotateRoot } from "./useRotateRoot";
 import { useScale } from "./useScale";
+import { DonateAtomsCtx } from "../Services/DonateService";
 
 let executedId = "";
 
@@ -20,6 +21,7 @@ export const InteractiveProcess = memo(() => {
   const { ColorFilter } = useColorFilter();
   const { ChangeCursor } = useChangeCursor();
   const { ExecuteScale } = useScale();
+  const { ExecuteRotateColors } = useRotateColors();
 
   const commandMap = useMemo(() => {
     const result: Record<Commands, () => void> = {
@@ -29,10 +31,18 @@ export const InteractiveProcess = memo(() => {
       "Инверсия цветов": () => ColorFilter("invert()"),
       "Поменять курсор": ChangeCursor,
       "Поменять масштаб": ExecuteScale,
+      "Дискотека": ExecuteRotateColors,
     };
 
     return result;
-  }, [ExecuteRotate, ChangeBackground, ColorFilter, ChangeCursor, ExecuteScale]);
+  }, [
+    ExecuteRotate,
+    ChangeBackground,
+    ColorFilter,
+    ChangeCursor,
+    ExecuteScale,
+    ExecuteRotateColors,
+  ]);
 
   useEffect(() => {
     if (!donate.sum || !donate.comment || executedId === donate.id) {

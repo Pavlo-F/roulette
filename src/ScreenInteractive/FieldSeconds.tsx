@@ -1,6 +1,8 @@
-import React, { ChangeEvent, KeyboardEvent, memo, useCallback } from "react";
+import React, { ChangeEvent, KeyboardEvent, memo, useCallback, useContext } from "react";
+import { useImmerAtom } from "jotai-immer";
 import styled from "styled-components";
 import { Input } from "../components/Input";
+import { InteractiveSettingsAtomsCtx, SettingsFields } from "./AtomsCtx";
 
 const Root = styled.div`
   display: flex;
@@ -13,24 +15,28 @@ const InputSt = styled(Input)`
 `;
 
 type Props = {
-  setValue: (value: number | undefined) => void;
-  value?: number;
+  field: SettingsFields;
 };
 
-export const FieldSeconds = memo(({ setValue, value }: Props) => {
+export const FieldSeconds = memo(({ field }: Props) => {
+  const { interactiveSettingsAtom } = useContext(InteractiveSettingsAtomsCtx);
+  const [settings, setSettings] = useImmerAtom(interactiveSettingsAtom);
+
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
 
-      if (!newValue) {
-        setValue(undefined);
+      let result: number | undefined;
 
-        return;
+      if (newValue) {
+        result = Number.parseInt(newValue, 10);
       }
 
-      setValue(Number.parseInt(newValue, 10));
+      setSettings(draft => {
+        draft[field].time = result;
+      });
     },
-    [setValue]
+    [field, setSettings]
   );
 
   const onKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
@@ -51,7 +57,7 @@ export const FieldSeconds = memo(({ setValue, value }: Props) => {
 
       <InputSt
         maxLength={3}
-        value={value || ""}
+        value={settings[field].time || ""}
         onChange={onChange}
         onKeyDown={onKeyDown}
       />
