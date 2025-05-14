@@ -12,6 +12,7 @@ import {
 import { useContextuallyService } from "../../../Services/ContextuallyService";
 import { TrovoAtomsCtx } from "../../../Services/TrovoService";
 import { TwitchAtomsCtx } from "../../../Services/TwitchService";
+import { useGetTip } from "./useGetTip";
 
 let interval = 0;
 let elepsated = 0;
@@ -31,9 +32,18 @@ export const Process = memo(() => {
   const setFetchMessage = useSetAtom(fetchMessageAtom);
 
   const { getScore } = useContextuallyService();
+  const getTip = useGetTip();
 
   useEffect(() => {
     if (!winValue.value) {
+      return;
+    }
+
+    if (winValue.value === "подсказка") {
+      getTip();
+      setWinValue({ value: "" });
+      setVoteMap({});
+      valueMap.current = {};
       return;
     }
 
@@ -42,7 +52,7 @@ export const Process = memo(() => {
         setFetchMessage("");
 
         if (data.data.error) {
-          setFetchMessage("Нет такого слова в списке");
+          setFetchMessage(`Слова "${winValue.value}" нет в списке`);
           setTimeout(() => {
             setFetchMessage("");
           }, 3000);
@@ -72,6 +82,7 @@ export const Process = memo(() => {
     setWinValue,
     showWinWindow,
     winValue.value,
+    getTip,
   ]);
 
   useEffect(() => {

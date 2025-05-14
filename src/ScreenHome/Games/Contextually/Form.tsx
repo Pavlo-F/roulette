@@ -2,13 +2,13 @@ import React, { memo, useContext, useMemo } from "react";
 import { useAtomValue } from "jotai";
 import styled, { css } from "styled-components";
 import { ButtonTip } from "./ButtonTip";
+import { Debug } from "./Debug";
 import { Process } from "./Process";
 import { Rules } from "./Rules";
 import { Votes } from "./Votes";
 import { WinMessage } from "./WinMessage";
 import { contextuallyAtom, fetchMessageAtom, timeLeftAtom } from "./atoms";
 import { Games, SettingsAtomsCtx } from "../../../ScreenSettings/AtomsCtx";
-import { Debug } from "./Debug";
 
 const Root = styled.div`
   color: var(--borderColor);
@@ -110,8 +110,8 @@ export const Form = memo(() => {
       <div>Контекстно для {integratedChat.join(", ")}</div>
       <span>
         Напиши в чат слово для проверки. Результат через <FixedWidth>{timeLeft}</FixedWidth> секунд.{" "}
-        <ButtonTip />
       </span>
+      <ButtonTip />
 
       {/* <Debug /> */}
 
