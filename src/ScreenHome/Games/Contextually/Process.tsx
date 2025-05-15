@@ -115,11 +115,14 @@ export const Process = memo(() => {
 
   const process = useCallback(
     (text: string) => {
-      if (!text || (text && text.split(" ").length > 1)) {
+      if (!text) {
         return;
       }
 
-      const str = text.toLowerCase();
+      const str = filterText(text.toLowerCase());
+      if (!str) {
+        return;
+      }
 
       if (!valueMap.current[str]) {
         valueMap.current[str] = 0;
@@ -142,3 +145,11 @@ export const Process = memo(() => {
 
   return null;
 });
+
+function filterText(value: string) {
+  if (value.includes(" ") || value.includes("хаха") || value[0] === "!" || value[0] === ":") {
+    return undefined;
+  }
+
+  return value;
+}
