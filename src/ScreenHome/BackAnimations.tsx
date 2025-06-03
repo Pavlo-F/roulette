@@ -80,7 +80,7 @@ let prevIndex = -1;
 
 export const BackAnimations = () => {
   let result = prevIndex + 1;
-  if (result > 1) {
+  if (result > 2) {
     result = 0;
   }
 
@@ -88,10 +88,9 @@ export const BackAnimations = () => {
 
   return (
     <>
-      {/* {result === 0 && <BackgroundStar />}
-      {result === 1 && <BackgroundHummer />} */}
-
-      <BackgroundTree />
+      {result === 0 && <BackgroundStar />}
+      {result === 1 && <BackgroundHummer />}
+      {result === 2 && <BackgroundTree />}
     </>
   );
 };
