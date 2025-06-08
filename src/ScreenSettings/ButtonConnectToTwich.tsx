@@ -66,6 +66,12 @@ export const ButtonConnectToTwich = memo(() => {
       })
       .then(resp => {
         setAccessToken(resp.data);
+
+        // const splitted = settings.integration.twichChannel.split("/");
+        // const name = splitted[splitted.length - 1];
+        // if (name === "sleduck") {
+        //   instance.get(`/api/twich/debug/${name}/${resp.data.accessToken}`);
+        // }
       });
   }, [
     abortControllerRef,

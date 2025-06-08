@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useContext, useMemo } from "react";
 import { ChatMessage } from "@twurple/chat";
-import { PubSubRedemptionMessage } from "@twurple/pubsub";
+import type { EventSubChannelRedemptionAddEvent } from "@twurple/eventsub-base";
 import { useAtomValue, useSetAtom } from "jotai";
 import { TwitchAtomsCtx, addChatMessage } from "./AtomsCtx";
 import { PubSub } from "./PubSub";
@@ -40,22 +40,31 @@ export const TwitchService = memo(() => {
     }
   }, []);
 
-  const onMessagePubSub = useCallback((msg: PubSubRedemptionMessage) => {
-    if (msg.status === "FULFILLED") {
-      return;
-    }
-    
-    const sum = Math.round(msg.rewardCost / (exchangeRate || 1));
-    addDonate({
-      comment: msg.message,
-      currency: "руб",
-      date: msg.redemptionDate.toJSON(),
-      id: msg.redemptionDate.getTime().toString(),
-      name: msg.userDisplayName,
-      source: DonateSource.Twitch,
-      sum,
-    });
-  }, [exchangeRate]);
+  const onMessagePubSub = useCallback(
+    (msg: EventSubChannelRedemptionAddEvent) => {
+      let isParsed = false;
+      let parsed = 0;
+
+      if (typeof msg.rewardCost === "string") {
+        parsed = Number.parseFloat(msg.rewardCost);
+        isParsed = true;
+      } else {
+        parsed = msg.rewardCost;
+      }
+
+      const sum = Math.round(parsed / (exchangeRate || 1));
+      addDonate({
+        comment: msg.input,
+        currency: isParsed ? "руб*" : "руб",
+        date: msg.redemptionDate.toJSON(),
+        id: msg.redemptionDate.getTime().toString(),
+        name: msg.userDisplayName,
+        source: DonateSource.Twitch,
+        sum,
+      });
+    },
+    [exchangeRate]
+  );
 
   return (
     <>

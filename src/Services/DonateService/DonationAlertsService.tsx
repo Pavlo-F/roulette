@@ -6,17 +6,20 @@ import { DonateAtomsCtx, DonateSource, addDonate, convertCodes } from "./AtomsCt
 import { ServiceStatus } from "../statuses";
 
 type Message = {
-  id: string;
+  id: number;
   username: string;
   amount: number;
   currency: string;
   message: string;
   date_created: string;
+  alert_type: number;
 };
 
 type Props = {
   accessToken: string;
 };
+
+let prevId = 0;
 
 export const DonationAlertsService = memo(({ accessToken }: Props) => {
   const [reconnect, setReconnect] = useState<Date>(new Date());
@@ -41,11 +44,18 @@ export const DonationAlertsService = memo(({ accessToken }: Props) => {
 
       ioClient.on("donation", (data: any) => {
         const msg = JSON.parse(data) as Message;
+
+        if (msg.alert_type !== 1 || prevId === msg.id) {
+          return;
+        };
+
+        prevId = msg.id;
+
         addDonate({
-          id: msg.id,
+          id: msg.id.toString(),
           comment: convertCodes(msg.message),
           name: msg.username,
-          sum: msg.amount,
+          sum: typeof msg.amount === "string" ? Number.parseFloat(msg.amount) : msg.amount,
           currency: msg.currency,
           date: `${msg.date_created.replace(" ", "T")}Z`,
           source: DonateSource.DonationAlerts,
