@@ -40,7 +40,7 @@ export const DonatePayService = memo(({ accessToken, userId }: Props) => {
   const abortControllerRef = useAbortController();
 
   const centrifugeRef = useRef(
-    new Centrifuge("wss://centrifugo.donatepay.ru:43002/connection/websocket", {
+    new Centrifuge("wss://centrifugo.donatepay.ru/connection/websocket", {
       subscribeEndpoint: tokentUrl,
       subscribeParams: {
         access_token: accessToken,
