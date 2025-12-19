@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useContext, useMemo } from "react";
+import React, { Fragment, memo, useCallback, useContext, useMemo } from "react";
 import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import {
   ColumnDef,
@@ -11,12 +11,14 @@ import {
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import styled from "styled-components";
 import { ColumnActions } from "./ColumnActions";
 import { ColumnName } from "./ColumnName";
 import { ColumnSum } from "./ColumnSum";
+import { DropType } from "./DragDropModels";
 import { Filter } from "./Filter";
+import { Row } from "./Row";
 import { HomeAtomsCtx, TableData } from "../AtomsCtx";
 
 declare module "@tanstack/table-core" {
@@ -47,11 +49,6 @@ const Td = styled.td<{ $width: string }>`
   width: ${({ $width }) => $width};
 `;
 
-const Tr = styled.tr<{ $height: string }>`
-  position: relative;
-  height: ${({ $height }) => $height};
-`;
-
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   const itemRank = rankItem(row.getValue(columnId), value);
   addMeta({
@@ -64,8 +61,9 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 export const Form = memo(() => {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
-  const { lotsAtom } = useContext(HomeAtomsCtx);
+  const { lotsAtom, newLotsAtom } = useContext(HomeAtomsCtx);
   const [lots, setLots] = useAtom(lotsAtom);
+  const setNewLots = useSetAtom(newLotsAtom);
 
   const sortedLots = useMemo(() => {
     const result = lots.sort((a, b) => {
@@ -161,6 +159,37 @@ export const Form = memo(() => {
     debugTable: false,
   });
 
+  const handleDrop = useCallback(
+    (target: TableData, item: DropType) => {
+      setLots(old => {
+        let isChanged = false;
+        const result = old.map(row => {
+          if (target.id === row.id) {
+            isChanged = true;
+
+            return {
+              ...row,
+              sum: (row.sum || 0) + item.sum,
+            };
+          }
+          return row;
+        });
+
+        if (isChanged) {
+          setNewLots(prev => {
+            const filtered = prev.filter(x => x.id !== item.id);
+            return filtered;
+          });
+
+          return result;
+        }
+
+        return result;
+      });
+    },
+    [setLots, setNewLots]
+  );
+
   return (
     <Root>
       <TableSt>
@@ -185,7 +214,11 @@ export const Form = memo(() => {
         <tbody>
           {table.getRowModel().rows.map(row => {
             return (
-              <Tr $height="50px" key={`Tr_${row.id}`}>
+              <Row
+                height="50px"
+                tableData={row.original as TableData}
+                key={`Tr_${row.id}`}
+                onDrop={(item: DropType) => handleDrop(row.original as TableData, item)}>
                 {row.getVisibleCells().map(cell => {
                   let size = "auto";
                   if (cell.column.id === "sum") {
@@ -208,7 +241,7 @@ export const Form = memo(() => {
                     </Fragment>
                   );
                 })}
-              </Tr>
+              </Row>
             );
           })}
         </tbody>

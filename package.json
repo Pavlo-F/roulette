@@ -26,6 +26,8 @@
     "jotai-immer": "^0.4.1",
     "konva": "^9.2.1",
     "react": "^18.2.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-perfect-scrollbar": "^1.5.8",
     "react-router-dom": "^6.15.0",

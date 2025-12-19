@@ -20,6 +20,7 @@ const User = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 16rem;
+  width: 100%;
 `;
 
 const Name = styled.span`
@@ -51,9 +52,11 @@ type Props = {
   sum: number;
   currency: string;
   source: DonateSource;
+  dragRef?: React.LegacyRef<HTMLDivElement>;
+  style?: React.CSSProperties | undefined;
 };
 
-export const Header = memo(({ id, currency, sum, userName, source }: Props) => {
+export const Header = memo(({ id, currency, sum, userName, source, dragRef, style }: Props) => {
   const { newLotsAtom } = useContext(HomeAtomsCtx);
   const setNewLots = useSetAtom(newLotsAtom);
 
@@ -66,7 +69,7 @@ export const Header = memo(({ id, currency, sum, userName, source }: Props) => {
 
   return (
     <Root>
-      <User>
+      <User ref={dragRef} style={style}>
         <IconCnt key={id}>
           {source === DonateSource.DonatePay && <Icon src={IMAGES.PngDonatePay} alt="DonatePay" />}
           {source === DonateSource.DonationAlerts && (

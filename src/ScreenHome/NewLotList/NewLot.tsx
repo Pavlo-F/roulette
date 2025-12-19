@@ -1,10 +1,12 @@
 import React, { ChangeEvent, memo, useCallback, useMemo, useState } from "react";
+import { useDrag } from "react-dnd";
 import styled from "styled-components";
+import { ButtonAddBoringLot } from "./ButtonAddBoringLot";
 import { ButtonAddLot } from "./ButtonAddLot";
 import { Header } from "./Header";
 import { DonateSource } from "../../Services/DonateService/AtomsCtx";
 import { TextArea } from "../../components/TextArea";
-import { ButtonAddBoringLot } from "./ButtonAddBoringLot";
+import { DragableTypes, DropType } from "../LotTable/DragDropModels";
 
 const Root = styled.div<{ $isAlarm: boolean }>`
   display: flex;
@@ -57,6 +59,20 @@ const boringList = ["вв ", " вв", "великолепный век", "вел
 export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props) => {
   const [newComment, setNewComment] = useState(comment);
 
+  const [{ opacity }, drag] = useDrag(
+    () => ({
+      type: DragableTypes.NewLot,
+      item: { id, sum, comment } as DropType,
+      options: {
+        dropEffect: "move",
+      },
+      collect: monitor => ({
+        opacity: monitor.isDragging() ? 0.4 : 1,
+      }),
+    }),
+    []
+  );
+
   const onChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value;
     setNewComment(newValue);
@@ -74,7 +90,10 @@ export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props)
 
   const boringListItem = useMemo(() => {
     for (let i = 0; i < boringList.length; i += 1) {
-      if (comment && comment.trim().toLowerCase().indexOf(boringList[i]) >= 0 || comment.trim().toLowerCase() === "вв") {
+      if (
+        (comment && comment.trim().toLowerCase().indexOf(boringList[i]) >= 0) ||
+        comment.trim().toLowerCase() === "вв"
+      ) {
         return boringList[i];
       }
     }
@@ -85,8 +104,16 @@ export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props)
   const isBoring = !!boringListItem && !blackListItem;
 
   return (
-    <Root $isAlarm={!!blackListItem || !!boringListItem} className="fade-in">
-      <Header id={id} userName={name} currency={currency} sum={sum} source={source} />
+    <Root $isAlarm={!!blackListItem || !!boringListItem} className="fade-in" style={{ opacity }}>
+      <Header
+        dragRef={drag}
+        style={{ opacity, cursor: "move" }}
+        id={id}
+        userName={name}
+        currency={currency}
+        sum={sum}
+        source={source}
+      />
       {!!blackListItem && (
         <Alarm>
           Поберегите свой рассудок. Не добавляйте &quot;{blackListItem}&quot;. Вы не сможете это

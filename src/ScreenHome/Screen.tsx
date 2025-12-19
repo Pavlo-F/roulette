@@ -1,20 +1,22 @@
 import React, { memo } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import styled from "styled-components";
+import { BackAnimations } from "./BackAnimations";
 import { ButtonAddLot } from "./ButtonAddLot";
 import { ButtonClearLots } from "./ButtonClearLots";
 import { ButtonShowDonates } from "./ButtonShowDonates";
 import { DonateListDialog } from "./DonateListDialog";
 import { FieldLotName } from "./FieldLotName";
 import { FieldLotSum } from "./FieldLotSum";
+import { Contextually } from "./Games/Contextually";
+import { Fifteen } from "./Games/Fifteen";
+import { Minesweeper } from "./Games/Minesweeper";
 import { LotTable } from "./LotTable";
 import { NewLotList } from "./NewLotList";
 import { Timer } from "./Timer";
-import { BackAnimations } from "./BackAnimations";
-import { Fifteen } from "./Games/Fifteen";
-import { Minesweeper } from "./Games/Minesweeper";
-import { Contextually } from "./Games/Contextually";
 
 const Root = styled.div`
   position: relative;
@@ -69,19 +71,21 @@ export const Screen = memo(() => {
         <ButtonClearLots />
       </Header>
 
-      <Sidebar>
-        <Timer />
-        <NewLotList />
-        
-        <Fifteen />
-        <Minesweeper />
-        <Contextually />
-      </Sidebar>
-      <Main>
-        <PerfectScrollbar>
-          <LotTable />
-        </PerfectScrollbar>
-      </Main>
+      <DndProvider backend={HTML5Backend}>
+        <Sidebar>
+          <Timer />
+          <NewLotList />
+
+          <Fifteen />
+          <Minesweeper />
+          <Contextually />
+        </Sidebar>
+        <Main>
+          <PerfectScrollbar>
+            <LotTable />
+          </PerfectScrollbar>
+        </Main>
+      </DndProvider>
 
       <DonateListDialog />
     </Root>
