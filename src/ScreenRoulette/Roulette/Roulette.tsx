@@ -302,7 +302,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
       let angularVelocityTmp = Math.abs(getAverageAngularVelocity() * speedCoof);
       if (angularVelocityTmp > 100) {
-        angularVelocityTmp = 100;
+        angularVelocityTmp = getRandom(90, 100);
       }
 
       if (angularVelocityTmp > 5) {
@@ -498,3 +498,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
   return <div id="rouletteContainer" />;
 });
+
+function getRandom(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
