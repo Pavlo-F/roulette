@@ -4,6 +4,7 @@ import { Screen as ScreenHome } from "./ScreenHome/Screen";
 import { Screen as ScreenRoulette } from "./ScreenRoulette/Screen";
 import { Screen as ScreenSettings } from "./ScreenSettings/Screen";
 import { Screen as ScreenInteractive } from "./ScreenInteractive/Screen";
+import { Screen as ScreenTokens } from "./ScreenTokens/Screen";
 import { NotFound } from "./NotFound";
 
 export const AppRouts = memo(() => {
@@ -13,6 +14,7 @@ export const AppRouts = memo(() => {
       <Route path="/roulette" element={<ScreenRoulette />} />
       <Route path="/settings" element={<ScreenSettings />} />
       <Route path="/interactive" element={<ScreenInteractive />} />
+      <Route path="/tokens" element={<ScreenTokens />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
