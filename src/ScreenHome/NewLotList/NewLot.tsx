@@ -11,6 +11,7 @@ import SvgSnowflaker4 from "./snowflaker4.svg";
 import SvgSnowflaker5 from "./snowflaker5.svg";
 import { DonateSource } from "../../Services/DonateService/AtomsCtx";
 import { TextArea } from "../../components/TextArea";
+import { useIsChristmas } from "../../useIsChristmas";
 import { DragableTypes, DropType } from "../LotTable/DragDropModels";
 
 const Root = styled.div<{ $isAlarm: boolean }>`
@@ -73,19 +74,14 @@ type Props = {
   source: DonateSource;
 };
 
-const Images = [
-  SvgSnowflaker1,
-  SvgSnowflaker2,
-  SvgSnowflaker3,
-  SvgSnowflaker4,
-  SvgSnowflaker5,
-];
+const Images = [SvgSnowflaker1, SvgSnowflaker2, SvgSnowflaker3, SvgSnowflaker4, SvgSnowflaker5];
 
 const blackList = ["бивень", "бивинь", "человеческая многоножка", "трусонюх"];
 const boringList = ["вв ", " вв", "великолепный век", "велеколепный век"];
 
 export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props) => {
   const [newComment, setNewComment] = useState(comment);
+  const isChristmas = useIsChristmas();
 
   const [{ opacity }, drag] = useDrag(
     () => ({
@@ -155,14 +151,16 @@ export const NewLot = memo(({ id, sum, name, comment, currency, source }: Props)
       )}
       {isBoring && (
         <Alarm>
-          {name} передумай пока не поздно, пожалей стримера и чатик. Ну пожалуйстааааа...
-          Я верю, что ты не хотел так поступать, давай жить дружно.
+          {name} передумай пока не поздно, пожалей стримера и чатик. Ну пожалуйстааааа... Я верю,
+          что ты не хотел так поступать, давай жить дружно.
         </Alarm>
       )}
       <Body>
-        <Background>
-          <Back />
-        </Background>
+        {isChristmas && (
+          <Background>
+            <Back />
+          </Background>
+        )}
 
         <TextAreaSt rows={4} value={newComment} onChange={onChange} onBlur={onChange} />
       </Body>

@@ -1,13 +1,14 @@
 import React, { memo, useCallback, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { InteractiveCommands } from "./InteractiveCommands";
 import SvgDoubleArrow from "./ic_double-arrow.svg";
 import SvgHammer from "./ic_hammer.svg";
 import SvgInfo from "./ic_info.svg";
+import SvgInteractive from "./ic_interactive.svg";
 import SvgChart from "./ic_pieChart.svg";
 import SvgSettings from "./ic_settings.svg";
-import SvgInteractive from "./ic_interactive.svg";
-import { InteractiveCommands } from "./InteractiveCommands";
+import { useIsChristmas } from "../useIsChristmas";
 
 const Root = styled.div<{ $hide: boolean }>`
   position: relative;
@@ -89,6 +90,7 @@ const Christmas = styled.div`
 
 export const Form = memo(() => {
   const location = useLocation();
+  const isChristmas = useIsChristmas();
 
   const [hide, setHide] = useState(false);
 
@@ -151,9 +153,11 @@ export const Form = memo(() => {
         </NavItem>
       </a>
 
-      <Christmas>
-        <img src="christmas_tree.png" />
-      </Christmas>
+      {isChristmas && (
+        <Christmas>
+          <img src="christmas_tree.png" />
+        </Christmas>
+      )}
     </Root>
   );
 });
