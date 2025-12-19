@@ -132,12 +132,12 @@ export const Form = memo(() => {
 
       <Hr />
 
-      <a href="https://donaction.club/exclusive" target="_blank" rel="noopener noreferrer">
+      <a href="https://cave.donaction.club" target="_blank" rel="noopener noreferrer">
         <NavItem>
           <Icon>
             <SvgInfo />
           </Icon>
-          Другие проекты
+          3D тур по штольням
         </NavItem>
       </a>
     </Root>
