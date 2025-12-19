@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   viewBox="0 0 366 420"
+   id="svg62"
+   sodipodi:docname="snowflaker4.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs62" />
+  <sodipodi:namedview
+     id="namedview62"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.3683333"
+     inkscape:cx="101.58343"
+     inkscape:cy="120.21924"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg62" />
+  <g
+     fill="none"
+     fill-rule="nonzero"
+     stroke="currentColor"
+     stroke-width="20"
+     stroke-linecap="round"
+     stroke-linejoin="miter"
+     stroke-miterlimit="10"
+     stroke-dasharray="none"
+     stroke-dashoffset="0"
+     font-family="none"
+     font-weight="none"
+     font-size="none"
+     text-anchor="none"
+     style="mix-blend-mode:normal"
+     id="g61"
+     transform="translate(-216.79492,-90)">
+    <g
+       id="Snowflake">
+      <g
+         id="g10">
+        <line
+           x1="400"
+           y1="300"
+           x2="400"
+           y2="500"
+           id="line1" />
+        <polyline
+           points="355.36657,340.49853 400,295.86511 444.63343,340.49853"
+           id="polyline1" />
+        <polyline
+           points="356.06383,358.33172 400,314.39555 443.93617,358.33172"
+           id="polyline2" />
+        <polyline
+           points="354.80091,377.145 400,331.94591 445.19909,377.145"
+           id="polyline3" />
+        <polyline
+           points="337.00435,404.2251 400,341.22945 462.99565,404.2251"
+           id="polyline4" />
+        <polyline
+           points="393.52319,394.14749 400,387.67069 406.47681,394.14749"
+           id="polyline5" />
+        <polyline
+           points="359.23841,429.47171 400,388.71011 440.76159,429.47171"
+           id="polyline6" />
+        <polyline
+           points="350.34259,452.10143 400,402.44402 449.65741,452.10143"
+           id="polyline7" />
+        <polyline
+           points="353.09807,468.90551 400,422.00358 446.90193,468.90551"
+           id="polyline8" />
+        <polyline
+           points="373.5314,476.87066 400,450.40207 426.4686,476.87066"
+           id="polyline9" />
+        <polyline
+           points="387.68047,487.97795 400,475.65842 412.31953,487.97795"
+           id="polyline10" />
+      </g>
+      <g
+         id="g20">
+        <line
+           x1="400"
+           y1="300"
+           x2="226.79492"
+           y2="400"
+           id="line10" />
+        <polyline
+           points="342.61053,281.59558 403.58092,297.93255 387.24396,358.90295"
+           id="polyline11" />
+        <polyline
+           points="327.51517,291.11602 387.53308,307.19778 371.45133,367.21569"
+           id="polyline12" />
+        <polyline
+           points="310.59092,299.42894 372.33403,315.97295 355.79002,377.71606"
+           id="polyline13" />
+        <polyline
+           points="278.24059,297.55671 364.29425,320.61472 341.23624,406.66839"
+           id="polyline14" />
+        <polyline
+           points="315.22748,341.46467 324.07496,343.83534 321.70428,352.68283"
+           id="polyline15" />
+        <polyline
+           points="267.49342,329.43528 323.17479,344.35506 308.25501,400.03643"
+           id="polyline16" />
+        <polyline
+           points="243.44759,333.04614 311.28088,351.22201 293.105,419.0553"
+           id="polyline17" />
+        <polyline
+           points="230.27257,343.83449 294.3418,361.00179 277.1745,425.07102"
+           id="polyline18" />
+        <polyline
+           points="233.59122,365.51285 269.74799,375.20103 260.05981,411.35781"
+           id="polyline19" />
+        <polyline
+           points="231.04656,383.31995 247.87535,387.82921 243.36609,404.658"
+           id="polyline20" />
+      </g>
+      <g
+         id="g30">
+        <line
+           x1="400"
+           y1="300"
+           x2="226.79492"
+           y2="200"
+           id="line20" />
+        <polyline
+           points="387.24396,241.09705 403.58092,302.06745 342.61053,318.40442"
+           id="polyline21" />
+        <polyline
+           points="371.45133,232.78431 387.53308,292.80222 327.51517,308.88398"
+           id="polyline22" />
+        <polyline
+           points="355.79002,222.28394 372.33403,284.02705 310.59092,300.57106"
+           id="polyline23" />
+        <polyline
+           points="341.23624,193.33161 364.29425,279.38528 278.24059,302.44329"
+           id="polyline24" />
+        <polyline
+           points="321.70428,247.31717 324.07496,256.16466 315.22748,258.53533"
+           id="polyline25" />
+        <polyline
+           points="308.25501,199.96357 323.17479,255.64494 267.49342,270.56472"
+           id="polyline26" />
+        <polyline
+           points="293.105,180.9447 311.28088,248.77799 243.44759,266.95386"
+           id="polyline27" />
+        <polyline
+           points="277.1745,174.92898 294.3418,238.99821 230.27257,256.16551"
+           id="polyline28" />
+        <polyline
+           points="260.05981,188.64219 269.74799,224.79897 233.59122,234.48715"
+           id="polyline29" />
+        <polyline
+           points="243.36609,195.342 247.87535,212.17079 231.04656,216.68005"
+           id="polyline30" />
+      </g>
+      <g
+         id="g40">
+        <line
+           x1="400"
+           y1="300"
+           x2="400"
+           y2="100"
+           id="line30" />
+        <polyline
+           points="444.63343,259.50147 400,304.13489 355.36657,259.50147"
+           id="polyline31" />
+        <polyline
+           points="443.93617,241.66828 400,285.60445 356.06383,241.66828"
+           id="polyline32" />
+        <polyline
+           points="445.19909,222.855 400,268.05409 354.80091,222.855"
+           id="polyline33" />
+        <polyline
+           points="462.99565,195.7749 400,258.77055 337.00435,195.7749"
+           id="polyline34" />
+        <polyline
+           points="406.47681,205.85251 400,212.32931 393.52319,205.85251"
+           id="polyline35" />
+        <polyline
+           points="440.76159,170.52829 400,211.28989 359.23841,170.52829"
+           id="polyline36" />
+        <polyline
+           points="449.65741,147.89857 400,197.55598 350.34259,147.89857"
+           id="polyline37" />
+        <polyline
+           points="446.90193,131.09449 400,177.99642 353.09807,131.09449"
+           id="polyline38" />
+        <polyline
+           points="426.4686,123.12934 400,149.59793 373.5314,123.12934"
+           id="polyline39" />
+        <polyline
+           points="412.31953,112.02205 400,124.34158 387.68047,112.02205"
+           id="polyline40" />
+      </g>
+      <g
+         id="g50">
+        <line
+           x1="400"
+           y1="300"
+           x2="573.20508"
+           y2="200"
+           id="line40" />
+        <polyline
+           points="457.38947,318.40442 396.41908,302.06745 412.75604,241.09705"
+           id="polyline41" />
+        <polyline
+           points="472.48483,308.88398 412.46692,292.80222 428.54867,232.78431"
+           id="polyline42" />
+        <polyline
+           points="489.40908,300.57106 427.66597,284.02705 444.20998,222.28394"
+           id="polyline43" />
+        <polyline
+           points="521.75941,302.44329 435.70575,279.38528 458.76376,193.33161"
+           id="polyline44" />
+        <polyline
+           points="484.77252,258.53533 475.92504,256.16466 478.29572,247.31717"
+           id="polyline45" />
+        <polyline
+           points="532.50658,270.56472 476.82521,255.64494 491.74499,199.96357"
+           id="polyline46" />
+        <polyline
+           points="556.55241,266.95386 488.71912,248.77799 506.895,180.9447"
+           id="polyline47" />
+        <polyline
+           points="569.72743,256.16551 505.6582,238.99821 522.8255,174.92898"
+           id="polyline48" />
+        <polyline
+           points="566.40878,234.48715 530.25201,224.79897 539.94019,188.64219"
+           id="polyline49" />
+        <polyline
+           points="568.95344,216.68005 552.12465,212.17079 556.63391,195.342"
+           id="polyline50" />
+      </g>
+      <g
+         id="g60">
+        <line
+           x1="400"
+           y1="300"
+           x2="573.20508"
+           y2="400"
+           id="line50" />
+        <polyline
+           points="412.75604,358.90295 396.41908,297.93255 457.38947,281.59558"
+           id="polyline51" />
+        <polyline
+           points="428.54867,367.21569 412.46692,307.19778 472.48483,291.11602"
+           id="polyline52" />
+        <polyline
+           points="444.20998,377.71606 427.66597,315.97295 489.40908,299.42894"
+           id="polyline53" />
+        <polyline
+           points="458.76376,406.66839 435.70575,320.61472 521.75941,297.55671"
+           id="polyline54" />
+        <polyline
+           points="478.29572,352.68283 475.92504,343.83534 484.77252,341.46467"
+           id="polyline55" />
+        <polyline
+           points="491.74499,400.03643 476.82521,344.35506 532.50658,329.43528"
+           id="polyline56" />
+        <polyline
+           points="506.895,419.0553 488.71912,351.22201 556.55241,333.04614"
+           id="polyline57" />
+        <polyline
+           points="522.8255,425.07102 505.6582,361.00179 569.72743,343.83449"
+           id="polyline58" />
+        <polyline
+           points="539.94019,411.35781 530.25201,375.20103 566.40878,365.51285"
+           id="polyline59" />
+        <polyline
+           points="556.63391,404.658 552.12465,387.82921 568.95344,383.31995"
+           id="polyline60" />
+      </g>
+    </g>
+  </g>
+</svg>

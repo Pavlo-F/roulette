@@ -77,6 +77,16 @@ const Hr = styled.hr`
   border-top: 1px solid var(--borderColor);
 `;
 
+const Christmas = styled.div`
+  position: absolute;
+  bottom: 0px;
+  opacity: 0.5;
+
+  > img {
+    width: 100%;
+  }
+`;
+
 export const Form = memo(() => {
   const location = useLocation();
 
@@ -140,6 +150,10 @@ export const Form = memo(() => {
           3D тур по штольням
         </NavItem>
       </a>
+
+      <Christmas>
+        <img src="christmas_tree.png" />
+      </Christmas>
     </Root>
   );
 });
