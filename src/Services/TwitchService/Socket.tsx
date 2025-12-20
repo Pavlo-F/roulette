@@ -28,7 +28,7 @@ export const Socket = memo(({ userName, onMessage }: Props) => {
 
   useEffect(() => {
     if (authProvider) {
-      chatClientRef.current = new ChatClient({ authProvider, channels: [userName] });
+      chatClientRef.current = new ChatClient({ authProvider, channels: [userName], rejoinChannelsOnReconnect: true });
 
       chatClientRef.current.onMessage(onMessage);
       chatClientRef.current.onConnect(() => {

@@ -302,7 +302,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
       let angularVelocityTmp = Math.abs(getAverageAngularVelocity() * speedCoof);
       if (angularVelocityTmp > 100) {
-        angularVelocityTmp = getRandom(90, 100);
+        angularVelocityTmp = getRandom(70, 100);
       }
 
       if (angularVelocityTmp > 5) {

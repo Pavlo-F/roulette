@@ -11,7 +11,7 @@ import {
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import styled from "styled-components";
 import { ColumnActions } from "./ColumnActions";
 import { ColumnName } from "./ColumnName";
@@ -19,7 +19,9 @@ import { ColumnSum } from "./ColumnSum";
 import { DropType } from "./DragDropModels";
 import { Filter } from "./Filter";
 import { Row } from "./Row";
+import { SettingsAtomsCtx } from "../../ScreenSettings/AtomsCtx";
 import { HomeAtomsCtx, TableData } from "../AtomsCtx";
+import { TimerAtomsCtx } from "../Timer/AtomsCtx";
 
 declare module "@tanstack/table-core" {
   interface FilterFns {
@@ -61,9 +63,14 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 export const Form = memo(() => {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
-  const { lotsAtom, newLotsAtom } = useContext(HomeAtomsCtx);
+  const { lotsAtom, newLotsAtom, animateRowAtom } = useContext(HomeAtomsCtx);
   const [lots, setLots] = useAtom(lotsAtom);
   const setNewLots = useSetAtom(newLotsAtom);
+  const setAnimateRow = useSetAtom(animateRowAtom);
+
+  const { addTime } = useContext(TimerAtomsCtx);
+  const { settingsAtom } = useContext(SettingsAtomsCtx);
+  const settings = useAtomValue(settingsAtom);
 
   const sortedLots = useMemo(() => {
     const result = lots.sort((a, b) => {
@@ -181,13 +188,17 @@ export const Form = memo(() => {
             return filtered;
           });
 
-          return result;
+          if (settings.timer.timeByDonate) {
+            addTime(settings.timer.timeByDonate * 1000);
+          }
+
+          setAnimateRow({ lotId: target.id, sum: item.sum });
         }
 
         return result;
       });
     },
-    [setLots, setNewLots]
+    [addTime, setAnimateRow, setLots, setNewLots, settings.timer.timeByDonate]
   );
 
   return (

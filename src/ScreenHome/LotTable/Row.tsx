@@ -18,7 +18,7 @@ type Props = PropsWithChildren & {
 const findTheSame = (monitor: DropTargetMonitor<unknown, unknown>, tableData: TableData) => {
   const item = monitor.getItem();
   if (item) {
-    return (item as DropType)?.comment?.includes(tableData.name);
+    return (item as DropType)?.comment?.toLowerCase()?.includes(tableData.name.toLowerCase());
   }
 
   return false;
@@ -45,7 +45,7 @@ export const Row = ({ height, tableData, onDrop, children }: Props) => {
   }
 
   if (isActive) {
-    backgroundColor = "#33f93d2b";
+    backgroundColor = "#f9aa3328";
   }
 
   return (

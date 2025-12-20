@@ -43,13 +43,6 @@ export const ButtonAddLot = memo(() => {
   }, [lot.name, lot.sum, order, setLot, setLots]);
 
   // const onClickDebug = useCallback(() => {
-  //   const newItem: TableData = {
-  //     id: new Date().getTime().toString(),
-  //     name: lot.name,
-  //     sum: lot.sum,
-  //     order,
-  //   };
-
   //   addDonate({
   //     id: new Date().getTime().toString(),
   //     comment: lot.name,
@@ -59,7 +52,7 @@ export const ButtonAddLot = memo(() => {
   //     date: new Date().toJSON(),
   //     source: DonateSource.DonatePay,
   //   });
-  // }, [lot.name, lot.sum, order]);
+  // }, [lot.name, lot.sum]);
 
   return (
     <ButtonPrimary onClick={onClick} disabled={isDisabled}>

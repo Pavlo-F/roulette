@@ -48,6 +48,10 @@ export const DonateProcess = memo(() => {
         return result;
       });
 
+      if (settings.timer.timeByDonate) {
+        addTime(settings.timer.timeByDonate * 1000);
+      }
+
       setAnimateRow({ lotId: lotExists.id, sum: donate.sum });
     } else {
       setNewLots(draft => {
@@ -55,7 +59,7 @@ export const DonateProcess = memo(() => {
           const a = x.comment?.trim().toLowerCase() || "";
           const distance = levenshtein.get(a, donate.comment);
           const percent = 1 - distance / a.length;
-    
+
           return percent >= 0.8;
         });
 
@@ -67,10 +71,6 @@ export const DonateProcess = memo(() => {
 
         return [...draft];
       });
-    }
-
-    if (settings.timer.timeByDonate) {
-      addTime(settings.timer.timeByDonate * 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [donate, setLots, setNewLots, addTime, settings.timer.timeByDonate]);
