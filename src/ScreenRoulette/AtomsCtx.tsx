@@ -27,6 +27,8 @@ type IAtoms = {
   winMessageAtom: PrimitiveAtom<WheelData | undefined>;
   removeMessageAtom: PrimitiveAtom<WheelData | undefined>;
   wheelDataAtom: PrimitiveAtom<WheelData[]>;
+  speedStopAtom: PrimitiveAtom<number>;
+  spinWheelAtom: PrimitiveAtom<number>;
   speedAtom: PrimitiveAtom<number>;
 };
 
@@ -38,11 +40,13 @@ type Props = IParams & {
 
 const create = () => {
   const r: IAtoms = {
-    modeAtom: atomWithStorage<Mode>("rouletteMode", Mode.Classic),
+    modeAtom: atomWithStorage<Mode>("rouletteMode", Mode.Elimination),
     winMessageAtom: atom<WheelData | undefined>(undefined),
     removeMessageAtom: atom<WheelData | undefined>(undefined),
     wheelDataAtom: atom<WheelData[]>([]),
-    speedAtom: atomWithStorage<number>("rouletteSpeed", 50),
+    speedStopAtom: atomWithStorage<number>("rouletteSpeed", 50),
+    speedAtom: atomWithStorage<number>("rouletteSpinSpeed", 50),
+    spinWheelAtom: atom<number>(0),
   };
 
   return r;

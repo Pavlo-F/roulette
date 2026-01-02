@@ -10,6 +10,8 @@ import { ButtonShuffleLots } from "./ButtonShuffleLots";
 import { BackAnimations } from "./BackAnimations";
 import { useTotalAmount } from "../ScreenHome/LotTable/useTotalAmount";
 import { FieldSpeed } from "./FieldSpeed";
+import { ButtonSpin } from "./ButtonSpin";
+import { FieldSpeedStop } from "./FieldSpeedStop";
 
 const Root = styled.div`
   position: relative;
@@ -20,6 +22,13 @@ const Root = styled.div`
 
 const Settings = styled.div`
   position: relative;
+`;
+
+const Row = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 `;
 
 export const Screen = memo(() => {
@@ -50,8 +59,13 @@ export const Screen = memo(() => {
         <Roulette />
         <Settings>
           <SwitchMode />
-          <ButtonShuffleLots />
+          <FieldSpeedStop />
           <FieldSpeed />
+
+          <Row>
+            <ButtonSpin />
+            <ButtonShuffleLots />
+          </Row>
         </Settings>
       </Root>
     </RouletteAtomsProvider>

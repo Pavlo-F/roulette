@@ -18,9 +18,9 @@ const InputSt = styled(Input)`
 const min = 1;
 const max = 100;
 
-export const FieldSpeed = memo(() => {
-  const { speedAtom } = useContext(RouletteAtomsCtx);
-  const [speed, setSpeed] = useAtom(speedAtom);
+export const FieldSpeedStop = memo(() => {
+  const { speedStopAtom } = useContext(RouletteAtomsCtx);
+  const [speed, setSpeed] = useAtom(speedStopAtom);
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +61,7 @@ export const FieldSpeed = memo(() => {
 
   return (
     <Root>
-      Скорость кручения
+      Скорость остановки
       <InputSt
         type="number"
         min={min}

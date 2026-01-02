@@ -36,14 +36,22 @@ type Props = {
 };
 
 export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props) => {
-  const { wheelDataAtom, speedAtom } = useContext(RouletteAtomsCtx);
+  const { wheelDataAtom, speedStopAtom, speedAtom, spinWheelAtom } = useContext(RouletteAtomsCtx);
   const [rouletteData, setRouletteData] = useAtom(wheelDataAtom);
+  const speedStopPercent = useAtomValue(speedStopAtom);
   const speedPercent = useAtomValue(speedAtom);
+  const handleSpinWheel = useAtomValue(spinWheelAtom);
   const colorMap = useRef<Record<string, Array<number>>>({});
+  const speedPercentRef = useRef(speedPercent);
+  const speedStopRef = useRef(speedPercent);
 
-  const speed = useMemo(() => {
-    return 1000 - speedPercent * 9;
+  useEffect(() => {
+    speedPercentRef.current = speedPercent;
   }, [speedPercent]);
+
+  useEffect(() => {
+    speedStopRef.current = 1000 - speedStopPercent * 9;
+  }, [speedStopPercent]);
 
   const dataWithPercent = useMemo(() => {
     let result: WheelData[] = [];
@@ -96,6 +104,28 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
     return total / len;
   }, []);
 
+  const speedText = useMemo(() => {
+    const width = radius / 3;
+    const height = radius / 3;
+
+    return new Konva.Text({
+      x: radius - width / 2,
+      y: radius - height / 5,
+      width,
+      height,
+      align: "center",
+      verticalAlign: "center",
+      fontFamily: "Calibri",
+      fontSize: radius * 0.15,
+      fill: "white",
+      stroke: "#fff",
+      strokeWidth: 1,
+      wrap: "none",
+      listening: false,
+      opacity: 1,
+    });
+  }, [radius]);
+
   const purifyColor = useCallback((color: number[]) => {
     const randIndex = Math.round(Math.random() * 3);
     const result = [...color];
@@ -132,7 +162,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
       if (mode === Mode.Elimination) {
         const result = rouletteData.filter(x => x.id !== selected?.attrs.original.id);
         if (result.length === 1) {
-            onWin(result[0]);
+          onWin(result[0]);
         } else {
           const win = rouletteData.find(x => x.id === selected?.attrs.original.id);
           if (win) {
@@ -219,7 +249,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
     (frame: any) => {
       // handle wheel spin
       const angularVelocityChange =
-        (angularVelocity * frame.timeDiff * (1 - angularFriction)) / speed;
+        (angularVelocity * frame.timeDiff * (1 - angularFriction)) / speedStopRef.current;
       angularVelocity -= angularVelocityChange;
 
       // activate / deactivate wedges based on point intersection
@@ -235,7 +265,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
         angularVelocities.push(((wheel.rotation() - lastRotation) * 1000) / frame.timeDiff);
       } else {
-        const diff = (frame.timeDiff * angularVelocity) / speed;
+        const diff = (frame.timeDiff * angularVelocity) / speedStopRef.current;
         if (diff > 0.00005) {
           wheel.rotate(diff * rotationOrder);
           totalRotation += diff;
@@ -293,16 +323,16 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         }
       }
     },
-    [mode, process, speed]
+    [mode, process]
   );
 
   const spinWheel = useCallback(
-    (speedText: Konva.Text, speedCoof: number) => {
+    (speedCoof: number) => {
       controlled = false;
 
       let angularVelocityTmp = Math.abs(getAverageAngularVelocity() * speedCoof);
       if (angularVelocityTmp > 100) {
-        angularVelocityTmp = getRandom(70, 100);
+        angularVelocityTmp = getRandom(95, 100);
       }
 
       if (angularVelocityTmp > 5) {
@@ -331,8 +361,29 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
       inProgress = true;
     },
-    [getAverageAngularVelocity, onSlow]
+    [getAverageAngularVelocity, onSlow, speedText]
   );
+
+  const resetSpin = useCallback(() => {
+    rotationOrders = [];
+    totalRotation = 0;
+    angularVelocity = 0;
+    controlled = true;
+    finished = false;
+  }, []);
+
+  useEffect(() => {
+    if (!handleSpinWheel) {
+      return;
+    }
+
+    resetSpin();
+
+    rotationOrders = [1];
+    angularVelocities = [speedPercentRef.current];
+
+    spinWheel(1);
+  }, [handleSpinWheel, radius, resetSpin, spinWheel]);
 
   const initStage = useCallback(() => {
     stage = new Konva.Stage({
@@ -376,26 +427,6 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
       shadowBlur: 35,
     });
 
-    const width = radius / 3;
-    const height = radius / 3;
-
-    const speedText = new Konva.Text({
-      x: radius - width / 2,
-      y: radius - height / 5,
-      width,
-      height,
-      align: "center",
-      verticalAlign: "center",
-      fontFamily: "Calibri",
-      fontSize: radius * 0.15,
-      fill: "white",
-      stroke: "#fff",
-      strokeWidth: 1,
-      wrap: "none",
-      listening: false,
-      opacity: 1,
-    });
-
     // add components to the stage
     layer.add(shadowCircle);
     layer.add(wheel);
@@ -409,12 +440,8 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         return;
       }
 
-      rotationOrders = [];
-      totalRotation = 0;
-      angularVelocity = 0;
-      controlled = true;
+      resetSpin();
       target = evt.target;
-      finished = false;
     });
 
     // add listeners to container
@@ -423,7 +450,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         return;
       }
 
-      spinWheel(speedText, 1.5);
+      spinWheel(1.5);
     });
 
     stage.addEventListener("mouseleave", () => {
@@ -431,7 +458,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
         return;
       }
 
-      spinWheel(speedText, 3);
+      spinWheel(3);
     });
 
     stage.addEventListener("mousemove touchmove", () => {
@@ -461,7 +488,7 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 
     anim = new Konva.Animation(animate, layer);
     anim.start();
-  }, [animate, radius, spinWheel]);
+  }, [animate, radius, resetSpin, speedText, spinWheel]);
 
   const refreshData = useCallback(() => {
     totalAngle = 0;
@@ -500,5 +527,5 @@ export const Roulette = memo(({ radius, mode, onSlow, onSelected, onWin }: Props
 });
 
 function getRandom(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
